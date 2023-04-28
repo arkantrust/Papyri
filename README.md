@@ -1,4 +1,4 @@
-# ReadX
+# Papyri
 
 Debido a su basta experiencia como programador, usted ha sido contratado por ReadX, un conglomerado egipcio, para desarrollar un prototipo de software que les permita gestionar su negocio de publicaciones a nivel mundial. A continuación se presentan las funcionalidades a desarrollar:
 
