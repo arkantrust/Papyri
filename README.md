@@ -2,7 +2,7 @@
 
 Debido a su basta experiencia como programador, usted ha sido contratado por ReadX, un conglomerado egipcio, para desarrollar un prototipo de software que les permita gestionar su negocio de publicaciones a nivel mundial. A continuación se presentan las funcionalidades a desarrollar:
 
-## Gestión de productos bibliográficos
+## Product management
 
 El modelo de negocio de la empresa se basa, por ahora, en la venta de dos tipos de productos bibliográficos: libros y revistas.
 
@@ -16,7 +16,7 @@ El prototipo debe permitir registrar, borrar y modificar productos bibliográfic
 
 ![Book and Magazine information example](doc\Instructions_Images\Book_Magazine_Example.png)
 
-## Gestión de usuarios
+## User management
 
 El prototipo debe contar, por ahora, con dos tipos de usuario: regular y premium. El usuario Regular podrá comprar 5 libros, suscribirse hasta a 2 revistas y durante su uso de la plataforma, se le presentarán anuncios publicitarios. Por su parte, el usuario Premium podrá adquirir libros y suscribirse a tantas revistas como desee y pueda pagar. Para realizar el registro de usuarios en la plataforma se necesitan los siguientes datos: nombre, cédula y fecha de vinculación. ReadX anticipa la evolución y crecimiento dinámico de su plataforma por lo que le solicita que el diseño del prototipo contemple la creación futura de otros tipos de usuario.
 
