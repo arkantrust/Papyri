@@ -5,6 +5,7 @@ public abstract class User {
 
     protected String name;
     protected String id;
+    protected String email;
     protected Calendar initDate; // Date the user signed up
     
     public User(String name, String id, Calendar initDate) {
@@ -29,5 +30,11 @@ public abstract class User {
     }
     public void setInitDate(Calendar initDate) {
         this.initDate = initDate;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
