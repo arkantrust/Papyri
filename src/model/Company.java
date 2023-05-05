@@ -9,15 +9,16 @@ public class Company {
 
     //constants
     public static final double PAYMONTH = 5; // USD
+    public static final int MAX_USERS = 15; // USD
 
     //relations
-    private ArrayList<User> users;
+    private User[] users;
 
     public Company(String name, String nit, String address) {
         this.name = name;
         this.nit = nit;
         this.address = address;
-        users = new ArrayList<>();
+        users = new User[MAX_USERS];
     }
 
     public String getName() {
@@ -39,11 +40,11 @@ public class Company {
         this.address = address;
     }
 
-    public ArrayList<User> getUsers() {
+    public User[] getUsers() {
         return users;
     }
 
-    public void setUsers(ArrayList<User> users) {
+    public void setUsers(User[] users) {
         this.users = users;
     }
 }
