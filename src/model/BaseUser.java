@@ -8,8 +8,8 @@ public class BaseUser extends User {
     private int availableBooks;
     private int availableMagazines;
 
-    public BaseUser(String name, String id, Calendar initDate) {
-        super(name, id, initDate);
+    public BaseUser(String name, String email, String id, Calendar initDate) {
+        super(name, email, id, initDate);
         availableBooks = 5;
         availableMagazines = 2;
     }
