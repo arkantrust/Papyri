@@ -7,16 +7,16 @@ public class PremiumUser extends User {
     //attributes
     private String nickname;
     private String avatar;
-    private String creditCard;
+    private String card;
     private int lastMonthPaid;
     private double[] payments;
 
     //methods
-    public PremiumUser(String name, String email, String id, Calendar initDate, String avatar, String creditCard, int lastMonthPaid,
+    public PremiumUser(String name, String email, String id, Calendar initDate, String avatar, String card, int lastMonthPaid,
         double[] payments) {
         super(name, email, id, initDate);
         this.avatar = avatar;
-        this.creditCard = creditCard;
+        this.card = card;
         this.lastMonthPaid = lastMonthPaid;
         this.payments = payments;
     }
@@ -33,11 +33,11 @@ public class PremiumUser extends User {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
-    public String getCreditCard() {
-        return creditCard;
+    public String getCard() {
+        return card;
     }
-    public void setCreditCard(String creditCard) {
-        this.creditCard = creditCard;
+    public void setCard(String card) {
+        this.card = card;
     }
     public int getLastMonthPaid() {
         return lastMonthPaid;
