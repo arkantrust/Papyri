@@ -1,9 +1,6 @@
 package ui;
 
 import java.util.Scanner;
-
-import javax.swing.plaf.synth.SynthSpinnerUI;
-
 import model.Company;
 
 public class Papyri {
