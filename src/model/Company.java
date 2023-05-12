@@ -105,7 +105,7 @@ public class Company {
 
     public String displayUserName(String userID) {
         // early return
-        if (userExists(userID)) {
+        if (!userExists(userID)) {
             return "User not found";
         }
         var id = Integer.parseInt(userID);
