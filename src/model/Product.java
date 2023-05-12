@@ -3,10 +3,10 @@ package model;
 import java.util.Calendar;
 
 public abstract class Product {
-    String id;
-    String name;
-    Calendar publicationDate;
-    double cost;
+    protected String id;
+    protected String name;
+    protected Calendar publicationDate;
+    protected double cost;
     
     public Product(String id, String name, Calendar publicationDate, double cost) {
         this.id = id;
@@ -14,7 +14,7 @@ public abstract class Product {
         this.publicationDate = publicationDate;
         this.cost = cost;
     }
-    
+
     public String getId() {
         return id;
     }

@@ -3,8 +3,8 @@ package model;
 import java.util.Calendar;
 
 public abstract class BibliographicProduct extends Product {
-    int pages;
-    String coverURL;
+    protected int pages;
+    protected String coverURL;
 
     public BibliographicProduct(String id, String name, Calendar publicationDate, int pages, String coverURL,
             double cost) {
