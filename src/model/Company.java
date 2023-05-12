@@ -1,19 +1,20 @@
 package model;
+
 import java.util.Calendar;
 
 public class Company {
-    //attributes
+    // attributes
     private String name;
     private String nit;
     private String address;
     private int userIDs;
     private String userList;
 
-    //constants
+    // constants
     public static final double PAYMONTH = 5; // USD
     public static final int MAX_USERS = 15; // USD
 
-    //relations
+    // relations
     private User[] users;
 
     public Company(String name, String nit, String address) {
@@ -28,18 +29,23 @@ public class Company {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getNit() {
         return nit;
     }
+
     public void setNit(String nit) {
         this.nit = nit;
     }
+
     public String getAddress() {
         return address;
     }
+
     public void setAddress(String address) {
         this.address = address;
     }
@@ -69,7 +75,7 @@ public class Company {
     }
 
     public boolean userExists(String userID) {
-        var id =  Integer.parseInt(userID);
+        var id = Integer.parseInt(userID);
         if (id <= 0 || id > userIDs)
             return false;
         return true;
@@ -108,14 +114,12 @@ public class Company {
 
     public boolean user2Premium(String userID, String avatar, String card) {
         var done = false;
-        var id =  Integer.parseInt(userID);
+        var id = Integer.parseInt(userID);
         var user = users[id];
-        if (userExists(userID)) {
-            var newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getID(), user.getInitDate(), avatar,
+        var newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getID(), user.getInitDate(), avatar,
                 card, Calendar.getInstance().get(Calendar.MONTH), new double[12]);
-            users[id] = newPremiumUser;
-            done = true;
-        }
+        users[id] = newPremiumUser;
+        done = true;
         return done;
     }
 
@@ -123,10 +127,10 @@ public class Company {
         boolean confirmation = true;
         response = Character.toUpperCase(response);
         switch (response) {
-            case 'Y': 
+            case 'Y':
                 confirmation = true;
                 break;
-            case 'N': 
+            case 'N':
                 confirmation = false;
                 break;
         }

@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 public class BaseUser extends User {
 
-    //attributes
+    // attributes
     private int availableBooks;
     private int availableMagazines;
 
@@ -18,7 +18,7 @@ public class BaseUser extends User {
     public String surprise(int month, char randLetter) { // TODO: implement
         var info = "";
         return info;
-        }
+    }
 
     public int getAvailableBooks() {
         return availableBooks;

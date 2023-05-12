@@ -3,17 +3,18 @@ package model;
 import java.util.Calendar;
 
 public class PremiumUser extends User {
-    
-    //attributes
+
+    // attributes
     private String nickname;
     private String avatar;
     private String card;
     private int lastMonthPaid;
     private double[] payments;
 
-    //methods
-    public PremiumUser(String name, String email, String id, Calendar initDate, String avatar, String card, int lastMonthPaid,
-        double[] payments) {
+    // methods
+    public PremiumUser(String name, String email, String id, Calendar initDate, String avatar, String card,
+            int lastMonthPaid,
+            double[] payments) {
         super(name, email, id, initDate);
         this.avatar = avatar;
         this.card = card;
@@ -24,30 +25,39 @@ public class PremiumUser extends User {
     public String getNickname() {
         return nickname;
     }
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
     public String getAvatar() {
         return avatar;
     }
+
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
     public String getCard() {
         return card;
     }
+
     public void setCard(String card) {
         this.card = card;
     }
+
     public int getLastMonthPaid() {
         return lastMonthPaid;
     }
+
     public void setLastMonthPaid(int lastMonthPaid) {
         this.lastMonthPaid = lastMonthPaid;
     }
+
     public double[] getPayments() {
         return payments;
     }
+
     public void setPayments(double[] payments) {
         this.payments = payments;
     }

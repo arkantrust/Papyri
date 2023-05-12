@@ -40,7 +40,7 @@ public class Papyri {
             System.out.println("Could not register user. Try again.");
         }
         System.out.println();
-        System.out.println(readX.displayUser(String.valueOf(readX.getUserIDs()-1)));
+        System.out.println(readX.displayUser(String.valueOf(readX.getUserIDs() - 1)));
     }
 
     public void searchUser() {
@@ -53,7 +53,7 @@ public class Papyri {
         System.out.println(readX.getUserList());
     }
 
-    public void upgradeUser() {
+    public void upgradeUserToPremium() {
         System.out.print("User's ID: ");
         String id = in.nextLine();
         if (!readX.userExists(id)) {
@@ -104,7 +104,7 @@ public class Papyri {
                     objPapyri.showUsers();
                     break;
                 case 4:
-                    objPapyri.upgradeUser();
+                    objPapyri.upgradeUserToPremium();
                     break;
                 case 5:
                     break;
