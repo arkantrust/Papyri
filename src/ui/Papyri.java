@@ -56,6 +56,10 @@ public class Papyri {
     public void upgradeUser() {
         System.out.print("User's ID: ");
         String id = in.nextLine();
+        if (!readX.userExists(id)) {
+            System.out.println("User not found.");
+            return;
+        }
         System.out.print(readX.displayUserName(id) + " will be upgraded to premium. Which costs $5. Continue? Y/N");
         char confirmation = in.nextLine().charAt(0);
         if (!readX.continueOP(confirmation)) {
@@ -94,10 +98,10 @@ public class Papyri {
                     objPapyri.registerUser();
                     break;
                 case 2:
-                    objPapyri.showUsers();
+                    objPapyri.searchUser();
                     break;
                 case 3:
-                    objPapyri.searchUser();
+                    objPapyri.showUsers();
                     break;
                 case 4:
                     objPapyri.upgradeUser();

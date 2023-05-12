@@ -68,7 +68,8 @@ public class Company {
         this.userList = userList;
     }
 
-    public boolean userExists(int id) {
+    public boolean userExists(String userID) {
+        var id =  Integer.parseInt(userID);
         if (id <= 0 || id > userIDs)
             return false;
         return true;
@@ -88,18 +89,20 @@ public class Company {
     }
 
     public String displayUser(String userID) {
-        var id = Integer.parseInt(userID);
         // early return
-        if (!userExists(id))
+        if (!userExists(userID)) {
             return "User not found";
+        }
+        var id = Integer.parseInt(userID);
         return users[id].toString();
     }
 
     public String displayUserName(String userID) {
-        var id = Integer.parseInt(userID);
         // early return
-        if (userExists(id))
+        if (userExists(userID)) {
             return "User not found";
+        }
+        var id = Integer.parseInt(userID);
         return users[id].getName();
     }
 
@@ -107,7 +110,7 @@ public class Company {
         var done = false;
         var id =  Integer.parseInt(userID);
         var user = users[id];
-        if (userExists(id)) {
+        if (userExists(userID)) {
             var newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getID(), user.getInitDate(), avatar,
                 card, Calendar.getInstance().get(Calendar.MONTH), new double[12]);
             users[id] = newPremiumUser;
