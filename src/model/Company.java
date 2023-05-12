@@ -76,7 +76,7 @@ public class Company {
     }
 
     public void addUserToList() {
-        userList += users[userIDs].toString();
+        userList += users[userIDs].toString() + "\n";
     }
 
     public boolean addUser(String name, String email) {
