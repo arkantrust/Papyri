@@ -112,14 +112,16 @@ public class Company {
         return users[id].getName();
     }
 
-    public boolean user2Premium(String userID, String avatar, String card) {
+    public boolean user2Premium(String userID, String nickname, String avatar, String card) {
         var done = false;
         var id = Integer.parseInt(userID);
         var user = users[id];
-        var newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getID(), user.getInitDate(), avatar,
+        var newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getID(), user.getInitDate(), nickname, avatar,
                 card, Calendar.getInstance().get(Calendar.MONTH), new double[12]);
         users[id] = newPremiumUser;
-        done = true;
+        if (users[id] instanceof PremiumUser) {
+            done = true;
+        }
         return done;
     }
 

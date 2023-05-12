@@ -56,22 +56,27 @@ public class Papyri {
     public void upgradeUserToPremium() {
         System.out.print("User's ID: ");
         String id = in.nextLine();
+        // Verify if user exists
         if (!readX.userExists(id)) {
             System.out.println("User not found.");
             return;
         }
-        System.out.print(readX.displayUserName(id) + " will be upgraded to premium. Which costs $5. Continue? Y/N");
+        // Confirming upgrade
+        System.out.print(readX.displayUserName(id) + " will be upgraded to premium. Which costs $5. Continue? Y/N ");
         char confirmation = in.nextLine().charAt(0);
         if (!readX.continueOP(confirmation)) {
             System.out.println(readX.displayUserName(id) + " will remain as basic");
             System.out.println();
+            // early return exits (cancels) the method so the user is not upgraded
             return;
         }
-        System.out.println("Avatar: ");
+        System.out.print("Nickname: ");
+        String nickname = in.nextLine();
+        System.out.print("Avatar: ");
         String avatar = in.nextLine();
-        System.out.println("Credit/Debit Card number: ");
+        System.out.print("Credit/Debit Card number: ");
         String card = in.nextLine();
-        if (readX.user2Premium(id, avatar, card)) {
+        if (readX.user2Premium(id, nickname, avatar, card)) {
             System.out.println(readX.displayUserName(id) + " is now a premium user.");
         } else {
             System.out.println("Could not complete the operation. Try again later.");
