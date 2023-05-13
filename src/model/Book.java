@@ -4,14 +4,14 @@ import java.util.Calendar;
 
 public class Book extends BibliographicProduct {
     private String review;
-    private BookGenre genre; // TODO: BookGenre enum {Ciencia Ficción, Fantasía y Novela Histórica}
+    private BookGenre genre;
     private int copiesSold;
     private int readPages;
 
     public Book(String id, String name, Calendar publicationDate, int pages, String coverURL, double cost, String review, int genre, int copiesSold, int readPages) {
         super(id, name, publicationDate, pages, coverURL, cost);
         this.review = review;
-        this.genre = BookGenre.getGenre(genre); // TODO: create getType switch method in BookGenre 1, 2, 3 respectively
+        this.genre = BookGenre.getGenre(genre);
         this.copiesSold = copiesSold;
         this.readPages = readPages;
     }
