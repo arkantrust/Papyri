@@ -116,7 +116,8 @@ public class Company {
         var done = false;
         var id = Integer.parseInt(userID);
         var user = users[id];
-        var newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getID(), user.getInitDate(), nickname, avatar,
+        var newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getID(), user.getInitDate(),
+                nickname, avatar,
                 card, Calendar.getInstance().get(Calendar.MONTH), new double[12]);
         users[id] = newPremiumUser;
         if (users[id] instanceof PremiumUser) {

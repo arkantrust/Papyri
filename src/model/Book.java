@@ -8,7 +8,8 @@ public class Book extends BibliographicProduct {
     private int copiesSold;
     private int readPages;
 
-    public Book(String id, String name, Calendar publicationDate, int pages, String coverURL, double cost, String review, int genre, int copiesSold, int readPages) {
+    public Book(String id, String name, Calendar publicationDate, int pages, String coverURL, double cost,
+            String review, int genre, int copiesSold, int readPages) {
         super(id, name, publicationDate, pages, coverURL, cost);
         this.review = review;
         this.genre = BookGenre.getGenre(genre);

@@ -6,10 +6,10 @@ public enum IssuanceFrequency {
     public static IssuanceFrequency get(int intFreq) {
         IssuanceFrequency freq = null;
 
-        switch(intFreq) {
+        switch (intFreq) {
             case 1:
                 freq = YEARLY;
-                break; 
+                break;
             case 2:
                 freq = MONTHLY;
                 break;

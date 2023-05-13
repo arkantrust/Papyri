@@ -9,7 +9,7 @@ public enum MagazineCategory {
         switch (intCategory) {
             case 1:
                 category = MISCELLANY;
-                break; 
+                break;
             case 2:
                 category = DESIGN;
                 break;

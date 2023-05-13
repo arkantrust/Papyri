@@ -12,7 +12,8 @@ public class PremiumUser extends User {
     private double[] payments;
 
     // methods
-    public PremiumUser(String name, String email, String id, Calendar initDate, String nickname, String avatar, String card,
+    public PremiumUser(String name, String email, String id, Calendar initDate, String nickname, String avatar,
+            String card,
             int lastMonthPaid,
             double[] payments) {
         super(name, email, id, initDate);

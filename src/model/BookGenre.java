@@ -11,7 +11,7 @@ public enum BookGenre {
         switch (intGenre) {
             case 1:
                 genre = SCIENCE_FICTION;
-                break; 
+                break;
             case 2:
                 genre = FANTASY;
                 break;
