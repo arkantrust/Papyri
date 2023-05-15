@@ -64,7 +64,7 @@ public class Papyri {
         // Confirming upgrade
         System.out.print(readX.displayUserName(id) + " will be upgraded to premium. Which costs $5. Continue? Y/N ");
         char confirmation = in.nextLine().charAt(0);
-        if (!readX.continueOP(confirmation)) {
+        if (!readX.confirmPurchase(confirmation)) {
             System.out.println(readX.displayUserName(id) + " will remain as basic");
             System.out.println();
             // early return exits (cancels) the method so the user is not upgraded

@@ -126,16 +126,20 @@ public class Company {
         return done;
     }
 
-    public boolean continueOP(char response) {
-        boolean confirmation = true;
-        response = Character.toUpperCase(response);
-        switch (response) {
-            case 'Y':
-                confirmation = true;
-                break;
-            case 'N':
-                confirmation = false;
-                break;
+    public boolean confirmPurchase(char response) {
+        boolean confirmation = false;
+        try {
+            response = Character.toUpperCase(response);
+            switch (response) {
+                case 'Y':
+                    confirmation = true;
+                    break;
+                case 'N':
+                    confirmation = false;
+                    break;
+            }
+        } catch (Exception e) {
+            confirmation = false;
         }
         return confirmation;
     }
