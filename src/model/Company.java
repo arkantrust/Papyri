@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Calendar;
+import java.util.ArrayList;
 
 public class Company {
     // attributes
@@ -12,16 +13,15 @@ public class Company {
 
     // constants
     public static final double PAYMONTH = 5; // USD
-    public static final int MAX_USERS = 15; // USD
 
     // relations
-    private User[] users;
+    private ArrayList<User> users;
 
     public Company(String name, String nit, String address) {
         this.name = name;
         this.nit = nit;
         this.address = address;
-        users = new User[MAX_USERS];
+        users = new ArrayList<>();
         userIDs = 1;
         userList = "";
     }
@@ -50,11 +50,11 @@ public class Company {
         this.address = address;
     }
 
-    public User[] getUsers() {
+    public ArrayList<User> getUsers() {
         return users;
     }
 
-    public void setUsers(User[] users) {
+    public void setUsers(ArrayList<User> users) {
         this.users = users;
     }
 
@@ -82,12 +82,12 @@ public class Company {
     }
 
     public void addUserToList() {
-        userList += users[userIDs].toString() + "\n";
+        userList += users.get(userIDs).toString() + "\n";
     }
 
     public boolean addUser(String name, String email) {
         boolean done = false;
-        users[userIDs] = new BaseUser(name, email, String.valueOf(userIDs), Calendar.getInstance());
+        users.set(userIDs, new BaseUser(name, email, String.valueOf(userIDs), Calendar.getInstance()));
         addUserToList();
         done = true;
         userIDs += 1;
@@ -100,7 +100,7 @@ public class Company {
             return "User not found";
         }
         var id = Integer.parseInt(userID);
-        return users[id].toString();
+        return users.get(id).toString();
     }
 
     public String displayUserName(String userID) {
@@ -109,18 +109,17 @@ public class Company {
             return "User not found";
         }
         var id = Integer.parseInt(userID);
-        return users[id].getName();
+        return users.get(id).getName();
     }
 
     public boolean user2Premium(String userID, String nickname, String avatar, String card) {
         var done = false;
         var id = Integer.parseInt(userID);
-        var user = users[id];
+        var user = users.get(id);
         var newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getID(), user.getInitDate(),
-                nickname, avatar,
-                card, Calendar.getInstance().get(Calendar.MONTH), new double[12]);
-        users[id] = newPremiumUser;
-        if (users[id] instanceof PremiumUser) {
+                nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH), new double[12]);
+        users.set(userIDs, newPremiumUser);
+        if (users.get(id) instanceof PremiumUser) {
             done = true;
         }
         return done;
@@ -142,5 +141,10 @@ public class Company {
             confirmation = false;
         }
         return confirmation;
+    }
+
+    public boolean registerBook() {
+        boolean done = false;
+        return done;
     }
 }
