@@ -84,37 +84,42 @@ public class Papyri {
     }
 
     public static void main(String[] args) {
-        System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
-        System.out.println("||||||||||||||||||||||||||||||||||||||||Papyri||||||||||||||||||||||||||||");
-        System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+        System.out.println("---------------------------------------Papyri---------------------------------------");
         Papyri objPapyri = new Papyri();
         boolean run = true;
+        int select = 0;
 
         while (run) {
             objPapyri.displayMenu();
             System.out.print("> ");
-            int select = objPapyri.in.nextInt();
-            objPapyri.in.nextLine();
-            switch (select) {
-                case 0:
-                    run = false;
-                    break;
-                case 1:
-                    objPapyri.registerUser();
-                    break;
-                case 2:
-                    objPapyri.searchUser();
-                    break;
-                case 3:
-                    objPapyri.showUsers();
-                    break;
-                case 4:
-                    objPapyri.upgradeUserToPremium();
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
+            try {
+                select = objPapyri.in.nextInt();
+                objPapyri.in.nextLine();
+                switch (select) {
+                    case 0:
+                        run = false;
+                        break;
+                    case 1:
+                        objPapyri.registerUser();
+                        break;
+                    case 2:
+                        objPapyri.searchUser();
+                        break;
+                    case 3:
+                        objPapyri.showUsers();
+                        break;
+                    case 4:
+                        objPapyri.upgradeUserToPremium();
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input.");
+                objPapyri.in.nextLine();
+                continue;
             }
         }
     }
