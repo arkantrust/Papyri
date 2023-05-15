@@ -14,7 +14,7 @@ ReadX anticipa cambios en la industria de la publicación por lo que le solicita
 
 El prototipo debe permitir registrar, borrar y modificar productos bibliográficos en el sistema.
 
-![Book and Magazine information example](https://www.github.com/Arkantrust/Papyri/doc/Instructions_Images/Book_Magazine_Example.png)
+![Book and Magazine information example](https://github.com/Arkantrust/Papyri/blob/master/doc/Instructions_Images/Book_Magazine_Example.png)
 
 ## User management
 
@@ -28,7 +28,7 @@ Cuando los usuarios adquieren un libro o se suscriben a una revista, se debe alm
 
 ReadX requiere que su prototipo cuente con un menú que le permita al usuario visualizar su colección de productos bibliográficos, de manera rápida, semejando a una biblioteca. La Biblioteca deberá representarse a través de matrices 5x5 que gráficamente presenten el código de los productos bibliográficos asociados a la cuenta del usuario. Los productos deberán estar ordenados por fecha de publicación, de la más antigua a la más nueva. Conforme el usuario amplíe su colección, se deberá permitir al usuario navegar en la misma (anterior o siguiente página). El usuario deberá poder seleccionar un producto bibliográfico ya sea por su coordenada x,y en la matriz presentada o el identificador de 3 caracteres del producto con el fin de iniciar una sesión de lectura. A continuación se presenta un ejemplo de interfaz gráfica de la Biblioteca.
 
-![Library example](https://www.github.com/Arkantrust/Papyri/doc/Instructions_Images/Library_Example.png)
+![Library example](https://github.com/Arkantrust/Papyri/blob/master/doc/Instructions_Images/Library_Example.png)
 
 ## Simulación de una sesión de lectura
 
@@ -36,7 +36,7 @@ La simulación de la sesión de lectura no es más que presentar por consola el 
 
 Cada página leída en la simulación incrementa el número de páginas leídas del producto bibliográfico correspondiente en la plataforma. Finalmente, se debe tener en cuenta que durante la sesión de lectura, para el caso de los usuarios regulares, se deben presentar anuncios publicitarios en dos momentos: al iniciar la sesión de lectura y luego de cada 20 páginas leídas de un libro o 5 páginas leídas de una revista.
 
-![Reading Session Example](https://www.github.com/Arkantrust/Papyri/doc/Instructions_Images/Reading_Session_Example.png)
+![Reading Session Example](https://github.com/Arkantrust/Papyri/blob/master/doc/Instructions_Images/Reading_Session_Example.png)
 
 ## Generación de reportes
 
