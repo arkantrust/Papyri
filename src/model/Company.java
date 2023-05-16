@@ -99,8 +99,7 @@ public class Company {
         this.bgProductsCount = bgProductsCount;
     }
 
-    public boolean userExists(String userID) {
-        var id = Integer.parseInt(userID);
+    public boolean userExists(int id) {
         if (id <= 0 || id > userIDs)
             return false;
         return true;
@@ -112,39 +111,36 @@ public class Company {
 
     public boolean addUser(String name, String email) {
         boolean done = false;
-        users.set(userIDs, new BaseUser(name, email, String.valueOf(userIDs), Calendar.getInstance()));
+        users.set(userIDs, new BaseUser(name, email, userIDs, Calendar.getInstance()));
         addUserToList();
         done = true;
         userIDs += 1;
         return done;
     }
 
-    public String displayUser(String userID) {
+    public String displayUser(int userID) {
         // early return
         if (!userExists(userID)) {
             return "User not found";
         }
-        var id = Integer.parseInt(userID);
-        return users.get(id).toString();
+        return users.get(userID).toString();
     }
 
-    public String displayUserName(String userID) {
+    public String displayUserName(int userID) {
         // early return
         if (!userExists(userID)) {
             return "User not found";
         }
-        var id = Integer.parseInt(userID);
-        return users.get(id).getName();
+        return users.get(userID).getName();
     }
 
-    public boolean user2Premium(String userID, String nickname, String avatar, String card) {
+    public boolean user2Premium(int userID, String nickname, String avatar, String card) {
         var done = false;
-        var id = Integer.parseInt(userID);
-        var user = users.get(id);
+        var user = users.get(userID);
         var newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getID(), user.getInitDate(),
                 nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH), new double[12]);
         users.set(userIDs, newPremiumUser);
-        if (users.get(id) instanceof PremiumUser) {
+        if (users.get(userID) instanceof PremiumUser) {
             done = true;
         }
         return done;

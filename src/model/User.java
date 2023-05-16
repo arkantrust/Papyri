@@ -6,11 +6,11 @@ import java.util.Calendar;
 public abstract class User {
 
     protected String name;
-    protected String id;
+    protected int id;
     protected String email;
     protected Calendar initDate; // Date the user signed up
 
-    public User(String name, String email, String id, Calendar initDate) {
+    public User(String name, String email, int id, Calendar initDate) {
         this.name = name;
         this.email = email;
         this.id = id;
@@ -25,11 +25,11 @@ public abstract class User {
         this.name = name;
     }
 
-    public String getID() {
+    public int getID() {
         return id;
     }
 
-    public void setID(String id) {
+    public void setID(int id) {
         this.id = id;
     }
 
