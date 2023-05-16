@@ -21,6 +21,7 @@ public class Company {
 
     // relations
     private ArrayList<User> users;
+    // As this is a single-threaded program, Hashmap (Not syncronized) will perform fast
     private HashMap<String, Product> products;
 
     public Company(String name, String nit, String address) {
