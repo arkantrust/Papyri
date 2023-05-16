@@ -2,20 +2,26 @@ package model;
 
 import java.util.Calendar;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Company {
     // attributes
     private String name;
     private String nit;
     private String address;
+    /* userIDs and bgProductsCount is used to save the latest position in the array to a new item 
+    so instead of looping through the array, the id attribute is the position, going from complexity O(n) to O(1) */
     private int userIDs;
     private String userList;
+    // bibliographicProducts current size
+    private int bgProductsCount;
 
     // constants
     public static final double PAYMONTH = 5; // USD
 
     // relations
     private ArrayList<User> users;
+    private HashMap<String, Product> products;
 
     public Company(String name, String nit, String address) {
         this.name = name;
@@ -24,6 +30,8 @@ public class Company {
         users = new ArrayList<>();
         userIDs = 1;
         userList = "";
+        products = new HashMap<>();
+        bgProductsCount = 0;
     }
 
     public String getName() {
@@ -72,6 +80,22 @@ public class Company {
 
     public void setUserList(String userList) {
         this.userList = userList;
+    }
+
+    public HashMap<String, Product> getBibliProducts() {
+        return products;
+    }
+
+    public void setBibliProducts(HashMap<String, Product> bibliographicProducts) {
+        this.products = bibliographicProducts;
+    }
+
+    public int getBgProductsCount() {
+        return bgProductsCount;
+    }
+
+    public void setBgProductsCount(int bgProductsCount) {
+        this.bgProductsCount = bgProductsCount;
     }
 
     public boolean userExists(String userID) {
