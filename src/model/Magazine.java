@@ -3,8 +3,8 @@ package model;
 import java.util.Calendar;
 
 public class Magazine extends BibliographicProduct {
-    private MagazineCategory category; // TODO: Create MagazineCategory enum {Variedades, Diseño y Científica}
-    private IssuanceFrequency freq; // TODO: Create enum {yearly, monthly, weekly, daily}
+    private MagazineCategory category;
+    private IssuanceFrequency freq;
     private int subs;
 
     public Magazine(String id, String name, Calendar publicationDate, int pages, String coverURL,
@@ -16,7 +16,7 @@ public class Magazine extends BibliographicProduct {
     }
 
     public MagazineCategory getCategory() {
-        return category -2;
+        return category;
     }
 
     public void setCategory(MagazineCategory category) {
