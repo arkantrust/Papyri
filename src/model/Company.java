@@ -9,8 +9,12 @@ public class Company {
     private String name;
     private String nit;
     private String address;
-    /* userIDs and bgProductsCount is used to save the latest position in the array to a new item 
-    so instead of looping through the array, the id attribute is the position, going from complexity O(n) to O(1) */
+    /*
+     * userIDs and bgProductsCount is used to save the latest position in the array
+     * to a new item
+     * so instead of looping through the array, the id attribute is the position,
+     * going from complexity O(n) to O(1)
+     */
     private int userIDs;
     private String userList;
     // bibliographicProducts current size
@@ -21,7 +25,8 @@ public class Company {
 
     // relations
     private ArrayList<User> users;
-    // As this is a single-threaded program, Hashmap (Not syncronized) will perform fast
+    // As this is a single-threaded program, Hashmap (Not syncronized) will perform
+    // faster than HashTable(Syncronized)
     private HashMap<String, Product> products;
 
     public Company(String name, String nit, String address) {
@@ -33,7 +38,7 @@ public class Company {
         userList = "";
         products = new HashMap<>();
         bgProductsCount = 0;
-        users.add(new BaseUser("name", "email", userIDs-1, Calendar.getInstance()));
+        users.add(new BaseUser("name", "email", userIDs - 1, Calendar.getInstance()));
     }
 
     public String getName() {
@@ -152,14 +157,11 @@ public class Company {
         boolean confirmation = false;
         try {
             response = Character.toUpperCase(response);
-            switch (response) {
-                case 'Y':
-                    confirmation = true;
-                    break;
-                case 'N':
-                    confirmation = false;
-                    break;
-            }
+            confirmation = switch (response) {
+                case 'Y' -> true;
+                case 'N' -> false;
+                default -> false;
+            };
         } catch (Exception e) {
             confirmation = false;
         }

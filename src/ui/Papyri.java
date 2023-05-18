@@ -18,7 +18,8 @@ public class Papyri {
         readX = new Company(name, nit, address);
     }
 
-    // -----------------------------------User Management-------------------------------------------------------
+    // -----------------------------------User
+    // Management-------------------------------------------------------
     public void registerUser() {
         System.out.print("Enter name: ");
         String name = in.nextLine();
@@ -36,7 +37,7 @@ public class Papyri {
 
     public void searchUser() {
         System.out.print("User's ID: ");
-        int id = in.nextInt();
+        var id = Integer.valueOf(in.nextLine());
         System.out.println(readX.displayUser(id));
     }
 
@@ -46,7 +47,7 @@ public class Papyri {
 
     public void upgradeUserToPremium() {
         System.out.print("User's ID: ");
-        int id = Integer.valueOf(in.nextLine());
+        var id = Integer.valueOf(in.nextLine());
         // Verify if user exists
         if (!readX.userExists(id)) {
             System.out.println("User not found.");
@@ -75,11 +76,13 @@ public class Papyri {
     }
 
     public void openUserManagement() {
-        System.out.println("---------------------------------------User Management---------------------------------------");
+        System.out.println(
+                "---------------------------------------User Management---------------------------------------");
         boolean run = true;
         int select = 0;
-        
+
         while (run) {
+            System.out.println("0. Back");
             System.out.println("1. Register user");
             System.out.println("2. Search user (ID)");
             System.out.println("3. Show users");
@@ -88,21 +91,11 @@ public class Papyri {
             try {
                 select = Integer.valueOf(in.nextLine());
                 switch (select) {
-                    case 0:
-                        run = false;
-                        break;
-                    case 1:
-                        registerUser();
-                        break;
-                    case 2:
-                        searchUser();
-                        break;
-                    case 3:
-                        showUsers();
-                        break;
-                    case 4:
-                        upgradeUserToPremium();
-                        break;
+                    case 0 -> run = false;
+                    case 1 -> registerUser();
+                    case 2 -> searchUser();
+                    case 3 -> showUsers();
+                    case 4 -> upgradeUserToPremium();
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input.");
@@ -110,10 +103,12 @@ public class Papyri {
         }
     }
 
-    // ---------------------------Product Management-------------------------------------------------------------
-
-    /*System.out.println("2. Generate payment");
-      System.out.println("3. Generate surprise"); */
+    // ---------------------------Product
+    // Management-------------------------------------------------------------
+    /*
+     * System.out.println("2. Generate payment");
+     * System.out.println("3. Generate surprise");
+     */
     public static void main(String[] args) {
         System.out.println("---------------------------------------Papyri---------------------------------------");
         Papyri objPapyri = new Papyri();
@@ -121,7 +116,7 @@ public class Papyri {
         int select = 0;
 
         while (run) {
-            System.out.println("---------------------------------------Menu---------------------------------------");
+            System.out.println("---------------------------------------Home---------------------------------------");
             System.out.println("1. Manage users");
             System.out.println("2. Manage Products");
             System.out.println("0. Exit");
@@ -129,16 +124,9 @@ public class Papyri {
             try {
                 select = Integer.valueOf(objPapyri.in.nextLine());
                 switch (select) {
-                    case 0:
-                        run = false;
-                        break;
-                    case 1:
-                        objPapyri.openUserManagement();
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
+                    case 0 -> run = false;
+                    case 1 -> objPapyri.openUserManagement();
+                    case 2 -> objPapyri.openUserManagement();
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input.");
