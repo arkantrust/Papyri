@@ -3,6 +3,7 @@ package model;
 import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Company {
     // attributes
@@ -174,6 +175,15 @@ public class Company {
     }
 
     // Product-related
+
+    public String generateHexCode() {
+        String code = "";
+        String symbols = "ABCDEF1234567890";
+        for (int i = 0; i < 3; i++) {
+            code += symbols.charAt(ThreadLocalRandom.current().nextInt(0, symbols.length()));
+        }
+        return code;
+    }
 
     public boolean registerBook() {
         boolean done = false;
