@@ -12,7 +12,7 @@ public class Book extends BibliographicProduct {
             String review, int genre, int copiesSold, int readPages) {
         super(id, name, publicationDate, pages, coverURL, cost);
         this.review = review;
-        this.genre = BookGenre.getGenre(genre);
+        this.genre = BookGenre.get(genre);
         this.copiesSold = copiesSold;
         this.readPages = readPages;
     }

@@ -10,7 +10,7 @@ public class Magazine extends BibliographicProduct {
     public Magazine(String id, String name, Calendar publicationDate, int pages, String coverURL,
             double cost, int category, int freq, int subs) {
         super(id, name, publicationDate, pages, coverURL, cost);
-        this.category = MagazineCategory.getCategory(category);
+        this.category = MagazineCategory.get(category);
         this.freq = IssuanceFrequency.get(freq);
         this.subs = subs;
     }

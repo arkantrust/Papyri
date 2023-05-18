@@ -1,22 +1,26 @@
 package model;
 
 public enum MagazineCategory {
-    MISCELLANY, DESIGN, SCIENTIFIC;
+    MISCELLANY("Micellany"),
+    DESIGN("Design"),
+    SCIENTIFIC("Scientific");
+    
+    private final String name;
+    
+    private MagazineCategory(String name) {
+        this.name = name;
+    }
 
-    public static MagazineCategory getCategory(int intCategory) {
-        MagazineCategory category = null;
+    public String getName() {
+        return this.name;
+    }
 
-        switch (intCategory) {
-            case 1:
-                category = MISCELLANY;
-                break;
-            case 2:
-                category = DESIGN;
-                break;
-            case 3:
-                category = SCIENTIFIC;
-                break;
-        }
-        return category;
+    public static MagazineCategory get(int intCategory) { //TODO: Move to controller
+        return switch (intCategory) {
+            case 1 -> MISCELLANY;
+            case 2 -> DESIGN;
+            case 3 -> SCIENTIFIC;
+            default -> null;
+        };
     }
 }
