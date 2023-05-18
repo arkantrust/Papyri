@@ -80,8 +80,7 @@ public class Papyri {
     }
 
     public void openUserManagement() {
-        System.out.println(
-                "---------------------------------------User Management---------------------------------------");
+        System.out.println("---------------------------------------User Management---------------------------------------");
         boolean run = true;
         int select = 0;
 
@@ -106,12 +105,36 @@ public class Papyri {
             }
         }
     }
-
+    
     // ---------------------------Product Management-------------------------------------------------------------
     /*
-     * System.out.println("2. Generate payment");
-     * System.out.println("3. Generate surprise");
-     */
+    * System.out.println("2. Generate payment");
+    * System.out.println("3. Generate surprise");
+    */
+
+    public void openProductManagement() {
+        System.out.println("---------------------------------------Product Management---------------------------------------");
+        boolean run = true;
+        int select = 0;
+
+        while (run) {
+            System.out.println("1. Register book");
+            System.out.println("2. Register magazine");
+            System.out.println("3. Edit product");
+            System.out.println("4. Delete product");
+            System.out.println("0. Back");
+            System.out.print("> ");
+            try {
+                select = Integer.valueOf(in.nextLine());
+                switch (select) {
+                    case 0 -> run = false;
+                    // TODO: Implement methods
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input.");
+            }
+        }
+    }
     public static void main(String[] args) {
         System.out.println("---------------------------------------Papyri---------------------------------------");
         Papyri objPapyri = new Papyri();
