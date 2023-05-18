@@ -9,6 +9,9 @@ public class Papyri {
 
     public Papyri() {
         in = new Scanner(System.in);
+        /*
+        During development this inputs arent required
+        TODO: Uncomment this code block
         System.out.print("Company name: ");
         String name = in.nextLine();
         System.out.print("Company nit: ");
@@ -16,10 +19,11 @@ public class Papyri {
         System.out.print("Company address: ");
         String address = in.nextLine();
         readX = new Company(name, nit, address);
+        */
+        readX = new Company("ReadX", "9008675399", "Cl 57 #23 - 35");
     }
 
-    // -----------------------------------User
-    // Management-------------------------------------------------------
+    // -----------------------------------User Management-------------------------------------------------------
     public void registerUser() {
         System.out.print("Enter name: ");
         String name = in.nextLine();
@@ -82,11 +86,11 @@ public class Papyri {
         int select = 0;
 
         while (run) {
-            System.out.println("0. Back");
             System.out.println("1. Register user");
             System.out.println("2. Search user (ID)");
             System.out.println("3. Show users");
             System.out.println("4. Upgrade user to premium");
+            System.out.println("0. Back");
             System.out.print("> ");
             try {
                 select = Integer.valueOf(in.nextLine());
@@ -103,8 +107,7 @@ public class Papyri {
         }
     }
 
-    // ---------------------------Product
-    // Management-------------------------------------------------------------
+    // ---------------------------Product Management-------------------------------------------------------------
     /*
      * System.out.println("2. Generate payment");
      * System.out.println("3. Generate surprise");
