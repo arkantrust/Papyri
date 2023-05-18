@@ -29,6 +29,7 @@ public class Company {
     // faster than HashTable(Syncronized)
     private HashMap<String, Product> products;
 
+    // constructor
     public Company(String name, String nit, String address) {
         this.name = name;
         this.nit = nit;
@@ -41,6 +42,7 @@ public class Company {
         users.add(new BaseUser("name", "email", userIDs - 1, Calendar.getInstance()));
     }
 
+    // getters & setters
     public String getName() {
         return name;
     }
@@ -89,12 +91,12 @@ public class Company {
         this.userList = userList;
     }
 
-    public HashMap<String, Product> getBibliProducts() {
+    public HashMap<String, Product> getProducts() {
         return products;
     }
 
-    public void setBibliProducts(HashMap<String, Product> bibliographicProducts) {
-        this.products = bibliographicProducts;
+    public void setProducts(HashMap<String, Product> products) {
+        this.products = products;
     }
 
     public int getBgProductsCount() {
@@ -105,6 +107,24 @@ public class Company {
         this.bgProductsCount = bgProductsCount;
     }
 
+    // methods
+
+    public boolean confirmOperation(char response) {
+        boolean confirmation = false;
+        try {
+            response = Character.toUpperCase(response);
+            confirmation = switch (response) {
+                case 'Y' -> true;
+                case 'N' -> false;
+                default -> false;
+            };
+        } catch (Exception e) {
+            confirmation = false;
+        }
+        return confirmation;
+    }
+
+    // User-related
     public boolean userExists(int id) {
         if (id <= 0 || id > userIDs)
             return false;
@@ -146,27 +166,14 @@ public class Company {
         var user = users.get(userID);
         User newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getID(), user.getInitDate(),
                 nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH), new double[12]);
-        users.set(userIDs, newPremiumUser);
+        users.set(userID, newPremiumUser);
         if (users.get(userID) instanceof PremiumUser) {
             done = true;
         }
         return done;
     }
 
-    public boolean confirmOperation(char response) {
-        boolean confirmation = false;
-        try {
-            response = Character.toUpperCase(response);
-            confirmation = switch (response) {
-                case 'Y' -> true;
-                case 'N' -> false;
-                default -> false;
-            };
-        } catch (Exception e) {
-            confirmation = false;
-        }
-        return confirmation;
-    }
+    // Product-related
 
     public boolean registerBook() {
         boolean done = false;
