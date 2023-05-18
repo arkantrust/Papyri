@@ -18,6 +18,8 @@ public class Company {
      */
     private int userIDs;
     private String userList;
+    private String productsList;
+
     // bibliographicProducts current size
     private int bgProductsCount;
 
@@ -38,6 +40,7 @@ public class Company {
         users = new ArrayList<>();
         userIDs = 1;
         userList = "";
+        productsList = "";
         products = new HashMap<>();
         bgProductsCount = 0;
         users.add(new BaseUser("name", "email", userIDs - 1, Calendar.getInstance()));
@@ -108,6 +111,14 @@ public class Company {
         this.bgProductsCount = bgProductsCount;
     }
 
+    public String getProductsList() {
+        return productsList;
+    }
+
+    public void setProductsList(String productsList) {
+        this.productsList = productsList;
+    }
+
     // methods
 
     public boolean confirmOperation(char response) {
@@ -133,7 +144,7 @@ public class Company {
     }
 
     public void addUserToList() {
-        userList += users.get(userIDs).toString() + "\n";
+        userList += users.get(userIDs).toString() + '\n';
     }
 
     public boolean addUser(String name, String email) {
@@ -185,8 +196,19 @@ public class Company {
         return code;
     }
 
-    public boolean registerBook() {
+    public void addProductToList(String id) {
+        productsList += products.get(id).toString() + '\n';
+    }
+
+    public boolean registerBook(String name, Calendar publicationDate, int pages, String cover, double price,
+            String review, int genre) {
         boolean done = false;
+        String id = generateHexCode();
+        Product newBook = new Book(id, name, publicationDate, pages, cover, price, review, genre, 0, 0);
+        products.put(id, newBook);
+        if (products.get(id) instanceof Book) {
+            done = true;
+        }
         return done;
     }
 }

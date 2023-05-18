@@ -1,5 +1,7 @@
 package ui;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Scanner;
 import model.Company;
 
@@ -10,17 +12,36 @@ public class Papyri {
     public Papyri() {
         in = new Scanner(System.in);
         /*
-        During development this inputs arent required
-        TODO: Uncomment this code block
-        System.out.print("Company name: ");
-        String name = in.nextLine();
-        System.out.print("Company nit: ");
-        String nit = in.nextLine();
-        System.out.print("Company address: ");
-        String address = in.nextLine();
-        readX = new Company(name, nit, address);
-        */
+         * During development this inputs arent required
+         * TODO: Uncomment this code block
+         * System.out.print("Company name: ");
+         * String name = in.nextLine();
+         * System.out.print("Company nit: ");
+         * String nit = in.nextLine();
+         * System.out.print("Company address: ");
+         * String address = in.nextLine();
+         * readX = new Company(name, nit, address);
+         */
         readX = new Company("ReadX", "9008675399", "Cl 57 #23 - 35");
+    }
+
+    public Calendar readDate(String requiredDate) {
+        boolean run = true;
+        Calendar date = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        while (run) {
+            System.out.print("Enter " + requiredDate + " (dd-mm-yyyy): ");
+            String dateString = in.nextLine();
+
+            try {
+                date.setTime(dateFormat.parse(dateString));
+                run = false;
+            } catch (Exception e) {
+                System.out.println("Invalid date format.");
+            }
+        }
+        return date;
     }
 
     // -----------------------------------User Management-------------------------------------------------------
@@ -33,7 +54,7 @@ public class Papyri {
         if (readX.addUser(name, email)) {
             System.out.println("User registered succesfully!");
         } else {
-            System.out.println("Could not register user. Try again.");
+            System.out.println("Something went wrong. Try again later.");
         }
         System.out.println();
         System.out.println(readX.displayUser(readX.getUserIDs() - 1));
@@ -75,15 +96,13 @@ public class Papyri {
         if (readX.user2Premium(id, nickname, avatar, card)) {
             System.out.println(readX.displayUserName(id) + " is now a premium user.");
         } else {
-            System.out.println("Could not complete the operation. Try again later.");
+            System.out.println("Something went wrong. Try again later.");
         }
     }
 
     public void openUserManagement() {
         System.out.println("---------------------------------------User Management---------------------------------------");
         boolean run = true;
-        int select = 0;
-
         while (run) {
             System.out.println("1. Register user");
             System.out.println("2. Search user (ID)");
@@ -91,32 +110,52 @@ public class Papyri {
             System.out.println("4. Upgrade user to premium");
             System.out.println("0. Back");
             System.out.print("> ");
-            try {
-                select = Integer.valueOf(in.nextLine());
-                switch (select) {
-                    case 0 -> run = false;
-                    case 1 -> registerUser();
-                    case 2 -> searchUser();
-                    case 3 -> showUsers();
-                    case 4 -> upgradeUserToPremium();
-                }
-            } catch (Exception e) {
-                System.out.println("Invalid input.");
+            int select = Integer.valueOf(in.nextLine());
+            switch (select) {
+                case 0 -> run = false;
+                case 1 -> registerUser();
+                case 2 -> searchUser();
+                case 3 -> showUsers();
+                case 4 -> upgradeUserToPremium();
             }
         }
     }
-    
+
     // ---------------------------Product Management-------------------------------------------------------------
+
+    public void registerBook() {
+        System.out.print("Enter name: ");
+        String name = in.nextLine();
+        Calendar publicationDate = readDate("publication date");
+        System.out.print("Enter number of pages: ");
+        int pages = Integer.valueOf(in.nextLine());
+        System.out.print("Enter URL to cover: ");
+        String coverURL = in.nextLine();
+        System.out.print("Enter price: ");
+        double price = Double.valueOf(in.nextLine());
+        System.out.print("Enter review: ");
+        String review = in.nextLine();
+        System.out.println("Enter genre: ");
+        System.out.println("1. Science fiction");
+        System.out.println("2. Fantasy");
+        System.out.println("3. Historical novel");
+        System.out.print("> ");
+        int genre = Integer.valueOf(in.nextLine());
+
+        if (readX.registerBook(name, publicationDate, pages, coverURL, price, review, genre)) {
+            System.out.println("Book registered succesfully!");
+        } else {
+            System.out.println("Something went wrong. Try again later.");
+        }
+    }
     /*
-    * System.out.println("2. Generate payment");
-    * System.out.println("3. Generate surprise");
-    */
+     * System.out.println("2. Generate payment");
+     * System.out.println("3. Generate surprise");
+     */
 
     public void openProductManagement() {
         System.out.println("---------------------------------------Product Management---------------------------------------");
         boolean run = true;
-        int select = 0;
-
         while (run) {
             System.out.println("1. Register book");
             System.out.println("2. Register magazine");
@@ -124,17 +163,14 @@ public class Papyri {
             System.out.println("4. Delete product");
             System.out.println("0. Back");
             System.out.print("> ");
-            try {
-                select = Integer.valueOf(in.nextLine());
+            int select = Integer.valueOf(in.nextLine());
                 switch (select) {
                     case 0 -> run = false;
-                    // TODO: Implement methods
+                    case 1 -> registerBook();
                 }
-            } catch (Exception e) {
-                System.out.println("Invalid input.");
-            }
         }
     }
+
     public static void main(String[] args) {
         System.out.println("---------------------------------------Papyri---------------------------------------");
         Papyri objPapyri = new Papyri();
@@ -152,7 +188,7 @@ public class Papyri {
                 switch (select) {
                     case 0 -> run = false;
                     case 1 -> objPapyri.openUserManagement();
-                    case 2 -> objPapyri.openUserManagement();
+                    case 2 -> objPapyri.openProductManagement();
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input.");
