@@ -18,16 +18,7 @@ public class Papyri {
         readX = new Company(name, nit, address);
     }
 
-    public void displayMenu() {
-        System.out.println("1. Register user");
-        System.out.println("2. Search user");
-        System.out.println("3. Show users");
-        System.out.println("4. Upgrade user to premium");
-        System.out.println("5. Generate payment");
-        System.out.println("6. Generate surprise");
-        System.out.println("0. Exit");
-    }
-
+    // -----------------------------------User Management-------------------------------------------------------
     public void registerUser() {
         System.out.print("Enter name: ");
         String name = in.nextLine();
@@ -46,8 +37,7 @@ public class Papyri {
     public void searchUser() {
         System.out.print("User's ID: ");
         int id = in.nextInt();
-        in.nextLine();
-        System.out.println("\n" + readX.displayUser(id));
+        System.out.println(readX.displayUser(id));
     }
 
     public void showUsers() {
@@ -56,8 +46,7 @@ public class Papyri {
 
     public void upgradeUserToPremium() {
         System.out.print("User's ID: ");
-        int id = in.nextInt();
-        in.nextLine();
+        int id = Integer.valueOf(in.nextLine());
         // Verify if user exists
         if (!readX.userExists(id)) {
             System.out.println("User not found.");
@@ -66,7 +55,7 @@ public class Papyri {
         // Confirming upgrade
         System.out.print(readX.displayUserName(id) + " will be upgraded to premium. Which costs $5. Continue? Y/N ");
         char confirmation = in.nextLine().charAt(0);
-        if (!readX.confirmPurchase(confirmation)) {
+        if (!readX.confirmOperation(confirmation)) {
             System.out.println(readX.displayUserName(id) + " will remain as basic");
             System.out.println();
             // early return exits (cancels) the method so the user is not upgraded
@@ -85,6 +74,46 @@ public class Papyri {
         }
     }
 
+    public void openUserManagement() {
+        System.out.println("---------------------------------------User Management---------------------------------------");
+        boolean run = true;
+        int select = 0;
+        
+        while (run) {
+            System.out.println("1. Register user");
+            System.out.println("2. Search user (ID)");
+            System.out.println("3. Show users");
+            System.out.println("4. Upgrade user to premium");
+            System.out.print("> ");
+            try {
+                select = Integer.valueOf(in.nextLine());
+                switch (select) {
+                    case 0:
+                        run = false;
+                        break;
+                    case 1:
+                        registerUser();
+                        break;
+                    case 2:
+                        searchUser();
+                        break;
+                    case 3:
+                        showUsers();
+                        break;
+                    case 4:
+                        upgradeUserToPremium();
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input.");
+            }
+        }
+    }
+
+    // ---------------------------Product Management-------------------------------------------------------------
+
+    /*System.out.println("2. Generate payment");
+      System.out.println("3. Generate surprise"); */
     public static void main(String[] args) {
         System.out.println("---------------------------------------Papyri---------------------------------------");
         Papyri objPapyri = new Papyri();
@@ -92,36 +121,27 @@ public class Papyri {
         int select = 0;
 
         while (run) {
-            objPapyri.displayMenu();
+            System.out.println("---------------------------------------Menu---------------------------------------");
+            System.out.println("1. Manage users");
+            System.out.println("2. Manage Products");
+            System.out.println("0. Exit");
             System.out.print("> ");
             try {
-                select = objPapyri.in.nextInt();
-                objPapyri.in.nextLine();
+                select = Integer.valueOf(objPapyri.in.nextLine());
                 switch (select) {
                     case 0:
                         run = false;
                         break;
                     case 1:
-                        objPapyri.registerUser();
+                        objPapyri.openUserManagement();
                         break;
                     case 2:
-                        objPapyri.searchUser();
                         break;
                     case 3:
-                        objPapyri.showUsers();
-                        break;
-                    case 4:
-                        objPapyri.upgradeUserToPremium();
-                        break;
-                    case 5:
-                        break;
-                    case 6:
                         break;
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input.");
-                objPapyri.in.nextLine();
-                continue;
             }
         }
     }

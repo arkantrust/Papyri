@@ -33,6 +33,7 @@ public class Company {
         userList = "";
         products = new HashMap<>();
         bgProductsCount = 0;
+        users.add(new BaseUser("name", "email", userIDs-1, Calendar.getInstance()));
     }
 
     public String getName() {
@@ -111,10 +112,11 @@ public class Company {
 
     public boolean addUser(String name, String email) {
         boolean done = false;
-        users.set(userIDs, new BaseUser(name, email, userIDs, Calendar.getInstance()));
+        User newUser = new BaseUser(name, email, userIDs, Calendar.getInstance());
+        users.add(newUser);
         addUserToList();
+        userIDs++;
         done = true;
-        userIDs += 1;
         return done;
     }
 
@@ -137,7 +139,7 @@ public class Company {
     public boolean user2Premium(int userID, String nickname, String avatar, String card) {
         var done = false;
         var user = users.get(userID);
-        var newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getID(), user.getInitDate(),
+        User newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getID(), user.getInitDate(),
                 nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH), new double[12]);
         users.set(userIDs, newPremiumUser);
         if (users.get(userID) instanceof PremiumUser) {
@@ -146,7 +148,7 @@ public class Company {
         return done;
     }
 
-    public boolean confirmPurchase(char response) {
+    public boolean confirmOperation(char response) {
         boolean confirmation = false;
         try {
             response = Character.toUpperCase(response);
