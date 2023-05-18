@@ -16,7 +16,7 @@ public class Magazine extends BibliographicProduct {
     }
 
     public MagazineCategory getCategory() {
-        return category;
+        return category -2;
     }
 
     public void setCategory(MagazineCategory category) {
