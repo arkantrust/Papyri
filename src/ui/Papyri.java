@@ -203,7 +203,7 @@ public class Papyri {
                     case 0 -> run = false;
                     case 1 -> registerBook();
                     case 2 -> registerMagazine();
-                    case 3 -> showUsers();
+                    case 3 -> showProducts();
                 }
         }
     }
