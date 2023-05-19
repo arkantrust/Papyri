@@ -14,13 +14,4 @@ public enum MagazineCategory {
     public String getName() {
         return this.name;
     }
-
-    public static MagazineCategory get(int intCategory) { // TODO: Move to controller
-        return switch (intCategory) {
-            case 1 -> MISCELLANY;
-            case 2 -> DESIGN;
-            case 3 -> SCIENTIFIC;
-            default -> null;
-        };
-    }
 }

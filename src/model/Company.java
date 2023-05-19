@@ -220,11 +220,30 @@ public class Company {
         return done;
     }
 
+    public IssuanceFrequency getIssuanceFrequency(int intFreq) {
+        return switch (intFreq) {
+            case 1 -> IssuanceFrequency.YEARLY;
+            case 2 -> IssuanceFrequency.MONTHLY;
+            case 3 -> IssuanceFrequency.WEEKLY;
+            case 4 -> IssuanceFrequency.DAILY;
+            default -> null;
+        };
+    }
+
+    public static MagazineCategory getMagazineCategory(int intCategory) {
+        return switch (intCategory) {
+            case 1 -> MagazineCategory.MISCELLANY;
+            case 2 -> MagazineCategory.DESIGN;
+            case 3 -> MagazineCategory.SCIENTIFIC;
+            default -> null;
+        };
+    }
+
     public boolean registerMagazine(String name, Calendar publicationDate, int pages, String cover, double price,
             int category, int freq) {
         boolean done = false;
         String id = generateCode("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-        Product newMagazine = new Magazine(id, name, publicationDate, pages, cover, price, category, freq, 0);
+        Product newMagazine = new Magazine(id, name, publicationDate, pages, cover, price, getMagazineCategory(category), getIssuanceFrequency(freq), 0);
         products.put(id, newMagazine);
         if (products.get(id) instanceof Magazine) {
             done = true;
