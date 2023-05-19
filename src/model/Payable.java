@@ -2,7 +2,7 @@ package model;
 
 public abstract interface Payable {
 
-    public String generatePayment(int value);
+    public String generatePayment(double value);
 
     public boolean isDefaulter(int month);
 }
