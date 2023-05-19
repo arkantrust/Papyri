@@ -183,7 +183,7 @@ public class Company implements Randomizable{
         return users.get(userID).getName();
     }
 
-    public boolean user2Premium(int userID, String nickname, String avatar, String card) {
+    public boolean upgradeUser(int userID, String nickname, String avatar, String card) {
         var done = false;
         if (!userExists(userID)) {
             return done;
@@ -196,6 +196,43 @@ public class Company implements Randomizable{
         if (user instanceof PremiumUser) {
             PremiumUser newPremiumUser = (PremiumUser) users.get(userID);
             newPremiumUser.generatePayment(PREMIUM);
+            done = true;
+        }
+        return done;
+    }
+
+    // Base to Reviewer
+    public boolean upgradeUser(int userID, String nickname, String avatar, String card, String interest, String blog) {
+        var done = false;
+        if (!userExists(userID)) {
+            return done;
+        }
+        var user = users.get(userID);
+        user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
+                user.getInternalID(), user.getInitDate(), nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH),
+                new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, interest, 0, blog);
+        users.set(userID, user);
+        if (user instanceof Reviewer) {
+            Reviewer newReviewer = (Reviewer) users.get(userID);
+            newReviewer.generatePayment(PREMIUM);
+            done = true;
+        }
+        return done;
+    }
+
+    // Premium to Reviewer
+    public boolean upgradeUser(int userID, String interest, String blog) {
+        var done = false;
+        if (!userExists(userID)) {
+            return done;
+        }
+        
+        PremiumUser user = (PremiumUser )users.get(userID);
+        user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
+                user.getInternalID(), user.getInitDate(), user.getNickname(), user.getAvatar(), user.getCard(), Calendar.getInstance().get(Calendar.MONTH),
+                new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, interest, 0, blog);
+        users.set(userID, user);
+        if (user instanceof Reviewer) {
             done = true;
         }
         return done;

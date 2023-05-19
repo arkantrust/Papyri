@@ -101,13 +101,58 @@ public class Papyri {
         String avatar = in.nextLine();
         System.out.print("Credit/Debit Card number: ");
         String card = in.nextLine();
-        if (readX.user2Premium(id, nickname, avatar, card)) {
+        if (readX.upgradeUser(id, nickname, avatar, card)) {
             System.out.println(readX.displayUserName(id) + " is now a premium user.");
         } else {
             System.out.println("Something went wrong. Try again later.");
         }
     }
 
+    public void upgradeUserToReviewer() {
+        System.out.print("User's ID: ");
+        var id = Integer.valueOf(in.nextLine());
+        // Verify if user exists
+        if (!readX.userExists(id)) {
+            System.out.println("User not found.");
+            return;
+        }
+
+        System.out.print("Nickname: ");
+        String nickname = in.nextLine();
+        System.out.print("Avatar: ");
+        String avatar = in.nextLine();
+        System.out.print("Credit/Debit Card number: ");
+        String card = in.nextLine();
+        System.out.print("Interest: ");
+        String interest = in.nextLine();
+        System.out.print("blog: ");
+        String blog = in.nextLine();
+        if (readX.upgradeUser(id, nickname, avatar, card, interest, blog)) {
+            System.out.println(readX.displayUserName(id) + " is now a reviewer.");
+        } else {
+            System.out.println("Something went wrong. Try again later.");
+        }
+    }
+
+    public void upgradePremiumUserToReviewer() {
+        System.out.print("User's ID: ");
+        var id = Integer.valueOf(in.nextLine());
+        // Verify if user exists
+        if (!readX.userExists(id)) {
+            System.out.println("User not found.");
+            return;
+        }
+
+        System.out.print("Interest: ");
+        String interest = in.nextLine();
+        System.out.print("blog: ");
+        String blog = in.nextLine();
+        if (readX.upgradeUser(id, interest, blog)) {
+            System.out.println(readX.displayUserName(id) + " is now a reviewer.");
+        } else {
+            System.out.println("Something went wrong. Try again later.");
+        }
+    }
     
     public void openUserManagement() {
         printBold("-----------------------User Management--------------------");
@@ -117,6 +162,8 @@ public class Papyri {
             System.out.println("2. Search user (ID)");
             System.out.println("3. Show users");
             System.out.println("4. Upgrade user to premium");
+            System.out.println("5. Upgrade user to reviewer");
+            System.out.println("6. Upgrade premium user to premium");
             System.out.println("0. Back");
             System.out.print("> ");
             int select = Integer.valueOf(in.nextLine());
@@ -126,6 +173,8 @@ public class Papyri {
                 case 2 -> searchUser();
                 case 3 -> showUsers();
                 case 4 -> upgradeUserToPremium();
+                case 5 -> upgradeUserToReviewer();
+                case 6 -> upgradePremiumUserToReviewer();
             }
         }
     }
