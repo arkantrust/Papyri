@@ -189,7 +189,8 @@ public class Company implements Randomizable{
         }
         var user = users.get(userID);
         User newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
-                user.getInternalID(), user.getInitDate(), nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH));
+                user.getInternalID(), user.getInitDate(), nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH),
+                new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
         users.set(userID, newPremiumUser);
         if (users.get(userID) instanceof PremiumUser) {
             done = true;
