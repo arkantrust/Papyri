@@ -2,7 +2,7 @@ package model;
 
 import java.util.Calendar;
 
-public class PremiumUser extends User {
+public class PremiumUser extends User implements Payable {
 
     // attributes
     private String nickname;
@@ -12,7 +12,8 @@ public class PremiumUser extends User {
     private double[] payments;
 
     // methods
-    public PremiumUser(String name, String email, String password, String id, int internalID, Calendar initDate, String nickname, String avatar,
+    public PremiumUser(String name, String email, String password, String id, int internalID, Calendar initDate,
+            String nickname, String avatar,
             String card, int lastPaidMonth) {
         super(name, email, password, id, internalID, initDate, false);
         this.nickname = nickname;
@@ -63,10 +64,16 @@ public class PremiumUser extends User {
     }
 
     @Override
-    public String surprise(int month, char randLetter) {
-        var info = "";
-        // TODO: implement
+    public String generatePayment(int value) {
+        var info = "A receipt by $" + value + " will be sent to your email";
         return info;
     }
 
+    @Override
+    public boolean isDefaulter(int month) {
+        boolean isDefaulter;
+        // TODO: replace month by Calendar.getInstance().get(Calendar.MONTH) in the controller class
+        isDefaulter = (lastPaidMonth == month) ? true : false;
+        return isDefaulter;
+    }
 }
