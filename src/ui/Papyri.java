@@ -193,8 +193,9 @@ public class Papyri {
         while (run) {
             System.out.println("1. Register book");
             System.out.println("2. Register magazine");
-            System.out.println("3. Edit product");
-            System.out.println("4. Delete product");
+            System.out.println("3. Show products");
+            System.out.println("4. Edit product");
+            System.out.println("5. Delete product");
             System.out.println("0. Back");
             System.out.print("> ");
             int select = Integer.valueOf(in.nextLine());
@@ -202,6 +203,7 @@ public class Papyri {
                     case 0 -> run = false;
                     case 1 -> registerBook();
                     case 2 -> registerMagazine();
+                    case 3 -> showUsers();
                 }
         }
     }
