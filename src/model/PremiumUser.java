@@ -65,6 +65,8 @@ public class PremiumUser extends User implements Payable {
     @Override
     public String generatePayment(int value) {
         var info = "A receipt by $" + value + " will be sent to your email";
+        int month = Calendar.getInstance().get(Calendar.MONTH);
+        payments[month] = value;
         return info;
     }
 
