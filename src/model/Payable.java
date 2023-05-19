@@ -4,5 +4,5 @@ public abstract interface Payable {
 
     public String generatePayment(int value);
 
-    public boolean isDefaulter(int debt);
+    public boolean isDefaulter(int month);
 }
