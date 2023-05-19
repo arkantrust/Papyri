@@ -11,7 +11,7 @@ public class Company {
     private String nit;
     private String address;
     /*
-     * userIDs and bgProductsCount is used to save the latest position in the array
+     * userIDs and productsCount is used to save the latest position in the array
      * to a new item
      * so instead of looping through the array, the id attribute is the position,
      * going from complexity O(n) to O(1)
@@ -20,8 +20,8 @@ public class Company {
     private String userList;
     private String productsList;
 
-    // bibliographicProducts current size
-    private int bgProductsCount;
+    // Products current size
+    private int productsCount;
 
     // constants
     public static final double PAYMONTH = 5; // USD
@@ -42,7 +42,7 @@ public class Company {
         userList = "";
         productsList = "";
         products = new HashMap<>();
-        bgProductsCount = 0;
+        productsCount = 0;
         users.add(new BaseUser("name", "email", userIDs - 1, Calendar.getInstance()));
     }
 
@@ -103,12 +103,12 @@ public class Company {
         this.products = products;
     }
 
-    public int getBgProductsCount() {
-        return bgProductsCount;
+    public int getProductsCount() {
+        return productsCount;
     }
 
-    public void setBgProductsCount(int bgProductsCount) {
-        this.bgProductsCount = bgProductsCount;
+    public void setProductsCount(int productsCount) {
+        this.productsCount = productsCount;
     }
 
     public String getProductsList() {
@@ -187,9 +187,8 @@ public class Company {
 
     // Product-related
 
-    public String generateHexCode() {
+    public String generateCode(String symbols) {
         String code = "";
-        String symbols = "ABCDEF1234567890";
         for (int i = 0; i < 3; i++) {
             code += symbols.charAt(ThreadLocalRandom.current().nextInt(0, symbols.length()));
         }
@@ -203,10 +202,22 @@ public class Company {
     public boolean registerBook(String name, Calendar publicationDate, int pages, String cover, double price,
             String review, int genre) {
         boolean done = false;
-        String id = generateHexCode();
+        String id = generateCode("ABCDEF1234567890");
         Product newBook = new Book(id, name, publicationDate, pages, cover, price, review, genre, 0, 0);
         products.put(id, newBook);
         if (products.get(id) instanceof Book) {
+            done = true;
+        }
+        return done;
+    }
+
+    public boolean registerMagazine(String name, Calendar publicationDate, int pages, String cover, double price,
+            int category, int freq) {
+        boolean done = false;
+        String id = generateCode("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+        Product newMagazine = new Magazine(id, name, publicationDate, pages, cover, price, category, freq, 0);
+        products.put(id, newMagazine);
+        if (products.get(id) instanceof Magazine) {
             done = true;
         }
         return done;

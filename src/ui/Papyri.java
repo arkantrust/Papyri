@@ -135,7 +135,7 @@ public class Papyri {
         double price = Double.valueOf(in.nextLine());
         System.out.print("Enter review: ");
         String review = in.nextLine();
-        System.out.println("Enter genre: ");
+        System.out.println("Enter genre:");
         System.out.println("1. Science fiction");
         System.out.println("2. Fantasy");
         System.out.println("3. Historical novel");
@@ -143,6 +143,36 @@ public class Papyri {
         int genre = Integer.valueOf(in.nextLine());
 
         if (readX.registerBook(name, publicationDate, pages, coverURL, price, review, genre)) {
+            System.out.println("Book registered succesfully!");
+        } else {
+            System.out.println("Something went wrong. Try again later.");
+        }
+    }
+
+    public void registerMagazine() {
+        System.out.print("Enter name: ");
+        String name = in.nextLine();
+        Calendar publicationDate = readDate("publication date");
+        System.out.print("Enter number of pages: ");
+        int pages = Integer.valueOf(in.nextLine());
+        System.out.print("Enter URL to cover: ");
+        String coverURL = in.nextLine();
+        System.out.print("Enter price: ");
+        double price = Double.valueOf(in.nextLine());
+        System.out.println("Enter catgeory:");
+        System.out.println("1. Miscellany");
+        System.out.println("2. Design");
+        System.out.println("3. Scientific");
+        System.out.print("> ");
+        int category = Integer.valueOf(in.nextLine());
+        System.out.println("Enter issuance frequency:");
+        System.out.println("1. Yearly");
+        System.out.println("2. Monthly");
+        System.out.println("3. Weekly");
+        System.out.println("4. Daily");
+        System.out.print("> ");
+        int freq = Integer.valueOf(in.nextLine());
+        if (readX.registerMagazine(name, publicationDate, pages, coverURL, price, category, freq)) {
             System.out.println("Book registered succesfully!");
         } else {
             System.out.println("Something went wrong. Try again later.");
