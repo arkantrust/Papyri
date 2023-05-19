@@ -37,10 +37,12 @@ public class BaseUser extends User implements Watchable {
 
     @Override
     public String surprise(int month, char randLetter) {
-        var info = "";
+        var message = "";
         if (String.valueOf(name.charAt(0)).equalsIgnoreCase(String.valueOf(randLetter))) {
-            info += "COngratulations! You will see 0 ads for 24 hours!\n";
+            message += "COngratulations! You will see 0 ads for 24 hours!\n";
+        } else {
+            message += "Sorry, you didn't get a surprise.";
         }
-        return info;
+        return message;
     }
 }

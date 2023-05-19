@@ -53,9 +53,9 @@ public class Reviewer extends PremiumUser {
     public String surprise(int randInt, char s) {
         var message = "";
         if (randInt < reviewCount) {
-            message += "Congratulations! You won a trip to San Andres!\n";
+            message += "Congratulations! You won a trip to San Andres!";
         } else {
-            message = "Sorry, you didn't get a surprise.\n";
+            message = "Sorry, you didn't get a surprise.";
         }
         return message;
     }

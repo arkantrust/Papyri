@@ -79,10 +79,12 @@ public class PremiumUser extends User implements Payable {
     }
     @Override
     public String surprise(int month, char randLetter) {
-        var info = "";
+        var message = "";
         if (payments[month-1] != 0) {
-            info += "You have won a spotify coupon for 1 month of premium membership. Chcek your email!";
+            message += "You have won a spotify coupon for 1 month of premium membership. Chcek your email!";
+        } else {
+            message += "Sorry, you didn't get a surprise.";
         }
-        return info;
+        return message;
     }
 }
