@@ -12,11 +12,11 @@ public class PremiumUser extends User {
     private double[] payments;
 
     // methods
-    public PremiumUser(String name, String email, int id, Calendar initDate, String nickname, String avatar,
+    public PremiumUser(String name, String email, String password, String id, int internalID, Calendar initDate, String nickname, String avatar,
             String card,
             int lastMonthPaid,
             double[] payments) {
-        super(name, email, id, initDate, false);
+        super(name, email, password, id, internalID, initDate, false);
         this.nickname = nickname;
         this.avatar = avatar;
         this.card = card;

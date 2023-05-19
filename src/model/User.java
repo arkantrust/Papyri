@@ -6,19 +6,23 @@ import java.util.Calendar;
 public abstract class User implements DateUsage {
 
     protected String name;
-    protected int id;
+    protected int internalID;
     protected String email;
     protected Calendar initDate; // Date the user signed up
     protected boolean ads;
     protected ArrayList<Product> productsOwned;
     protected int productsOwnedCount;
     protected String productsOwnedList;
+    protected String password;
+    protected String id;
 
 
-    public User(String name, String email, int id, Calendar initDate, boolean ads) {
+    public User(String name, String email, String password, String id, int internalID, Calendar initDate, boolean ads) {
         this.name = name;
         this.email = email;
+        this.password = password;
         this.id = id;
+        this.internalID = internalID;
         this.initDate = initDate;
         this.ads = ads;
         productsOwned = new ArrayList<>();
@@ -34,12 +38,12 @@ public abstract class User implements DateUsage {
         this.name = name;
     }
 
-    public int getID() {
-        return id;
+    public int getInternalID() {
+        return internalID;
     }
 
-    public void setID(int id) {
-        this.id = id;
+    public void setInternalID(int internalID) {
+        this.internalID = internalID;
     }
 
     public Calendar getInitDate() {
@@ -90,6 +94,22 @@ public abstract class User implements DateUsage {
         this.productsOwnedList = productsOwnedList;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getID() {
+        return id;
+    }
+
+    public void setID(String id) {
+        this.id = id;
+    }
+
     public void addProduct(Product bought) {
         productsOwned.add(bought);
         productsOwnedList += bought.toString();
@@ -101,7 +121,7 @@ public abstract class User implements DateUsage {
         String info = "";
         info += "Name: " + name + "\n";
         info += "Email: " + email + "\n";
-        info += "ID: " + id + "\n";
+        info += "ID: " + internalID + "\n";
         info += "Registered: " + DateUsage.DateToString(initDate) + "\n";
         return info;
     }

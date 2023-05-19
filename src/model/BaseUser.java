@@ -8,8 +8,8 @@ public class BaseUser extends User implements Watchable {
     private int availableBooks;
     private int availableMagazines;
 
-    public BaseUser(String name, String email, int id, Calendar initDate) {
-        super(name, email, id, initDate, true);
+    public BaseUser(String name, String email, String password, String id, int internalID, Calendar initDate) {
+        super(name, email, password, id, internalID, initDate, true);
         availableBooks = 5;
         availableMagazines = 2;
     }
