@@ -13,14 +13,13 @@ public class PremiumUser extends User implements Payable {
 
     // methods
     public PremiumUser(String name, String email, String password, String id, int internalID, Calendar initDate,
-            String nickname, String avatar,
-            String card, int lastPaidMonth) {
+            String nickname, String avatar, String card, int lastPaidMonth, double[] payments) {
         super(name, email, password, id, internalID, initDate, false);
         this.nickname = nickname;
         this.avatar = avatar;
         this.card = card;
         this.lastPaidMonth = lastPaidMonth;
-        this.payments = new double[12]; // 12 months in a year
+        this.payments = payments; // 12 months in a year
     }
 
     public String getNickname() {
@@ -75,5 +74,13 @@ public class PremiumUser extends User implements Payable {
         // TODO: replace month by Calendar.getInstance().get(Calendar.MONTH) in the controller class
         isDefaulter = (lastPaidMonth == month) ? true : false;
         return isDefaulter;
+    }
+    @Override
+    public String surprise(int month, char randLetter) {
+        var info = "";
+        if (payments[month-1] != 0) {
+            info += "You have won a spotify coupon for 1 month of premium membership. Chcek your email!";
+        }
+        return info;
     }
 }
