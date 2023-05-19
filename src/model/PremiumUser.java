@@ -16,7 +16,7 @@ public class PremiumUser extends User {
             String card,
             int lastMonthPaid,
             double[] payments) {
-        super(name, email, id, initDate);
+        super(name, email, id, initDate, false);
         this.nickname = nickname;
         this.avatar = avatar;
         this.card = card;

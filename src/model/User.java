@@ -1,20 +1,21 @@
 package model;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public abstract class User {
+public abstract class User implements DateUsage {
 
     protected String name;
     protected int id;
     protected String email;
     protected Calendar initDate; // Date the user signed up
+    protected boolean ads;
 
-    public User(String name, String email, int id, Calendar initDate) {
+    public User(String name, String email, int id, Calendar initDate, boolean ads) {
         this.name = name;
         this.email = email;
         this.id = id;
         this.initDate = initDate;
+        this.ads = ads;
     }
 
     public String getName() {
@@ -49,10 +50,12 @@ public abstract class User {
         this.email = email;
     }
 
-    public String DateToString(Calendar date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String dateToString = dateFormat.format(date.getTime());
-        return dateToString;
+    public boolean isAds() {
+        return ads;
+    }
+
+    public void setAds(boolean ads) {
+        this.ads = ads;
     }
 
     @Override
@@ -61,7 +64,7 @@ public abstract class User {
         info += "Name: " + name + "\n";
         info += "Email: " + email + "\n";
         info += "ID: " + id + "\n";
-        info += "Registered: " + DateToString(initDate) + "\n";
+        info += "Registered: " + DateUsage.DateToString(initDate) + "\n";
         return info;
     }
 
