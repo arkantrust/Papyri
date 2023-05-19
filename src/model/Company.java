@@ -3,6 +3,8 @@ package model;
 import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ThreadLocalRandom;
+
 
 public class Company implements Randomizable{
     // attributes
@@ -133,6 +135,11 @@ public class Company implements Randomizable{
         return confirmation;
     }
 
+    @Override
+    public int randInt(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max);
+    }
+
     // User-related
     public boolean userExists(int id) {
         if (id <= 0 || id > userIDs)
@@ -239,9 +246,9 @@ public class Company implements Randomizable{
     }
 
     public String generateSurprise(int userID) {
-        int randMonth = Randomizable.randInt(1, 13);
+        int randMonth = randInt(1, 13);
         String symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        char randLetter = symbols.charAt(Randomizable.randInt(0, symbols.length()));
+        char randLetter = symbols.charAt(randInt(0, symbols.length()));
         User user = users.get(userID);
         return user.surprise(randMonth, randLetter);
     }
@@ -251,7 +258,7 @@ public class Company implements Randomizable{
     public String generateCode(String symbols) {
         String code = "";
         for (int i = 0; i < 3; i++) {
-            code += symbols.charAt(Randomizable.randInt(0, symbols.length()));
+            code += symbols.charAt(randInt(0, symbols.length()));
         }
         return code;
     }
