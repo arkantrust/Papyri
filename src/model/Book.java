@@ -8,11 +8,11 @@ public class Book extends BibliographicProduct {
     private int copiesSold;
     private int readPages;
 
-    public Book(String id, String name, Calendar publicationDate, int pages, String coverURL, double cost,
-            String review, int genre, int copiesSold, int readPages) {
-        super(id, name, publicationDate, pages, coverURL, cost);
+    public Book(String id, String name, Calendar publicationDate, int pages, String coverURL, double price,
+            String review, BookGenre genre, int copiesSold, int readPages) {
+        super(id, name, publicationDate, pages, coverURL, price);
         this.review = review;
-        this.genre = BookGenre.get(genre);
+        this.genre = genre;
         this.copiesSold = copiesSold;
         this.readPages = readPages;
     }
@@ -47,5 +47,16 @@ public class Book extends BibliographicProduct {
 
     public void setReadPages(int readPages) {
         this.readPages = readPages;
+    }
+
+    @Override
+    public String toString() {
+        String info = "";
+        info += super.toString();
+        info += "Review: " + review + "\n";
+        info += "Genre: " + genre + "\n";
+        info += "Copies Sold: " + copiesSold + "\n";
+        info += "Read Pages: " + readPages + "\n";
+        return info;
     }
 }
