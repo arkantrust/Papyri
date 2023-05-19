@@ -178,6 +178,10 @@ public class Papyri {
             System.out.println("Something went wrong. Try again later.");
         }
     }
+
+    public void showProducts() {
+        System.out.println(readX.getProductsList());
+    }
     /*
      * System.out.println("2. Generate payment");
      * System.out.println("3. Generate surprise");
@@ -197,6 +201,7 @@ public class Papyri {
                 switch (select) {
                     case 0 -> run = false;
                     case 1 -> registerBook();
+                    case 2 -> registerMagazine();
                 }
         }
     }
