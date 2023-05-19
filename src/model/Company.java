@@ -240,4 +240,19 @@ public class Company {
         addProductToList(id);
         return done;
     }
+
+    // Business-related
+
+    public boolean buyProduct(int userID, String productID) {
+        boolean done = false;
+        Product product = products.get(productID);
+        User user = users.get(userID);
+        user.addProduct(product);
+        if (user.productsOwned.get(user.productsOwnedCount - 1).equals(product)) {
+            done = true;
+        } else {
+            done = false;
+        }
+        return done;
+    }
 }

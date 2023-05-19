@@ -215,7 +215,7 @@ public class Papyri {
     // Business-related
 
     public void buyProduct(int userID) {
-        System.out.println("Enter ID: ");
+        System.out.print("Enter ID: ");
         String productID = in.nextLine();
         if (readX.buyProduct(userID, productID)) {
             System.out.println("Congratulations on your purchase! You can view your bought products in your library.");
@@ -244,11 +244,11 @@ public class Papyri {
     }
 
     public void loginAsUser() {
-        System.out.println("Enter ID: ");
+        System.out.print("Enter ID: ");
         int id = Integer.valueOf(in.nextLine());
-        System.out.println("Password: ");
+        System.out.print("Password: ");
         String Password = in.nextLine(); // TODO: validatePassword()
-        System.out.println("Welcome, " + readX.displayUserName(id) + "!");
+        System.out.println("Welcome, " + readX.displayUserName(id) + "!\n");
         boolean run = true;
         int select = 0;
 
@@ -280,15 +280,15 @@ public class Papyri {
             System.out.println("2. Login as User");
             System.out.println("0. Exit");
             System.out.print("> ");
-            try {
+             // try {
                 select = Integer.valueOf(objPapyri.in.nextLine());
                 switch (select) {
                     case 0 -> run = false;
                     case 1 -> objPapyri.loginAsAdmin();
                     case 2 -> objPapyri.loginAsUser();
-                }
-            } catch (Exception e) {
-                System.out.println("Invalid input.");
+            //    }
+            /*} catch (Exception e) {
+                System.out.println("Invalid input."); */
             }
         }
     }
