@@ -237,6 +237,7 @@ public class Company {
         if (products.get(id) instanceof Magazine) {
             done = true;
         }
+        addProductToList(id);
         return done;
     }
 }
