@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public abstract class User implements DateUsage {
@@ -9,6 +10,10 @@ public abstract class User implements DateUsage {
     protected String email;
     protected Calendar initDate; // Date the user signed up
     protected boolean ads;
+    protected ArrayList<Product> productsOwned;
+    protected int productsOwnedCount;
+    protected String productsOwnedList;
+
 
     public User(String name, String email, int id, Calendar initDate, boolean ads) {
         this.name = name;
@@ -16,6 +21,8 @@ public abstract class User implements DateUsage {
         this.id = id;
         this.initDate = initDate;
         this.ads = ads;
+        productsOwned = new ArrayList<>();
+        this.productsOwnedList = "";
     }
 
     public String getName() {
@@ -56,6 +63,27 @@ public abstract class User implements DateUsage {
 
     public void setAds(boolean ads) {
         this.ads = ads;
+    }
+
+    public ArrayList<Product> getProductsOwned() {
+        return productsOwned;
+    }
+
+    public void setProductsOwned(ArrayList<Product> productsOwned) {
+        this.productsOwned = productsOwned;
+    }
+
+    public String getProductsOwnedList() {
+        return productsOwnedList;
+    }
+
+    public void setProductsOwnedList(String productsOwnedList) {
+        this.productsOwnedList = productsOwnedList;
+    }
+
+    public void addProduct(Product bought) {
+        productsOwned.add(bought);
+        productsOwnedList += bought.toString();
     }
 
     @Override
