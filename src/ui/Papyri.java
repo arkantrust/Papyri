@@ -44,6 +44,10 @@ public class Papyri {
         return date;
     }
 
+    public void printBold(String text) {
+        System.out.println("\033[1m" + text + "\033[0m");
+    }
+
     // -----------------------------------User Management-------------------------------------------------------
     public void registerUser() {
         System.out.print("Enter name: ");
@@ -101,7 +105,7 @@ public class Papyri {
     }
 
     public void openUserManagement() {
-        System.out.println("---------------------------------------User Management---------------------------------------");
+        printBold("-----------------------User Management--------------------");
         boolean run = true;
         while (run) {
             System.out.println("1. Register user");
@@ -188,7 +192,7 @@ public class Papyri {
      */
 
     public void openProductManagement() {
-        System.out.println("---------------------------------------Product Management---------------------------------------");
+        printBold("-----------------------------Product Management-----------------------------");
         boolean run = true;
         while (run) {
             System.out.println("1. Register book");
@@ -208,24 +212,61 @@ public class Papyri {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println("---------------------------------------Papyri---------------------------------------");
-        Papyri objPapyri = new Papyri();
+    public void loginAsAdmin() {
         boolean run = true;
         int select = 0;
 
         while (run) {
-            System.out.println("---------------------------------------Home---------------------------------------");
+            printBold("------------------------------Admin------------------------------");
             System.out.println("1. Manage users");
             System.out.println("2. Manage Products");
+            System.out.println("0. Log out");
+            System.out.print("> ");
+            select = Integer.valueOf(in.nextLine());
+            switch (select) {
+                case 0 -> run = false;
+                case 1 -> openUserManagement();
+                case 2 -> openProductManagement();
+            }
+        }
+    }
+
+    public void loginAsUser() {
+        boolean run = true;
+        int select = 0;
+
+        while (run) {
+            printBold("-----------------------------Home-----------------------------");
+            System.out.println("1. View products");
+            System.out.println("2. Buy product");
+            System.out.println("3. Settings");
+            System.out.println("0. Log out");
+            System.out.print("> ");
+            select = Integer.valueOf(in.nextLine());
+            switch (select) {
+                case 0 -> run = false;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Papyri objPapyri = new Papyri();
+        objPapyri.printBold("-------------------------Papyri----------------------------");
+        boolean run = true;
+        int select = 0;
+
+        while (run) {
+            objPapyri.printBold("--------------------------Home-----------------------------");
+            System.out.println("1. Login as Admin");
+            System.out.println("2. Login as User");
             System.out.println("0. Exit");
             System.out.print("> ");
             try {
                 select = Integer.valueOf(objPapyri.in.nextLine());
                 switch (select) {
                     case 0 -> run = false;
-                    case 1 -> objPapyri.openUserManagement();
-                    case 2 -> objPapyri.openProductManagement();
+                    case 1 -> objPapyri.loginAsAdmin();
+                    case 2 -> objPapyri.loginAsUser();
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input.");
