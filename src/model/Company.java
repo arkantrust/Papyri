@@ -37,6 +37,7 @@ public class Company implements Randomizable{
         users = new ArrayList<>();
         userIDs = 1;
         userList = "";
+        userInfo = new HashMap<>();
         productsList = "";
         products = new HashMap<>();
         users.add(new BaseUser("name", "email", "password", "ID", userIDs - 1, Calendar.getInstance()));
