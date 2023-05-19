@@ -38,4 +38,14 @@ public class Magazine extends BibliographicProduct {
     public void setSubs(int subs) {
         this.subs = subs;
     }
+
+    @Override
+    public String toString() {
+        String info = "";
+        info += super.toString();
+        info += "Category: " + category.getName() + "\n";
+        info += "Issuance Frequency: " + freq.getName() + "\n";
+        info += "Subscriptions: " + subs + "\n";
+        return info;
+    }
 }
