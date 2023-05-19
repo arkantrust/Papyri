@@ -8,20 +8,18 @@ public class PremiumUser extends User {
     private String nickname;
     private String avatar;
     private String card;
-    private int lastMonthPaid;
+    private int lastPaidMonth;
     private double[] payments;
 
     // methods
     public PremiumUser(String name, String email, String password, String id, int internalID, Calendar initDate, String nickname, String avatar,
-            String card,
-            int lastMonthPaid,
-            double[] payments) {
+            String card, int lastPaidMonth) {
         super(name, email, password, id, internalID, initDate, false);
         this.nickname = nickname;
         this.avatar = avatar;
         this.card = card;
-        this.lastMonthPaid = lastMonthPaid;
-        this.payments = payments;
+        this.lastPaidMonth = lastPaidMonth;
+        this.payments = new double[12]; // 12 months in a year
     }
 
     public String getNickname() {
@@ -48,12 +46,12 @@ public class PremiumUser extends User {
         this.card = card;
     }
 
-    public int getLastMonthPaid() {
-        return lastMonthPaid;
+    public int getLastPaidMonth() {
+        return lastPaidMonth;
     }
 
-    public void setLastMonthPaid(int lastMonthPaid) {
-        this.lastMonthPaid = lastMonthPaid;
+    public void setLastPaidMonth(int lastPaidMonth) {
+        this.lastPaidMonth = lastPaidMonth;
     }
 
     public double[] getPayments() {

@@ -187,7 +187,7 @@ public class Company {
         var done = false;
         var user = users.get(userID);
         User newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), user.getID(), user.getInternalID(), user.getInitDate(),
-                nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH), new double[12]);
+                nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH));
         users.set(userID, newPremiumUser);
         if (users.get(userID) instanceof PremiumUser) {
             done = true;
