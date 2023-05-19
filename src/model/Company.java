@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Company {
+public class Company implements Randomizable{
     // attributes
     private String name;
     private String nit;
@@ -195,6 +195,14 @@ public class Company {
             done = true;
         }
         return done;
+    }
+
+    public String generateSurprise(int userID) {
+        int randMonth = Randomizable.randInt(1, 13);
+        String symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        char randLetter = symbols.charAt(Randomizable.randInt(0, symbols.length()));
+        User user = users.get(userID);
+        return user.surprise(randMonth, randLetter);
     }
 
     // Product-related
