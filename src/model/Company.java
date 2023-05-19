@@ -19,10 +19,11 @@ public class Company {
     private int userIDs;
     private String userList;
     private String productsList;
+    private HashMap<String, String> userInfo;
 
     // constants
     public static final double PAYMONTH = 5; // USD
-
+    
     // relations
     private ArrayList<User> users;
     // As this is a single-threaded program, Hashmap (Not syncronized) will perform
@@ -39,7 +40,7 @@ public class Company {
         userList = "";
         productsList = "";
         products = new HashMap<>();
-        users.add(new BaseUser("name", "email", userIDs - 1, Calendar.getInstance()));
+        users.add(new BaseUser("name", "email", "password", "ID", userIDs - 1, Calendar.getInstance()));
     }
 
     // getters & setters
@@ -107,6 +108,14 @@ public class Company {
         this.productsList = productsList;
     }
 
+    public HashMap<String, String> getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(HashMap<String, String> userInfo) {
+        this.userInfo = userInfo;
+    }
+
     // methods
 
     public boolean confirmOperation(char response) {
@@ -135,14 +144,27 @@ public class Company {
         userList += users.get(userIDs).toString() + '\n';
     }
 
-    public boolean addUser(String name, String email) {
+    public void addUserToInfo(String id, String password) {
+        userInfo.put(id, password);
+    }
+
+    public boolean addUser(String name, String id, String email, String password) {
         boolean done = false;
-        User newUser = new BaseUser(name, email, userIDs, Calendar.getInstance());
+        User newUser = new BaseUser(name, email, password, id, userIDs, Calendar.getInstance());
         users.add(newUser);
         addUserToList();
+        addUserToInfo(id, password);
         userIDs++;
         done = true;
         return done;
+    }
+
+    public boolean validatePassword(String id, String password) {
+        boolean login = false;
+        if (userInfo.get(id).equals(password)) {
+            login = true;
+        }
+        return login;
     }
 
     public String displayUser(int userID) {
@@ -164,7 +186,7 @@ public class Company {
     public boolean user2Premium(int userID, String nickname, String avatar, String card) {
         var done = false;
         var user = users.get(userID);
-        User newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getID(), user.getInitDate(),
+        User newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), user.getID(), user.getInternalID(), user.getInitDate(),
                 nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH), new double[12]);
         users.set(userID, newPremiumUser);
         if (users.get(userID) instanceof PremiumUser) {

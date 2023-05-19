@@ -52,10 +52,14 @@ public class Papyri {
     public void registerUser() {
         System.out.print("Enter name: ");
         String name = in.nextLine();
+        System.out.print("Enter ID: ");
+        String id = in.nextLine();
         System.out.print("Enter email: ");
         String email = in.nextLine();
+        System.out.print("Enter password: ");
+        String password = in.nextLine();
 
-        if (readX.addUser(name, email)) {
+        if (readX.addUser(name, id, email, password)) {
             System.out.println("User registered succesfully!");
         } else {
             System.out.println("Something went wrong. Try again later.");
@@ -280,15 +284,15 @@ public class Papyri {
             System.out.println("2. Login as User");
             System.out.println("0. Exit");
             System.out.print("> ");
-             // try {
+            try {
                 select = Integer.valueOf(objPapyri.in.nextLine());
                 switch (select) {
                     case 0 -> run = false;
                     case 1 -> objPapyri.loginAsAdmin();
                     case 2 -> objPapyri.loginAsUser();
-            //    }
-            /*} catch (Exception e) {
-                System.out.println("Invalid input."); */
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input.");
             }
         }
     }
