@@ -3,7 +3,6 @@ package model;
 import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Company {
     // attributes
@@ -22,7 +21,7 @@ public class Company {
     private HashMap<String, String> userInfo;
 
     // constants
-    public static final double PAYMONTH = 5; // USD
+    public static final double PREMIUM = 5; // USD
     
     // relations
     private ArrayList<User> users;
@@ -186,8 +185,8 @@ public class Company {
     public boolean user2Premium(int userID, String nickname, String avatar, String card) {
         var done = false;
         var user = users.get(userID);
-        User newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), user.getID(), user.getInternalID(), user.getInitDate(),
-                nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH));
+        User newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
+                user.getInternalID(), user.getInitDate(), nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH));
         users.set(userID, newPremiumUser);
         if (users.get(userID) instanceof PremiumUser) {
             done = true;
@@ -200,7 +199,7 @@ public class Company {
     public String generateCode(String symbols) {
         String code = "";
         for (int i = 0; i < 3; i++) {
-            code += symbols.charAt(ThreadLocalRandom.current().nextInt(0, symbols.length()));
+            code += symbols.charAt(Randomizable.randInt(0, symbols.length()));
         }
         return code;
     }
@@ -254,7 +253,8 @@ public class Company {
             int category, int freq) {
         boolean done = false;
         String id = generateCode("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-        Product newMagazine = new Magazine(id, name, publicationDate, pages, cover, price, getMagazineCategory(category), getIssuanceFrequency(freq), 0);
+        Product newMagazine = new Magazine(id, name, publicationDate, pages, cover, price, getMagazineCategory(category),
+                getIssuanceFrequency(freq), 0);
         products.put(id, newMagazine);
         if (products.get(id) instanceof Magazine) {
             done = true;
