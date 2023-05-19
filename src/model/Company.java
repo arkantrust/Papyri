@@ -20,9 +20,6 @@ public class Company {
     private String userList;
     private String productsList;
 
-    // Products current size
-    private int productsCount;
-
     // constants
     public static final double PAYMONTH = 5; // USD
 
@@ -42,7 +39,6 @@ public class Company {
         userList = "";
         productsList = "";
         products = new HashMap<>();
-        productsCount = 0;
         users.add(new BaseUser("name", "email", userIDs - 1, Calendar.getInstance()));
     }
 
@@ -101,14 +97,6 @@ public class Company {
 
     public void setProducts(HashMap<String, Product> products) {
         this.products = products;
-    }
-
-    public int getProductsCount() {
-        return productsCount;
-    }
-
-    public void setProductsCount(int productsCount) {
-        this.productsCount = productsCount;
     }
 
     public String getProductsList() {
@@ -217,6 +205,7 @@ public class Company {
         if (products.get(id) instanceof Book) {
             done = true;
         }
+        addProductToList(id);
         return done;
     }
 
