@@ -7,8 +7,8 @@ public abstract class BibliographicProduct extends Product {
     protected String coverURL;
 
     public BibliographicProduct(String id, String name, Calendar publicationDate, int pages, String coverURL,
-            double cost) {
-        super(id, name, publicationDate, cost);
+            double price) {
+        super(id, name, publicationDate, price);
         this.pages = pages;
         this.coverURL = coverURL;
     }
@@ -27,5 +27,14 @@ public abstract class BibliographicProduct extends Product {
 
     public void setCoverURL(String coverURL) {
         this.coverURL = coverURL;
+    }
+
+    @Override
+    public String toString() {
+        String info = "";
+        info += super.toString();
+        info += "Pages: " + pages + "\n";
+        info += "Cover: " + coverURL + "\n";
+        return info;
     }
 }
