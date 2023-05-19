@@ -184,6 +184,9 @@ public class Company {
 
     public boolean user2Premium(int userID, String nickname, String avatar, String card) {
         var done = false;
+        if (!userExists(userID)) {
+            return done;
+        }
         var user = users.get(userID);
         User newPremiumUser = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
                 user.getInternalID(), user.getInitDate(), nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH));
