@@ -199,11 +199,20 @@ public class Company {
         productsList += products.get(id).toString() + '\n';
     }
 
+    private BookGenre getBookGenre(int intGenre) {
+        return switch (intGenre) {
+            case 1 -> BookGenre.SCIENCE_FICTION;
+            case 2 -> BookGenre.FANTASY;
+            case 3 -> BookGenre.HISTORICAL_NOVEL;
+            default -> null;
+        };
+    }
+
     public boolean registerBook(String name, Calendar publicationDate, int pages, String cover, double price,
             String review, int genre) {
         boolean done = false;
         String id = generateCode("ABCDEF1234567890");
-        Product newBook = new Book(id, name, publicationDate, pages, cover, price, review, genre, 0, 0);
+        Product newBook = new Book(id, name, publicationDate, pages, cover, price, review, getBookGenre(genre), 0, 0);
         products.put(id, newBook);
         if (products.get(id) instanceof Book) {
             done = true;
