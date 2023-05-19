@@ -6,13 +6,13 @@ public abstract class Product {
     protected String id;
     protected String name;
     protected Calendar publicationDate;
-    protected double cost;
+    protected double price;
 
     public Product(String id, String name, Calendar publicationDate, double cost) {
         this.id = id;
         this.name = name;
         this.publicationDate = publicationDate;
-        this.cost = cost;
+        this.price = cost;
     }
 
     public String getId() {
@@ -39,12 +39,21 @@ public abstract class Product {
         this.publicationDate = publicationDate;
     }
 
-    public double getCost() {
-        return cost;
+    public double getPrice() {
+        return price;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
+    public void setPrice(double cost) {
+        this.price = cost;
     }
 
+    @Override
+    public String toString() {
+        String info = "";
+        info += "ID: " + id + "\n";
+        info += "Name: " + name + "\n";
+        info += "Publication date: " + publicationDate + "\n";
+        info += "Price: " + price + "\n";
+        return info;
+    }
 }
