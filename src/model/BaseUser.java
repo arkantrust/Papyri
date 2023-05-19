@@ -31,11 +31,16 @@ public class BaseUser extends User implements Watchable {
     }
 
     @Override
-    public void watchAds() {}
+    public void watchAds() {
+        // Should show an ad everytime a reading session starts
+    }
 
     @Override
-    public String surprise(int month, char randLetter) { // TODO: implement
+    public String surprise(int month, char randLetter) {
         var info = "";
+        if (String.valueOf(name.charAt(0)).equalsIgnoreCase(String.valueOf(randLetter))) {
+            info += "COngratulations! You will see 0 ads for 24 hours!\n";
+        }
         return info;
     }
 }
