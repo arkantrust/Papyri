@@ -2,7 +2,7 @@ package model;
 
 public abstract interface Payable {
 
-    public String generatePay(int value);
+    public String generatePayment(int value);
 
     public boolean isDefaulter(int debt);
 }
