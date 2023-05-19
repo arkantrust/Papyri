@@ -14,7 +14,6 @@ public class BaseUser extends User implements Watchable {
         availableMagazines = 2;
     }
 
-    
     public int getAvailableBooks() {
         return availableBooks;
     }
