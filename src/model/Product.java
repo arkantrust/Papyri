@@ -53,7 +53,7 @@ public abstract class Product implements DateUsage {
         info += "ID: " + id + "\n";
         info += "Name: " + name + "\n";
         info += "Publication date: " + DateUsage.DateToString(publicationDate) + "\n";
-        info += "Price: " + price + "\n";
+        info += "Price: $" + price + "\n";
         return info;
     }
 }
