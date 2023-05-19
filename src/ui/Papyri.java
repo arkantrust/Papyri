@@ -177,7 +177,7 @@ public class Papyri {
         System.out.print("> ");
         int freq = Integer.valueOf(in.nextLine());
         if (readX.registerMagazine(name, publicationDate, pages, coverURL, price, category, freq)) {
-            System.out.println("Book registered succesfully!");
+            System.out.println("Magazine registered succesfully!");
         } else {
             System.out.println("Something went wrong. Try again later.");
         }
@@ -212,6 +212,18 @@ public class Papyri {
         }
     }
 
+    // Business-related
+
+    public void buyProduct(int userID) {
+        System.out.println("Enter ID: ");
+        String productID = in.nextLine();
+        if (readX.buyProduct(userID, productID)) {
+            System.out.println("Congratulations on your purchase! You can view your bought products in your library.");
+        } else {
+            System.out.println("Something went wrong. Try again later.");
+        }
+    }
+
     public void loginAsAdmin() {
         boolean run = true;
         int select = 0;
@@ -232,19 +244,26 @@ public class Papyri {
     }
 
     public void loginAsUser() {
+        System.out.println("Enter ID: ");
+        int id = Integer.valueOf(in.nextLine());
+        System.out.println("Password: ");
+        String Password = in.nextLine(); // TODO: validatePassword()
+        System.out.println("Welcome, " + readX.displayUserName(id) + "!");
         boolean run = true;
         int select = 0;
 
         while (run) {
             printBold("-----------------------------Home-----------------------------");
             System.out.println("1. View products");
-            System.out.println("2. Buy product");
+            System.out.println("2. Purchase product");
             System.out.println("3. Settings");
             System.out.println("0. Log out");
             System.out.print("> ");
             select = Integer.valueOf(in.nextLine());
             switch (select) {
                 case 0 -> run = false;
+                case 1 -> showProducts();
+                case 2 -> buyProduct(id);
             }
         }
     }
