@@ -22,6 +22,7 @@ public abstract class User implements DateUsage {
         this.initDate = initDate;
         this.ads = ads;
         productsOwned = new ArrayList<>();
+        this.productsOwnedCount = 0;
         this.productsOwnedList = "";
     }
 
@@ -73,6 +74,14 @@ public abstract class User implements DateUsage {
         this.productsOwned = productsOwned;
     }
 
+    public int getProductsOwnedCount() {
+        return productsOwnedCount;
+    }
+
+    public void setProductsOwnedCount(int productsOwnedCount) {
+        this.productsOwnedCount = productsOwnedCount;
+    }
+
     public String getProductsOwnedList() {
         return productsOwnedList;
     }
@@ -84,6 +93,7 @@ public abstract class User implements DateUsage {
     public void addProduct(Product bought) {
         productsOwned.add(bought);
         productsOwnedList += bought.toString();
+        productsOwnedCount++;
     }
 
     @Override
