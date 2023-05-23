@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
-
-public class Company implements Randomizable{
+public class Company implements Randomizable {
     // attributes
     private String name;
     private String nit;
@@ -24,7 +23,7 @@ public class Company implements Randomizable{
 
     // constants
     public static final double PREMIUM = 5; // USD
-    
+
     // relations
     private ArrayList<User> users;
     // As this is a single-threaded program, Hashmap (Not syncronized) will perform
@@ -42,7 +41,7 @@ public class Company implements Randomizable{
         userInfo = new HashMap<>();
         productsList = "";
         products = new HashMap<>();
-        users.add(new BaseUser("name", "email", "password", "ID", userIDs - 1, Calendar.getInstance()));
+        users.add(new BaseUser("admin", "admin@papyri.com", "d3Vt3st", "ADMIN", userIDs - 1, Calendar.getInstance()));
     }
 
     // getters & setters
@@ -197,8 +196,9 @@ public class Company implements Randomizable{
         }
         var user = users.get(userID);
         user = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
-                user.getInternalID(), user.getInitDate(), nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH),
-                new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+                user.getInternalID(), user.getInitDate(), nickname, avatar, card,
+                Calendar.getInstance().get(Calendar.MONTH),
+                new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
         users.set(userID, user);
         if (user instanceof PremiumUser) {
             PremiumUser newPremiumUser = (PremiumUser) users.get(userID);
@@ -216,8 +216,9 @@ public class Company implements Randomizable{
         }
         var user = users.get(userID);
         user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
-                user.getInternalID(), user.getInitDate(), nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH),
-                new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, interest, 0, blog);
+                user.getInternalID(), user.getInitDate(), nickname, avatar, card,
+                Calendar.getInstance().get(Calendar.MONTH),
+                new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, interest, 0, blog);
         users.set(userID, user);
         if (user instanceof Reviewer) {
             Reviewer newReviewer = (Reviewer) users.get(userID);
@@ -233,11 +234,12 @@ public class Company implements Randomizable{
         if (!userExists(userID)) {
             return done;
         }
-        
-        PremiumUser user = (PremiumUser )users.get(userID);
+
+        PremiumUser user = (PremiumUser) users.get(userID);
         user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
-                user.getInternalID(), user.getInitDate(), user.getNickname(), user.getAvatar(), user.getCard(), Calendar.getInstance().get(Calendar.MONTH),
-                new double[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, interest, 0, blog);
+                user.getInternalID(), user.getInitDate(), user.getNickname(), user.getAvatar(), user.getCard(),
+                Calendar.getInstance().get(Calendar.MONTH),
+                new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, interest, 0, blog);
         users.set(userID, user);
         if (user instanceof Reviewer) {
             done = true;
@@ -312,7 +314,8 @@ public class Company implements Randomizable{
             int category, int freq) {
         boolean done = false;
         String id = generateCode("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-        Product newMagazine = new Magazine(id, name, publicationDate, pages, cover, price, getMagazineCategory(category),
+        Product newMagazine = new Magazine(id, name, publicationDate, pages, cover, price,
+                getMagazineCategory(category),
                 getIssuanceFrequency(freq), 0);
         products.put(id, newMagazine);
         if (products.get(id) instanceof Magazine) {
