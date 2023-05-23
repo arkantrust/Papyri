@@ -25,7 +25,7 @@ public class BaseUser extends User implements Watchable {
     public int getAvailableMagazines() {
         return availableMagazines;
     }
-    
+
     public void setAvailableMagazines(int availableMagazines) {
         this.availableMagazines = availableMagazines;
     }
