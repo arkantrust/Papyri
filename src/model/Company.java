@@ -30,6 +30,9 @@ public class Company implements Randomizable {
     // faster than HashTable(Syncronized)
     private HashMap<String, Product> products;
 
+    // Saves all login information for verification
+    private HashMap<String, String> credentials;
+
     // constructor
     public Company(String name, String nit, String address) {
         this.name = name;
@@ -39,6 +42,7 @@ public class Company implements Randomizable {
         userIDs = 1;
         userList = "";
         userInfo = new HashMap<>();
+        credentials = new HashMap<>();
         productsList = "";
         products = new HashMap<>();
         users.add(new BaseUser("admin", "admin@papyri.com", "d3Vt3st", "ADMIN", userIDs - 1, Calendar.getInstance()));
@@ -137,6 +141,10 @@ public class Company implements Randomizable {
     @Override
     public int randInt(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max);
+    }
+
+    public void login(String id, String password) {
+
     }
 
     // User-related
