@@ -159,7 +159,7 @@ public class Papyri {
             System.out.println("3. Show users");
             System.out.println("4. Upgrade user to premium");
             System.out.println("5. Upgrade user to reviewer");
-            System.out.println("6. Upgrade premium user to premium");
+            System.out.println("6. Upgrade premium user to reviewer");
             System.out.println("0. Back");
             System.out.print("> ");
             int select = Integer.valueOf(in.nextLine());
