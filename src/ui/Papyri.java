@@ -44,7 +44,8 @@ public class Papyri {
         System.out.println("\033[1m" + text + "\033[0m");
     }
 
-    // -------------------------------User Management---------------------------------
+    // -------------------------------User
+    // Management---------------------------------
     public void registerUser() {
         System.out.print("Enter name: ");
         String name = in.nextLine();
@@ -275,6 +276,9 @@ public class Papyri {
     }
 
     public void loginAsAdmin() {
+        System.out.print("Password: ");
+        String Password = in.nextLine(); // TODO: validatePassword()
+        System.out.println("Welcome, " + readX.displayUserName(0) + "!\n");
         boolean run = true;
         int select = 0;
 
