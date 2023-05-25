@@ -1,8 +1,9 @@
 package model;
 
 import java.util.Calendar;
+import java.util.ArrayList;
 
-public class PremiumUser extends User implements Payable {
+public class PremiumUser extends BaseUser implements Payable {
 
     // attributes
     private String nickname;
@@ -12,9 +13,12 @@ public class PremiumUser extends User implements Payable {
     private double[] payments;
 
     // methods
-    public PremiumUser(String name, String email, String password, String id, int internalID, Calendar initDate,
+    public PremiumUser(String name, String email, String password, String id,
+            int internalID, Calendar initDate, boolean ads, ArrayList<Product> productsOwned,
+            String productsOwnedList, int productsOwnedCount, int boughtBooks, int subscribedMagazines,
             String nickname, String avatar, String card, int lastPaidMonth, double[] payments) {
-        super(name, email, password, id, internalID, initDate, false);
+        super(name, email, password, id, internalID, initDate, ads, productsOwned, productsOwnedList,
+                productsOwnedCount, boughtBooks, subscribedMagazines);
         this.nickname = nickname;
         this.avatar = avatar;
         this.card = card;
@@ -73,14 +77,16 @@ public class PremiumUser extends User implements Payable {
     @Override
     public boolean isDefaulter(int month) {
         boolean isDefaulter;
-        // TODO: replace month by Calendar.getInstance().get(Calendar.MONTH) in the controller class
+        // TODO: replace month by Calendar.getInstance().get(Calendar.MONTH) in the
+        // controller class
         isDefaulter = (lastPaidMonth == month) ? true : false;
         return isDefaulter;
     }
+
     @Override
     public String surprise(int month, char randLetter) {
         var message = "";
-        if (payments[month-1] != 0) {
+        if (payments[month - 1] != 0) {
             message += "You have won a spotify coupon for 1 month of premium membership. Chcek your email!";
         } else {
             message += "Sorry, you didn't get a surprise.";
