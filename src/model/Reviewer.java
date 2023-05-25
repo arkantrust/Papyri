@@ -1,15 +1,21 @@
 package model;
 
 import java.util.Calendar;
+import java.util.ArrayList;
 
 public class Reviewer extends PremiumUser {
-    private String interest; // TODO: Create enum Interest
+    private String interest;
     private int reviewCount;
     private String blog;
 
-    public Reviewer(String name, String email, String password, String id, int internalID, Calendar initDate,
-            String nickname, String avatar, String card, int lastPaidMonth, double[] payments,  String interest, int reviewCount, String blog) {
-        super(name, email, password, id, internalID, initDate, nickname, avatar, card, lastPaidMonth, payments);
+    public Reviewer(String name, String email, String password, String id,
+            int internalID, Calendar initDate, boolean ads, ArrayList<Product> productsOwned,
+            String productsOwnedList, int productsOwnedCount, int boughtBooks, int subscribedMagazines,
+            String nickname, String avatar, String card, int lastPaidMonth, double[] payments, String interest,
+            int reviewCount, String blog) {
+        super(name, email, password, id, internalID, initDate, ads, productsOwned, productsOwnedList,
+                productsOwnedCount,
+                boughtBooks, subscribedMagazines, nickname, avatar, card, lastPaidMonth, payments);
         this.interest = interest;
         this.reviewCount = reviewCount;
         this.blog = blog;
@@ -48,7 +54,7 @@ public class Reviewer extends PremiumUser {
         info += "Blog: " + blog + "\n";
         return info;
     }
-    
+
     @Override
     public String surprise(int randInt, char s) {
         var message = "";
