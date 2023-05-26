@@ -2,7 +2,7 @@ package model;
 
 import java.util.Calendar;
 
-public abstract class User implements DateUsage {
+public abstract class User {
 
     protected String name;
     protected String email;
@@ -10,7 +10,6 @@ public abstract class User implements DateUsage {
     protected String password;
     protected Calendar initDate; // Date the user signed up
     protected int internalID;
-
 
     public User(String name, String email, String password, String id, int internalID, Calendar initDate) {
         this.name = name;
@@ -75,7 +74,7 @@ public abstract class User implements DateUsage {
         info += "Name: " + name + "\n";
         info += "Email: " + email + "\n";
         info += "ID: " + internalID + "\n";
-        info += "Registered: " + DateUsage.DateToString(initDate) + "\n";
+        info += "Registered: " + DateProcessing.dateToString(initDate) + "\n";
         return info;
     }
 }

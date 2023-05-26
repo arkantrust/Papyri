@@ -2,7 +2,7 @@ package model;
 
 import java.util.Calendar;
 
-public abstract class Product implements DateUsage {
+public abstract class Product {
     protected String id;
     protected String name;
     protected Calendar publicationDate;
@@ -52,7 +52,7 @@ public abstract class Product implements DateUsage {
         String info = "";
         info += "ID: " + id + "\n";
         info += "Name: " + name + "\n";
-        info += "Publication date: " + DateUsage.DateToString(publicationDate) + "\n";
+        info += "Publication date: " + DateProcessing.dateToString(publicationDate) + "\n";
         info += "Price: $" + price + "\n";
         return info;
     }
