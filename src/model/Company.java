@@ -170,10 +170,10 @@ public class Company implements Randomizable {
 
     // User-related
     public boolean userExists(int id) {
-        if (id <= 0 || id > position)
-            return false;
-        return true;
+        boolean exists = (id >= 0 || id < position) ? true : false;
+        return exists;
     }
+
 
     public void addUserToList() {
         userList += users.get(position).toString() + '\n';
