@@ -13,10 +13,11 @@ public class BaseUser extends User implements Watchable, Surprisable {
     private int boughtBooks;
     private int subscribedMagazines;
 
-    public BaseUser(String name, String email, String password, String id, int internalID, Calendar initDate,
+    public BaseUser(String name, String email, String password, String id, Calendar initDate,
             boolean ads, ArrayList<Product> productsOwned, String productsOwnedList, int productsOwnedCount,
             int boughtBooks, int subscribedMagazines) {
-        super(name, email, password, id, internalID, initDate);
+                
+        super(name, email, password, id, initDate);
         this.ads = ads;
         this.productsOwned = productsOwned;
         this.productsOwnedList = productsOwnedList;

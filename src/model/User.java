@@ -9,15 +9,13 @@ public abstract class User {
     protected String id;
     protected String password;
     protected Calendar initDate; // Date the user signed up
-    protected int internalID;
 
-    public User(String name, String email, String password, String id, int internalID, Calendar initDate) {
+    public User(String name, String email, String password, String id, Calendar initDate) {
         this.name = name;
         this.email = email;
         this.id = id;
         this.password = password;
         this.initDate = initDate;
-        this.internalID = internalID;
     }
 
     public String getName() {
@@ -60,20 +58,12 @@ public abstract class User {
         this.initDate = initDate;
     }
 
-    public int getInternalID() {
-        return internalID;
-    }
-
-    public void setInternalID(int internalID) {
-        this.internalID = internalID;
-    }
-
     @Override
     public String toString() {
         String info = "";
         info += "Name: " + name + "\n";
         info += "Email: " + email + "\n";
-        info += "ID: " + internalID + "\n";
+        info += "ID: " + id + "\n";
         info += "Registered: " + DateProcessing.dateToString(initDate) + "\n";
         return info;
     }

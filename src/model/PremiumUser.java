@@ -9,20 +9,21 @@ public class PremiumUser extends BaseUser implements Payable {
     private String nickname;
     private String avatar;
     private String card;
-    private int lastPaidMonth;
+    private int lastMonthPaid;
     private double[] payments;
 
     // methods
-    public PremiumUser(String name, String email, String password, String id,
-            int internalID, Calendar initDate, boolean ads, ArrayList<Product> productsOwned,
-            String productsOwnedList, int productsOwnedCount, int boughtBooks, int subscribedMagazines,
-            String nickname, String avatar, String card, int lastPaidMonth, double[] payments) {
-        super(name, email, password, id, internalID, initDate, ads, productsOwned, productsOwnedList,
+    public PremiumUser(String name, String email, String password, String id, Calendar initDate, boolean ads,
+            ArrayList<Product> productsOwned, String productsOwnedList, int productsOwnedCount, int boughtBooks,
+            int subscribedMagazines, String nickname, String avatar, String card, int lastPaidMonth,
+            double[] payments) {
+
+        super(name, email, password, id, initDate, ads, productsOwned, productsOwnedList,
                 productsOwnedCount, boughtBooks, subscribedMagazines);
         this.nickname = nickname;
         this.avatar = avatar;
         this.card = card;
-        this.lastPaidMonth = lastPaidMonth;
+        this.lastMonthPaid = lastPaidMonth;
         this.payments = payments; // 12 months in a year
     }
 
@@ -50,12 +51,12 @@ public class PremiumUser extends BaseUser implements Payable {
         this.card = card;
     }
 
-    public int getLastPaidMonth() {
-        return lastPaidMonth;
+    public int getLastMonthPaid() {
+        return lastMonthPaid;
     }
 
-    public void setLastPaidMonth(int lastPaidMonth) {
-        this.lastPaidMonth = lastPaidMonth;
+    public void setLastMonthPaid(int lastPaidMonth) {
+        this.lastMonthPaid = lastPaidMonth;
     }
 
     public double[] getPayments() {
@@ -79,7 +80,7 @@ public class PremiumUser extends BaseUser implements Payable {
         boolean isDefaulter;
         // TODO: replace month by Calendar.getInstance().get(Calendar.MONTH) in the
         // controller class
-        isDefaulter = (lastPaidMonth == month) ? true : false;
+        isDefaulter = (lastMonthPaid == month) ? true : false;
         return isDefaulter;
     }
 
