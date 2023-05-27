@@ -6,32 +6,31 @@ import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Company implements Randomizable {
+
     // attributes
     private String name;
     private String nit;
     private String address;
+
     /*
-     * userIDs and productsCount is used to save the latest position in the array
+     * 
      * to a new item
      * so instead of looping through the array, the id attribute is the position,
      * going from complexity O(n) to O(1)
      */
-    private int userIDs;
+    private ArrayList<User> users;
+    private int position; // Stores the position of a user in the ArrayList
     private String userList;
     private String productsList;
-    private HashMap<String, String> userInfo;
+    private HashMap<String, String> credentials; // Saves all login information for verification
+    private HashMap<String, Integer> userIdToPositionMap; // Relates a user's ID to its position in the ArrayList
 
     // constants
     public static final double PREMIUM = 5; // USD
 
-    // relations
-    private ArrayList<User> users;
     // As this is a single-threaded program, Hashmap (Not syncronized) will perform
     // faster than HashTable(Syncronized)
     private HashMap<String, Product> products;
-
-    // Saves all login information for verification
-    private HashMap<String, String> credentials;
 
     // constructor
     public Company(String name, String nit, String address) {
@@ -39,13 +38,14 @@ public class Company implements Randomizable {
         this.nit = nit;
         this.address = address;
         users = new ArrayList<>();
-        userIDs = 1;
+        position = 1;
         userList = "";
-        userInfo = new HashMap<>();
+        credentials = new HashMap<>();
         credentials = new HashMap<>();
         productsList = "";
         products = new HashMap<>();
-        users.add(new Admin("admin", "admin@papyri.com", "deVtest", "ADMIN", userIDs - 1, Calendar.getInstance()));
+        users.add(new Admin("admin", "admin@papyri.com", "devtest",
+                "ADMIN", position - 1, Calendar.getInstance()));
         credentials.put(users.get(0).getName(), users.get(0).getPassword());
     }
 
@@ -82,12 +82,12 @@ public class Company implements Randomizable {
         this.users = users;
     }
 
-    public int getUserIDs() {
-        return userIDs;
+    public int getPosition() {
+        return position;
     }
 
-    public void setUserIDs(int userIDs) {
-        this.userIDs = userIDs;
+    public void setPosition(int userIDs) {
+        this.position = userIDs;
     }
 
     public String getUserList() {
@@ -114,12 +114,24 @@ public class Company implements Randomizable {
         this.productsList = productsList;
     }
 
-    public HashMap<String, String> getUserInfo() {
-        return userInfo;
+    public HashMap<String, String> getCredentials() {
+        return credentials;
     }
 
-    public void setUserInfo(HashMap<String, String> userInfo) {
-        this.userInfo = userInfo;
+    public void setCredentials(HashMap<String, String> userInfo) {
+        this.credentials = userInfo;
+    }
+
+    public HashMap<String, Integer> getUserIdToPositionMap() {
+        return userIdToPositionMap;
+    }
+
+    public void setUserIdToPositionMap(HashMap<String, Integer> userIdToPositionMap) {
+        this.userIdToPositionMap = userIdToPositionMap;
+    }
+
+    public static double getPremium() {
+        return PREMIUM;
     }
 
     // methods
@@ -148,42 +160,35 @@ public class Company implements Randomizable {
         credentials.put(id, password);
     }
 
-    public void login(String id, String password) {
-
+    public boolean login(String id, String password) {
+        boolean login = false;
+        if (credentials.get(id).equals(password)) {
+            login = true;
+        }
+        return login;
     }
 
     // User-related
     public boolean userExists(int id) {
-        if (id <= 0 || id > userIDs)
+        if (id <= 0 || id > position)
             return false;
         return true;
     }
 
     public void addUserToList() {
-        userList += users.get(userIDs).toString() + '\n';
-    }
-
-    public void addUserToInfo(String id, String password) {
-        userInfo.put(id, password);
+        userList += users.get(position).toString() + '\n';
     }
 
     public boolean addUser(String name, String id, String email, String password) {
         boolean done = false;
-        User newUser = new BaseUser(name, email, password, id, userIDs, Calendar.getInstance(), true, new ArrayList<>(), "", 0, 0, 0);
+        User newUser = new BaseUser(name, email, password, id, position, Calendar.getInstance(), true,
+                new ArrayList<>(), "", 0, 0, 0);
         users.add(newUser);
         addUserToList();
-        addUserToInfo(id, password);
-        userIDs++;
+        addCredentials(id, password);
+        position++;
         done = true;
         return done;
-    }
-
-    public boolean validatePassword(String id, String password) {
-        boolean login = false;
-        if (userInfo.get(id).equals(password)) {
-            login = true;
-        }
-        return login;
     }
 
     public String displayUser(int userID) {
@@ -211,7 +216,8 @@ public class Company implements Randomizable {
         var user = (BaseUser) users.get(userID);
         user = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
                 user.getInternalID(), user.getInitDate(), false, user.getProductsOwned(), user.getProductsOwnedList(),
-                user.getProductsOwnedCount(), user.getBoughtBooks(), user.getSubscribedMagazines(), nickname, avatar, card,
+                user.getProductsOwnedCount(), user.getBoughtBooks(), user.getSubscribedMagazines(), nickname, avatar,
+                card,
                 Calendar.getInstance().get(Calendar.MONTH), new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
         users.set(userID, user);
         if (user instanceof PremiumUser) {
@@ -252,8 +258,10 @@ public class Company implements Randomizable {
 
         PremiumUser user = (PremiumUser) users.get(userID);
         user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
-                user.getInternalID(), user.getInitDate(), user.hasAds(), user.getProductsOwned(), user.getProductsOwnedList(),
-                user.getProductsOwnedCount(), user.getBoughtBooks(), user.getSubscribedMagazines(), user.getNickname(), user.getAvatar(), user.getCard(),
+                user.getInternalID(), user.getInitDate(), user.hasAds(), user.getProductsOwned(),
+                user.getProductsOwnedList(),
+                user.getProductsOwnedCount(), user.getBoughtBooks(), user.getSubscribedMagazines(), user.getNickname(),
+                user.getAvatar(), user.getCard(),
                 user.getLastPaidMonth(), user.getPayments(), interest, 0, blog);
         users.set(userID, user);
         if (user instanceof Reviewer) {
@@ -297,7 +305,8 @@ public class Company implements Randomizable {
             String review, int genre) {
         boolean done = false;
         String id = generateCode("ABCDEF1234567890");
-        Product newBook = new Book(id, name, publicationDate, pages, cover, price, review, getBookGenre(genre), 0, 0);
+        Product newBook = new Book(id, name, publicationDate, pages, cover, price, review, getBookGenre(genre),
+                0, 0);
         products.put(id, newBook);
         if (products.get(id) instanceof Book) {
             done = true;
@@ -347,7 +356,7 @@ public class Company implements Randomizable {
         Product product = products.get(productID);
         var user = (BaseUser) users.get(userID);
         user.addProduct(product);
-        
+
         if (user.productsOwned.get(user.getProductsOwnedCount() - 1).equals(product)) {
             done = true;
         } else {
