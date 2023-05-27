@@ -160,7 +160,12 @@ public class Company implements Randomizable {
         credentials.put(id, password);
     }
 
-    public boolean login(String id, String password) {
+    public User getUserByID(String id) {
+        int position = userIdToPositionMap.get(id);
+        return users.get(position);
+    }
+
+    public Boolean login(String id, String password) {
         boolean login = false;
         if (credentials.get(id).equals(password)) {
             login = true;
