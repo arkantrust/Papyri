@@ -165,7 +165,7 @@ public class Company implements Randomizable {
         return users.get(position);
     }
 
-    public Boolean login(String id, String password) {
+    public boolean login(String id, String password) {
         boolean login = false;
         if (credentials.get(id).equals(password)) {
             login = true;
