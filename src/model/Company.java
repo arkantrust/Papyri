@@ -19,11 +19,11 @@ public class Company implements Randomizable {
      * going from complexity O(n) to O(1)
      */
     private ArrayList<User> users;
-    private int position; // Stores the position of a user in the ArrayList
+    private int userIndex; // Stores the position of a user in the ArrayList
     private String userList;
     private String productsList;
     private HashMap<String, String> credentials; // Saves all login information for verification
-    private HashMap<String, Integer> userIdToPositionMap; // Relates a user's ID to its position in the ArrayList
+    private HashMap<String, Integer> userIdToIndexMap; // Relates a user's ID to its position in the ArrayList
 
     // constants
     public static final double PREMIUM = 5; // USD
@@ -38,14 +38,14 @@ public class Company implements Randomizable {
         this.nit = nit;
         this.address = address;
         users = new ArrayList<>();
-        position = 1;
+        userIndex = 1;
         userList = "";
         credentials = new HashMap<>();
         credentials = new HashMap<>();
         productsList = "";
         products = new HashMap<>();
         users.add(new Admin("admin", "admin@papyri.com", "devtest",
-                "ADMIN", position - 1, Calendar.getInstance()));
+                "ADMIN", userIndex - 1, Calendar.getInstance()));
         credentials.put(users.get(0).getName(), users.get(0).getPassword());
     }
 
@@ -82,12 +82,12 @@ public class Company implements Randomizable {
         this.users = users;
     }
 
-    public int getPosition() {
-        return position;
+    public int getUserIndex() {
+        return userIndex;
     }
 
-    public void setPosition(int userIDs) {
-        this.position = userIDs;
+    public void setUserIndex(int userIDs) {
+        this.userIndex = userIDs;
     }
 
     public String getUserList() {
@@ -122,12 +122,12 @@ public class Company implements Randomizable {
         this.credentials = userInfo;
     }
 
-    public HashMap<String, Integer> getUserIdToPositionMap() {
-        return userIdToPositionMap;
+    public HashMap<String, Integer> getUserIdToIndexMap() {
+        return userIdToIndexMap;
     }
 
-    public void setUserIdToPositionMap(HashMap<String, Integer> userIdToPositionMap) {
-        this.userIdToPositionMap = userIdToPositionMap;
+    public void setUserIdToIndexMap(HashMap<String, Integer> userIdToPositionMap) {
+        this.userIdToIndexMap = userIdToPositionMap;
     }
 
     public static double getPremium() {
@@ -160,8 +160,12 @@ public class Company implements Randomizable {
         credentials.put(id, password);
     }
 
+    public void addIDToMap(String id, int position) {
+        userIdToIndexMap.put(id, Integer.valueOf(position));
+    }
+
     public User getUserByID(String id) {
-        int position = userIdToPositionMap.get(id);
+        int position = userIdToIndexMap.get(id);
         return users.get(position);
     }
 
@@ -174,59 +178,60 @@ public class Company implements Randomizable {
     }
 
     // User-related
-    public boolean userExists(int id) {
-        boolean exists = (id >= 0 || id < position) ? true : false;
+    public boolean userExists(String userID) {
+        var index = userIdToIndexMap.get(userID);
+        boolean exists = (index >= userIndex || index < userIndex) ? true : false;
         return exists;
     }
 
-
     public void addUserToList() {
-        userList += users.get(position).toString() + '\n';
+        userList += users.get(userIndex).toString() + '\n';
     }
 
-    public boolean addUser(String name, String id, String email, String password) {
+    public boolean registerUser(String name, String id, String email, String password) {
         boolean done = false;
-        User newUser = new BaseUser(name, email, password, id, position, Calendar.getInstance(), true,
+        User newUser = new BaseUser(name, email, password, id, userIndex, Calendar.getInstance(), true,
                 new ArrayList<>(), "", 0, 0, 0);
         users.add(newUser);
         addUserToList();
         addCredentials(id, password);
-        position++;
+        addIDToMap(id, userIndex);
+        userIndex++;
         done = true;
         return done;
     }
 
-    public String displayUser(int userID) {
+    public String displayUser(String userID) {
         // early return
         if (!userExists(userID)) {
             return "User not found";
         }
-        return users.get(userID).toString();
+        return getUserByID(userID).toString();
     }
 
-    public String displayUserName(int userID) {
+    public String displayUserName(String userID) {
         // early return
         if (!userExists(userID)) {
             return "User not found";
         }
-        return users.get(userID).getName();
+        return getUserByID(userID).getName();
     }
 
     // Base to Premium
-    public boolean upgradeUser(int userID, String nickname, String avatar, String card) {
+    public boolean upgradeUser(String userID, String nickname, String avatar, String card) {
         var done = false;
         if (!userExists(userID)) {
             return done;
         }
-        var user = (BaseUser) users.get(userID);
+        var user = (BaseUser) getUserByID(userID);
         user = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
                 user.getInternalID(), user.getInitDate(), false, user.getProductsOwned(), user.getProductsOwnedList(),
                 user.getProductsOwnedCount(), user.getBoughtBooks(), user.getSubscribedMagazines(), nickname, avatar,
                 card,
                 Calendar.getInstance().get(Calendar.MONTH), new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
-        users.set(userID, user);
+        users.set(userIdToIndexMap.get(userID), user);
         if (user instanceof PremiumUser) {
-            PremiumUser newPremiumUser = (PremiumUser) users.get(userID);
+            PremiumUser newPremiumUser = (PremiumUser) getUserByID(userID);
             newPremiumUser.generatePayment(PREMIUM);
             done = true;
         }
@@ -234,20 +239,21 @@ public class Company implements Randomizable {
     }
 
     // Base to Reviewer
-    public boolean upgradeUser(int userID, String nickname, String avatar, String card, String interest, String blog) {
+    public boolean upgradeUser(String userID, String nickname, String avatar, String card, String interest,
+            String blog) {
         var done = false;
         if (!userExists(userID)) {
             return done;
         }
-        var user = (BaseUser) users.get(userID);
+        var user = (BaseUser) getUserByID(userID);
         user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
                 user.getInternalID(), user.getInitDate(), false, user.getProductsOwned(), user.getProductsOwnedList(),
                 user.getProductsOwnedCount(), user.getBoughtBooks(), user.getSubscribedMagazines(),
                 nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH),
                 new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, interest, 0, blog);
-        users.set(userID, user);
+        users.set(userIdToIndexMap.get(userID), user);
         if (user instanceof Reviewer) {
-            Reviewer newReviewer = (Reviewer) users.get(userID);
+            Reviewer newReviewer = (Reviewer) getUserByID(userID);
             newReviewer.generatePayment(PREMIUM);
             done = true;
         }
@@ -255,31 +261,31 @@ public class Company implements Randomizable {
     }
 
     // Premium to Reviewer
-    public boolean upgradeUser(int userID, String interest, String blog) {
+    public boolean upgradeUser(String userID, String interest, String blog) {
         var done = false;
         if (!userExists(userID)) {
             return done;
         }
 
-        PremiumUser user = (PremiumUser) users.get(userID);
+        PremiumUser user = (PremiumUser) getUserByID(userID);
         user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
                 user.getInternalID(), user.getInitDate(), user.hasAds(), user.getProductsOwned(),
                 user.getProductsOwnedList(),
                 user.getProductsOwnedCount(), user.getBoughtBooks(), user.getSubscribedMagazines(), user.getNickname(),
                 user.getAvatar(), user.getCard(),
                 user.getLastPaidMonth(), user.getPayments(), interest, 0, blog);
-        users.set(userID, user);
+        users.set(userIdToIndexMap.get(userID), user);
         if (user instanceof Reviewer) {
             done = true;
         }
         return done;
     }
 
-    public String generateSurprise(int userID) {
+    public String generateSurprise(String userID) {
         int randMonth = randInt(1, 13);
         String symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         char randLetter = symbols.charAt(randInt(0, symbols.length()));
-        var user = (BaseUser) users.get(userID);
+        var user = (BaseUser) getUserByID(userID);
         return user.surprise(randMonth, randLetter);
     }
 
@@ -356,10 +362,10 @@ public class Company implements Randomizable {
 
     // Business-related
 
-    public boolean buyProduct(int userID, String productID) {
+    public boolean buyProduct(String userID, String productID) {
         boolean done = false;
         Product product = products.get(productID);
-        var user = (BaseUser) users.get(userID);
+        var user = (BaseUser) getUserByID(userID);
         user.addProduct(product);
 
         if (user.productsOwned.get(user.getProductsOwnedCount() - 1).equals(product)) {

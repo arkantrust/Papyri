@@ -18,7 +18,6 @@ public class Papyri {
         System.out.print("Company address: ");
         String address = in.nextLine();
         readX = new Company(name, nit, address);
-        readX = new Company("ReadX", "9008675399", "Cl 57 #23 - 35");
     }
 
     public Calendar readDate(String requiredDate) {
@@ -44,10 +43,9 @@ public class Papyri {
         System.out.println("\033[1m" + text + "\033[0m");
     }
 
-    // -------------------------------User
-    // Management---------------------------------
+    // ------------------User Management----------------------
     public void registerUser() {
-        System.out.print("Enter name: ");
+        System.out.print("Enter full name: ");
         String name = in.nextLine();
         System.out.print("Enter ID: ");
         String id = in.nextLine();
@@ -56,18 +54,18 @@ public class Papyri {
         System.out.print("Enter password: ");
         String password = in.nextLine();
 
-        if (readX.addUser(name, id, email, password)) {
+        if (readX.registerUser(name, id, email, password)) {
             System.out.println("User registered succesfully!");
         } else {
             System.out.println("Something went wrong. Try again later.");
         }
         System.out.println();
-        System.out.println(readX.displayUser(readX.getUserIDs() - 1));
+        System.out.println(readX.displayUser(id));
     }
 
     public void searchUser() {
         System.out.print("User's ID: ");
-        var id = Integer.valueOf(in.nextLine());
+        var id = in.nextLine();
         System.out.println(readX.displayUser(id));
     }
 
@@ -77,7 +75,7 @@ public class Papyri {
 
     public void upgradeUserToPremium() {
         System.out.print("User's ID: ");
-        var id = Integer.valueOf(in.nextLine());
+        var id = in.nextLine();
         // Verify if user exists
         if (!readX.userExists(id)) {
             System.out.println("User not found.");
@@ -107,7 +105,7 @@ public class Papyri {
 
     public void upgradeUserToReviewer() {
         System.out.print("User's ID: ");
-        var id = Integer.valueOf(in.nextLine());
+        var id = in.nextLine();
         // Verify if user exists
         if (!readX.userExists(id)) {
             System.out.println("User not found.");
@@ -133,7 +131,7 @@ public class Papyri {
 
     public void upgradePremiumUserToReviewer() {
         System.out.print("User's ID: ");
-        var id = Integer.valueOf(in.nextLine());
+        var id = in.nextLine();
         // Verify if user exists
         if (!readX.userExists(id)) {
             System.out.println("User not found.");
@@ -176,7 +174,7 @@ public class Papyri {
         }
     }
 
-    // ---------------------------Product Management--------------------------------
+    // ----------------------Product Management-------------------------
 
     public void registerBook() {
         System.out.print("Enter name: ");
@@ -261,7 +259,7 @@ public class Papyri {
 
     // Business-related
 
-    public void buyProduct(int userID) {
+    public void buyProduct(String userID) {
         System.out.print("Enter ID: ");
         String productID = in.nextLine();
         if (readX.buyProduct(userID, productID)) {
@@ -271,14 +269,14 @@ public class Papyri {
         }
     }
 
-    public void generateSurprise(int id) {
+    public void generateSurprise(String id) {
         System.out.println(readX.generateSurprise(id));
     }
 
     public void loginAsAdmin() {
         System.out.print("Password: ");
-        String Password = in.nextLine(); // TODO: validatePassword()
-        System.out.println("Welcome, " + readX.displayUserName(0) + "!\n");
+        String password = in.nextLine(); // TODO: validatePassword()
+        System.out.println("Welcome, Beloved Admin!\n");
         boolean run = true;
         int select = 0;
 
@@ -299,12 +297,12 @@ public class Papyri {
 
     public void loginAsUser() {
         System.out.print("Enter ID: ");
-        int id = Integer.valueOf(in.nextLine());
+        var id = in.nextLine();
         System.out.print("Password: ");
-        String Password = in.nextLine(); // TODO: validatePassword()
-        System.out.println("Welcome, " + readX.displayUserName(id) + "!\n");
+        String password = in.nextLine(); // TODO: validatePassword()
         boolean run = true;
         int select = 0;
+        System.out.println("Welcome, " + readX.displayUserName(id) + "!\n");
 
         while (run) {
             printBold("-----------------------------Home-----------------------------");
