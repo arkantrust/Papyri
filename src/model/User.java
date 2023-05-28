@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public abstract class User implements DateManipulator, Emboldenable {
@@ -9,13 +10,15 @@ public abstract class User implements DateManipulator, Emboldenable {
     protected String id;
     protected String password;
     protected Calendar initDate; // Date the user signed up
+    protected ArrayList<String> library;
 
-    public User(String name, String email, String password, String id, Calendar initDate) {
+    public User(String name, String email, String password, String id, Calendar initDate, ArrayList<String> library) {
         this.name = name;
         this.email = email;
         this.id = id;
         this.password = password;
         this.initDate = initDate;
+        this.library = library;
     }
 
     public String getName() {
@@ -58,6 +61,14 @@ public abstract class User implements DateManipulator, Emboldenable {
         this.initDate = initDate;
     }
 
+    public ArrayList<String> getLibrary() {
+        return library;
+    }
+
+    public void setLibrary(ArrayList<String> library) {
+        this.library = library;
+    }
+
     @Override
     public String toString() {
         String info = "";
@@ -67,6 +78,4 @@ public abstract class User implements DateManipulator, Emboldenable {
         info += toBold("Registered: ") + dateToString(initDate) + "\n";
         return info;
     }
-
-    public abstract void addToLibrary(String productID);
 }

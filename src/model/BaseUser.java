@@ -7,14 +7,12 @@ public class BaseUser extends User implements Watchable, Surprisable {
 
     // attributes
     protected boolean ads; // Should the user watch ads?
-    protected ArrayList<String> library;
-    private int boughtBooks;
-    private int subscribedMagazines;
+    protected int boughtBooks;
+    protected int subscribedMagazines;
 
     public BaseUser(String name, String email, String password, String id, Calendar initDate,
             boolean ads, ArrayList<String> library, int boughtBooks, int subscribedMagazines) {
-
-        super(name, email, password, id, initDate);
+        super(name, email, password, id, initDate, library);
         this.ads = ads;
         this.library = library;
         this.boughtBooks = boughtBooks;
@@ -27,14 +25,6 @@ public class BaseUser extends User implements Watchable, Surprisable {
 
     public void setAds(boolean ads) {
         this.ads = ads;
-    }
-
-    public ArrayList<String> getLibrary() {
-        return library;
-    }
-
-    public void setLibrary(ArrayList<String> library) {
-        this.library = library;
     }
 
     public int getBoughtBooks() {
@@ -75,10 +65,5 @@ public class BaseUser extends User implements Watchable, Surprisable {
             message += "Sorry, you didn't get a surprise.";
         }
         return message;
-    }
-
-    @Override
-    public void addToLibrary(String productID) {
-        library.add(productID);
     }
 }

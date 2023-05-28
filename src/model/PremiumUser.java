@@ -101,9 +101,4 @@ public class PremiumUser extends BaseUser implements Payable {
         }
         return message;
     }
-
-    @Override
-    public void addToLibrary(String productID) {
-        super.addToLibrary(productID);
-    }
 }

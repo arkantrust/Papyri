@@ -223,6 +223,19 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return user.surprise(randMonth, randLetter);
     }
 
+    public String displayLibrary(String userID) {
+        String library = "";
+
+        // Fill the library
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                library += " | " + getUserByID(userID).getLibrary().get(j);
+            }
+        }
+
+        return library;
+    }
+
     // Product-related
 
     public String generateCode(String symbols) {
@@ -314,7 +327,7 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         // Generate receipt
         receipts.add(new Receipt(product.getName(), user, Calendar.getInstance(), product.getPrice()));
 
-        user.addToLibrary(productID);
+        user.getLibrary().add(productID);
         product.incrementCount();
         return true;
     }
