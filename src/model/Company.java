@@ -175,7 +175,7 @@ public class Company implements Randomizable {
     // User-related
     public boolean userExists(String userID) {
         var index = userIdToIndexMap.get(userID);
-var usersLen = users.size();
+        var usersLen = users.size();
         boolean exists = (index >= usersLen || index < usersLen) ? true : false;
         return exists;
     }
@@ -194,22 +194,6 @@ var usersLen = users.size();
         addIDToMap(id, users.size()-1);
         done = true;
         return done;
-    }
-
-    public String displayUser(String userID) {
-        // early return
-        if (!userExists(userID)) {
-            return "User not found";
-        }
-        return getUserByID(userID).toString();
-    }
-
-    public String displayUserName(String userID) {
-        // early return
-        if (!userExists(userID)) {
-            return "User not found";
-        }
-        return getUserByID(userID).getName();
     }
 
     // Base to Premium
@@ -319,7 +303,7 @@ var usersLen = users.size();
         return done;
     }
 
-    public IssuanceFrequency getIssuanceFrequency(int intFreq) {
+    private IssuanceFrequency getIssuanceFrequency(int intFreq) {
         return switch (intFreq) {
             case 1 -> IssuanceFrequency.YEARLY;
             case 2 -> IssuanceFrequency.MONTHLY;
@@ -329,7 +313,7 @@ var usersLen = users.size();
         };
     }
 
-    public static MagazineCategory getMagazineCategory(int intCategory) {
+    private MagazineCategory getMagazineCategory(int intCategory) {
         return switch (intCategory) {
             case 1 -> MagazineCategory.MISCELLANY;
             case 2 -> MagazineCategory.DESIGN;
