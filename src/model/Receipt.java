@@ -52,7 +52,7 @@ public class Receipt implements DateManipulator, Emboldenable {
         String toString = toBold("Concept: ") + concept + "\n";
         toString += toBold("Buyer: ") + buyer.getName() + "\n";
         toString += toBold("Date: ") + dateToString(date) + "\n";
-        toString += toBold("Amount: ") + amount + "\n";
+        toString += toBold("Amount: $") + amount + "\n";
         return toString;
     }
 }
