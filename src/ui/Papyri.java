@@ -60,13 +60,13 @@ public class Papyri {
             System.out.println("Something went wrong. Try again later.");
         }
         System.out.println();
-        System.out.println(readX.displayUser(id));
+        System.out.println(readX.getUserByID(id).toString());
     }
 
     public void searchUser() {
         System.out.print("User's ID: ");
         var id = in.nextLine();
-        System.out.println(readX.displayUser(id));
+        System.out.println(readX.getUserByID(id).toString());
     }
 
     public void showUsers() {
@@ -82,10 +82,10 @@ public class Papyri {
             return;
         }
         // Confirming upgrade
-        System.out.print(readX.displayUserName(id) + " will be upgraded to premium. Which costs $5. Continue? Y/N ");
+        System.out.print(readX.getUserByID(id).getName() + " will be upgraded to premium. Which costs $5. Continue? Y/N ");
         char confirmation = in.nextLine().charAt(0);
         if (!readX.confirmOperation(confirmation)) {
-            System.out.println(readX.displayUserName(id) + " will remain as basic");
+            System.out.println(readX.getUserByID(id).getName() + " will remain as basic");
             System.out.println();
             // early return exits (cancels) the method so the user is not upgraded
             return;
@@ -97,7 +97,7 @@ public class Papyri {
         System.out.print("Credit/Debit Card number: ");
         String card = in.nextLine();
         if (readX.upgradeUser(id, nickname, avatar, card)) {
-            System.out.println(readX.displayUserName(id) + " is now a premium user.");
+            System.out.println(readX.getUserByID(id).getName() + " is now a premium user.");
         } else {
             System.out.println("Something went wrong. Try again later.");
         }
@@ -123,7 +123,7 @@ public class Papyri {
         System.out.print("blog: ");
         String blog = in.nextLine();
         if (readX.upgradeUser(id, nickname, avatar, card, interest, blog)) {
-            System.out.println(readX.displayUserName(id) + " is now a reviewer.");
+            System.out.println(readX.getUserByID(id).getName() + " is now a reviewer.");
         } else {
             System.out.println("Something went wrong. Try again later.");
         }
@@ -143,7 +143,7 @@ public class Papyri {
         System.out.print("blog: ");
         String blog = in.nextLine();
         if (readX.upgradeUser(id, interest, blog)) {
-            System.out.println(readX.displayUserName(id) + " is now a reviewer.");
+            System.out.println(readX.getUserByID(id).getName() + " is now a reviewer.");
         } else {
             System.out.println("Something went wrong. Try again later.");
         }
@@ -302,7 +302,7 @@ public class Papyri {
         String password = in.nextLine(); // TODO: validatePassword()
         boolean run = true;
         int select = 0;
-        System.out.println("Welcome, " + readX.displayUserName(id) + "!\n");
+        System.out.println("Welcome, " + readX.getUserByID(id).getName() + "!\n");
 
         while (run) {
             printBold("-----------------------------Home-----------------------------");
