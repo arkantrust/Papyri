@@ -33,8 +33,8 @@ public abstract class BibliographicProduct extends Product {
     public String toString() {
         String info = "";
         info += super.toString();
-        info += "Pages: " + pages + "\n";
-        info += "Cover: " + coverURL + "\n";
+        info += toBold("Pages: ") + pages + "\n";
+        info += toBold("Cover: ") + coverURL + "\n";
         return info;
     }
 }

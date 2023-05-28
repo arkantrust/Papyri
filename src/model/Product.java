@@ -2,7 +2,7 @@ package model;
 
 import java.util.Calendar;
 
-public abstract class Product implements DateManipulator {
+public abstract class Product implements DateManipulator, Emboldenable {
     protected String id;
     protected String name;
     protected Calendar publicationDate;
@@ -50,10 +50,10 @@ public abstract class Product implements DateManipulator {
     @Override
     public String toString() {
         String info = "";
-        info += ("ID: ") + id + "\n";
-        info += "Name: " + name + "\n";
-        info += "Publication date: " + dateToString(publicationDate) + "\n";
-        info += "Price: $" + price + "\n";
+        info += toBold("ID: ") + id + "\n";
+        info += toBold("Name: ") + name + "\n";
+        info += toBold("Publication date: ") + dateToString(publicationDate) + "\n";
+        info += toBold("Price: $") + price + "\n";
         return info;
     }
 

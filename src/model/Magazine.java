@@ -43,9 +43,9 @@ public class Magazine extends BibliographicProduct {
     public String toString() {
         String info = "";
         info += super.toString();
-        info += "Category: " + category.getName() + "\n";
-        info += "Issuance Frequency: " + freq.getName() + "\n";
-        info += "Subscriptions: " + subs + "\n";
+        info += toBold("Category: ") + category.getName() + "\n";
+        info += toBold("Issuance Frequency: ") + freq.getName() + "\n";
+        info += toBold("Subscriptions: ") + subs + "\n";
         return info;
     }
 

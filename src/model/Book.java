@@ -53,10 +53,10 @@ public class Book extends BibliographicProduct {
     public String toString() {
         String info = "";
         info += super.toString();
-        info += "Review: " + review + "\n";
-        info += "Genre: " + genre.getName() + "\n";
-        info += "Copies Sold: " + copiesSold + "\n";
-        info += "Read Pages: " + readPages + "\n";
+        info += toBold("Review: ") + review + "\n";
+        info += toBold("Genre: ") + genre.getName() + "\n";
+        info += toBold("Copies Sold: ") + copiesSold + "\n";
+        info += toBold("Read Pages: ") + readPages + "\n";
         return info;
     }
 
