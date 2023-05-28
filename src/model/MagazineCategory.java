@@ -1,19 +1,20 @@
 package model;
 
 public enum MagazineCategory {
-    MISCELLANY("Micellany", 1),
-    DESIGN("Design", 2),
-    SCIENTIFIC("Scientific", 3);
+    MISCELLANY("Miscellany"),
+    DESIGN("Design"),
+    SCIENTIFIC("Scientific"),
+    LIFESTYLE("Lifestyle"),
+    TECHNOLOGY("Technology"),
+    BUSINESS("Business");
 
     private final String name;
 
     /**
      * Declares the syntaxis on creating a {@code MagazineCategory} enum
-     * 
      * @param name
-     * @param value
      */
-    private MagazineCategory(String name, int value) {
+    private MagazineCategory(String name) {
         this.name = name;
     }
 
@@ -36,6 +37,9 @@ public enum MagazineCategory {
             case 1 -> MagazineCategory.MISCELLANY;
             case 2 -> MagazineCategory.DESIGN;
             case 3 -> MagazineCategory.SCIENTIFIC;
+            case 4 -> MagazineCategory.LIFESTYLE;
+            case 5 -> MagazineCategory.TECHNOLOGY;
+            case 6 -> MagazineCategory.BUSINESS;
             default -> null;
         };
     }
