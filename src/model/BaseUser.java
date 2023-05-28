@@ -7,21 +7,16 @@ public class BaseUser extends User implements Watchable, Surprisable {
 
     // attributes
     protected boolean ads; // Should the user watch ads?
-    protected ArrayList<Product> productsOwned;
-    protected String productsOwnedList;
-    protected int productsOwnedCount;
+    protected ArrayList<String> library;
     private int boughtBooks;
     private int subscribedMagazines;
 
     public BaseUser(String name, String email, String password, String id, Calendar initDate,
-            boolean ads, ArrayList<Product> productsOwned, String productsOwnedList, int productsOwnedCount,
-            int boughtBooks, int subscribedMagazines) {
+            boolean ads, ArrayList<String> library, int boughtBooks, int subscribedMagazines) {
                 
         super(name, email, password, id, initDate);
         this.ads = ads;
-        this.productsOwned = productsOwned;
-        this.productsOwnedList = productsOwnedList;
-        this.productsOwnedCount = productsOwnedCount;
+        this.library = library;
         this.boughtBooks = boughtBooks;
         this.subscribedMagazines = subscribedMagazines;
     }
@@ -42,28 +37,6 @@ public class BaseUser extends User implements Watchable, Surprisable {
         this.productsOwned = productsOwned;
     }
 
-    public String getProductsOwnedList() {
-        return productsOwnedList;
-    }
-
-    public void setProductsOwnedList(String productsOwnedList) {
-        this.productsOwnedList = productsOwnedList;
-    }
-
-    public int getProductsOwnedCount() {
-        return productsOwnedCount;
-    }
-
-    public void setProductsOwnedCount(int productsOwnedCount) {
-        this.productsOwnedCount = productsOwnedCount;
-    }
-
-    public void addProduct(Product bought) {
-        productsOwned.add(bought);
-        productsOwnedList += bought.toString();
-        productsOwnedCount++;
-    }
-
     public int getBoughtBooks() {
         return boughtBooks;
     }
@@ -78,6 +51,12 @@ public class BaseUser extends User implements Watchable, Surprisable {
 
     public void setSubscribedMagazines(int availableMagazines) {
         this.subscribedMagazines = availableMagazines;
+    }
+
+    public void addProduct(Product bought) {
+        productsOwned.add(bought);
+        productsOwnedList += bought.toString();
+        productsOwnedCount++;
     }
 
     @Override
