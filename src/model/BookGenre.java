@@ -3,7 +3,8 @@ package model;
 public enum BookGenre {
     SCIENCE_FICTION("Science fiction"),
     FANTASY("Fantasy"),
-    HISTORICAL_NOVEL("Historical novel");
+    HISTORICAL_NOVEL("Historical novel"),
+    SCIENTIFIC("Scientific");
 
     private String name;
 
@@ -13,5 +14,15 @@ public enum BookGenre {
 
     public String getName() {
         return name;
+    }
+
+    public static BookGenre get(int intGenre) {
+        return switch (intGenre) {
+            case 1 -> BookGenre.SCIENCE_FICTION;
+            case 2 -> BookGenre.FANTASY;
+            case 3 -> BookGenre.HISTORICAL_NOVEL;
+            case 4 -> BookGenre.SCIENTIFIC;
+            default -> null;
+        };
     }
 }

@@ -2,7 +2,7 @@ package model;
 
 import java.util.Calendar;
 
-public abstract class User {
+public abstract class User implements DateManipulator, Emboldenable {
 
     protected String name;
     protected String email;
@@ -61,10 +61,12 @@ public abstract class User {
     @Override
     public String toString() {
         String info = "";
-        info += "Name: " + name + "\n";
-        info += "Email: " + email + "\n";
-        info += "ID: " + id + "\n";
-        info += "Registered: " + DateProcessing.dateToString(initDate) + "\n";
+        info += toBold("Name: ") + name + "\n";
+        info += toBold("Email: ") + email + "\n";
+        info += toBold("ID: ") + id + "\n";
+        info += toBold("Registered: ") + dateToString(initDate) + "\n";
         return info;
     }
+
+    public abstract void addToLibrary(String productID);
 }

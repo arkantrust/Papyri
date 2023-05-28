@@ -11,13 +11,7 @@ public class Papyri {
 
     public Papyri() {
         in = new Scanner(System.in);
-        System.out.print("Company name: ");
-        String name = in.nextLine();
-        System.out.print("Company nit: ");
-        String nit = in.nextLine();
-        System.out.print("Company address: ");
-        String address = in.nextLine();
-        readX = new Company(name, nit, address);
+        readX = new Company("ReadX");
     }
 
     public Calendar readDate(String requiredDate) {
@@ -82,7 +76,8 @@ public class Papyri {
             return;
         }
         // Confirming upgrade
-        System.out.print(readX.getUserByID(id).getName() + " will be upgraded to premium. Which costs $5. Continue? Y/N ");
+        printBold(readX.getUserByID(id).getName() + " will be upgraded to premium. Which costs $" + Company.MEMBERSHIP
+                + ". Continue? Y/N ");
         char confirmation = in.nextLine().charAt(0);
         if (!readX.confirmOperation(confirmation)) {
             System.out.println(readX.getUserByID(id).getName() + " will remain as basic");
@@ -98,6 +93,7 @@ public class Papyri {
         String card = in.nextLine();
         if (readX.upgradeUser(id, nickname, avatar, card)) {
             System.out.println(readX.getUserByID(id).getName() + " is now a premium user.");
+            System.out.println(readX.getLastReceipt());
         } else {
             System.out.println("Something went wrong. Try again later.");
         }
@@ -259,20 +255,6 @@ public class Papyri {
 
     // Business-related
 
-    public void buyProduct(String userID) {
-        System.out.print("Enter ID: ");
-        String productID = in.nextLine();
-        if (readX.buyProduct(userID, productID)) {
-            System.out.println("Congratulations on your purchase! You can view your bought products in your library.");
-        } else {
-            System.out.println("Something went wrong. Try again later.");
-        }
-    }
-
-    public void generateSurprise(String id) {
-        System.out.println(readX.generateSurprise(id));
-    }
-
     public void loginAsAdmin() {
         System.out.print("Password: ");
         String password = in.nextLine(); // TODO: validatePassword()
@@ -295,6 +277,50 @@ public class Papyri {
         }
     }
 
+    public void generateSurprise(String id) {
+        System.out.println(readX.generateSurprise(id));
+    }
+
+    public void goToSettings(String userID) {
+
+    }
+
+    public void goToStore(String userID) {
+        printBold("-----------------------------Store-----------------------------");
+        boolean run = true;
+        while (run) {
+            System.out.println(readX.getProductsList());
+            System.out.print("Enter product ID: ");
+            try {
+                String productID = in.nextLine();
+
+                // Confirming purchase
+                System.out.print("Are you sure you want to buy " + readX.getProducts().get(productID).getName()
+                        + " for $" + readX.getProducts().get(productID).getPrice() + "? Y/N ");
+                char confirmation = in.nextLine().charAt(0);
+                if (!readX.confirmOperation(confirmation)) {
+                    System.out.println();
+                    // early return exits (cancels) the method so the user is not upgraded
+                    return;
+                }
+
+                if (readX.buyProduct(userID, productID)) {
+                    System.out.println(
+                            "Congratulations on your purchase! You can view your bought products in your library.");
+                    System.out.println(readX.getLastReceipt());
+                } else {
+                    System.out.println("Something went wrong. Try again later.");
+                }
+            } catch (Exception e) {
+                run = false;
+            }
+        }
+    }
+
+    public void cancelMagazineSubscription(String userID) {
+        System.out.println();
+    }
+
     public void loginAsUser() {
         System.out.print("Enter ID: ");
         var id = in.nextLine();
@@ -306,18 +332,20 @@ public class Papyri {
 
         while (run) {
             printBold("-----------------------------Home-----------------------------");
-            System.out.println("1. View products");
-            System.out.println("2. Purchase product");
-            System.out.println("3. Generate surprise");
-            System.out.println("4. Settings");
+            System.out.println("1. Store");
+            System.out.println("2. Library");
+            System.out.println("3. Cancel Magazine subscription");
+            System.out.println("4. Generate surprise");
+            System.out.println("5. Settings");
             System.out.println("0. Log out");
             System.out.print("> ");
             select = Integer.valueOf(in.nextLine());
             switch (select) {
                 case 0 -> run = false;
-                case 1 -> showProducts();
-                case 2 -> buyProduct(id);
-                case 3 -> generateSurprise(id);
+                case 1 -> goToStore(id);
+                case 2 -> generateSurprise(id);
+                case 3 -> cancelMagazineSubscription(id);
+                case 4 -> goToSettings(id);
                 // TODO: Settings
             }
         }
@@ -326,6 +354,7 @@ public class Papyri {
     public static void main(String[] args) {
         Papyri objPapyri = new Papyri();
         objPapyri.printBold("-------------------------Papyri----------------------------");
+        objPapyri.readX.deployTest();
         boolean run = true;
         int select = 0;
 
@@ -343,16 +372,16 @@ public class Papyri {
             System.out.println("2. Login as User");
             System.out.println("0. Exit");
             System.out.print("> ");
-            try {
-                select = Integer.valueOf(objPapyri.in.nextLine());
-                switch (select) {
-                    case 0 -> run = false;
-                    case 1 -> objPapyri.loginAsAdmin();
-                    case 2 -> objPapyri.loginAsUser();
-                }
-            } catch (Exception e) {
-                System.out.println("Invalid input.");
+            // try {
+            select = Integer.valueOf(objPapyri.in.nextLine());
+            switch (select) {
+                case 0 -> run = false;
+                case 1 -> objPapyri.loginAsAdmin();
+                case 2 -> objPapyri.loginAsUser();
             }
+            // } catch (Exception e) {
+            // System.out.println("Invalid input.");
+            // }
         }
     }
 }

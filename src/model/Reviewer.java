@@ -62,4 +62,9 @@ public class Reviewer extends PremiumUser {
         }
         return message;
     }
+
+    @Override
+    public void addToLibrary(String productID) {
+        super.addToLibrary(productID);
+    }
 }

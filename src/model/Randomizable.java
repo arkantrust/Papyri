@@ -1,8 +1,10 @@
 package model;
 
-
+import java.util.concurrent.ThreadLocalRandom;
 
 public interface Randomizable {
 
-    public int randInt(int min, int max);
+    default int randInt(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max);
+    }
 }
