@@ -31,6 +31,7 @@ public class Company implements Randomizable {
     // faster than HashTable(Syncronized)
     private HashMap<String, String> credentials; // Saves all login information for verification
     private HashMap<String, Integer> userIdToIndexMap; // Relates a user's ID to its position in the ArrayList
+    private ArrayList<Receipt> receipts;
 
     // constants
     public static final double PREMIUM = 5; // premium membership price in USD
@@ -52,6 +53,7 @@ public class Company implements Randomizable {
         users.add(new Admin("admin", "admin@papyri.com", "devtest",
                 "ADMIN", Calendar.getInstance()));
         credentials.put(users.get(0).getName(), users.get(0).getPassword());
+        receipts = new ArrayList<>();
     }
 
     // getters & setters
@@ -129,6 +131,14 @@ public class Company implements Randomizable {
 
     public static double getPremium() {
         return PREMIUM;
+    }
+
+    public ArrayList<Receipt> getReceipts() {
+        return receipts;
+    }
+
+    public void setReceipts(ArrayList<Receipt> receipts) {
+        this.receipts = receipts;
     }
 
     // methods
