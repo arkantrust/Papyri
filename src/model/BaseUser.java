@@ -29,12 +29,12 @@ public class BaseUser extends User implements Watchable, Surprisable {
         this.ads = ads;
     }
 
-    public ArrayList<Product> getProductsOwned() {
-        return productsOwned;
+    public ArrayList<String> getLibrary() {
+        return library;
     }
 
-    public void setProductsOwned(ArrayList<Product> productsOwned) {
-        this.productsOwned = productsOwned;
+    public void setLibrary(ArrayList<String> library) {
+        this.library = library;
     }
 
     public int getBoughtBooks() {
@@ -51,12 +51,6 @@ public class BaseUser extends User implements Watchable, Surprisable {
 
     public void setSubscribedMagazines(int availableMagazines) {
         this.subscribedMagazines = availableMagazines;
-    }
-
-    public void addProduct(Product bought) {
-        productsOwned.add(bought);
-        productsOwnedList += bought.toString();
-        productsOwnedCount++;
     }
 
     @Override
