@@ -13,24 +13,35 @@ public class Company implements Randomizable {
     private String address;
 
     /*
-     * 
-     * to a new item
-     * so instead of looping through the array, the id attribute is the position,
-     * going from complexity O(n) to O(1)
+     * When creating a user, it will be set into users ArrayList index
+     * userIndexAssigner
+     * which is the number of registered users but because Arrays start from index
+     * 0,
+     * userIndexAssigner is also the position a user is saved in the users ArrayList
+     * if
+     * it was added in the last position (userIndexAssigner holds the same value as
+     * users.size()).
+     * Then, userIndexAssigner is set into the userIdToIndexMap as value and the ID
+     * of the user as key,
+     * this with the purpose of accessing a user in the users ArrayList using its ID
+     * (e.g. 23695673)
+     * without the need of using for-loops lowering time complexity, although using
+     * more memory.
      */
     private ArrayList<User> users;
-    private int userIndex; // Stores the position of a user in the ArrayList
+    private int userIndexAssigner; // The position a user will have in the ArrayList
     private String userList;
-    private String productsList;
+
+    // As this is a single-threaded program, Hashmap (Not syncronized) will perform
+    // faster than HashTable(Syncronized)
     private HashMap<String, String> credentials; // Saves all login information for verification
     private HashMap<String, Integer> userIdToIndexMap; // Relates a user's ID to its position in the ArrayList
 
     // constants
-    public static final double PREMIUM = 5; // USD
+    public static final double PREMIUM = 5; // premium membership price in USD
 
-    // As this is a single-threaded program, Hashmap (Not syncronized) will perform
-    // faster than HashTable(Syncronized)
     private HashMap<String, Product> products;
+    private String productsList;
 
     // constructor
     public Company(String name, String nit, String address) {
@@ -38,14 +49,14 @@ public class Company implements Randomizable {
         this.nit = nit;
         this.address = address;
         users = new ArrayList<>();
-        userIndex = 1;
+        userIndexAssigner = 1;
         userList = "";
         credentials = new HashMap<>();
         credentials = new HashMap<>();
         productsList = "";
         products = new HashMap<>();
         users.add(new Admin("admin", "admin@papyri.com", "devtest",
-                "ADMIN", userIndex - 1, Calendar.getInstance()));
+                "ADMIN", Calendar.getInstance()));
         credentials.put(users.get(0).getName(), users.get(0).getPassword());
     }
 
@@ -82,12 +93,12 @@ public class Company implements Randomizable {
         this.users = users;
     }
 
-    public int getUserIndex() {
-        return userIndex;
+    public int getUserIndexAssigner() {
+        return userIndexAssigner;
     }
 
-    public void setUserIndex(int userIDs) {
-        this.userIndex = userIDs;
+    public void setUserIndexAssigner(int userIDs) {
+        this.userIndexAssigner = userIDs;
     }
 
     public String getUserList() {
@@ -180,23 +191,23 @@ public class Company implements Randomizable {
     // User-related
     public boolean userExists(String userID) {
         var index = userIdToIndexMap.get(userID);
-        boolean exists = (index >= userIndex || index < userIndex) ? true : false;
+        boolean exists = (index >= userIndexAssigner || index < userIndexAssigner) ? true : false;
         return exists;
     }
 
     public void addUserToList() {
-        userList += users.get(userIndex).toString() + '\n';
+        userList += users.get(userIndexAssigner).toString() + '\n';
     }
 
     public boolean registerUser(String name, String id, String email, String password) {
         boolean done = false;
-        User newUser = new BaseUser(name, email, password, id, userIndex, Calendar.getInstance(), true,
+        User newUser = new BaseUser(name, email, password, id, Calendar.getInstance(), true,
                 new ArrayList<>(), "", 0, 0, 0);
         users.add(newUser);
         addUserToList();
         addCredentials(id, password);
-        addIDToMap(id, userIndex);
-        userIndex++;
+        addIDToMap(id, userIndexAssigner);
+        userIndexAssigner++;
         done = true;
         return done;
     }
@@ -224,8 +235,8 @@ public class Company implements Randomizable {
             return done;
         }
         var user = (BaseUser) getUserByID(userID);
-        user = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
-                user.getInternalID(), user.getInitDate(), false, user.getProductsOwned(), user.getProductsOwnedList(),
+        user = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), user.getID(), user.getInitDate(),
+                false, user.getProductsOwned(), user.getProductsOwnedList(),
                 user.getProductsOwnedCount(), user.getBoughtBooks(), user.getSubscribedMagazines(), nickname, avatar,
                 card,
                 Calendar.getInstance().get(Calendar.MONTH), new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
@@ -247,7 +258,7 @@ public class Company implements Randomizable {
         }
         var user = (BaseUser) getUserByID(userID);
         user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
-                user.getInternalID(), user.getInitDate(), false, user.getProductsOwned(), user.getProductsOwnedList(),
+                user.getInitDate(), false, user.getProductsOwned(), user.getProductsOwnedList(),
                 user.getProductsOwnedCount(), user.getBoughtBooks(), user.getSubscribedMagazines(),
                 nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH),
                 new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, interest, 0, blog);
@@ -269,11 +280,9 @@ public class Company implements Randomizable {
 
         PremiumUser user = (PremiumUser) getUserByID(userID);
         user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
-                user.getInternalID(), user.getInitDate(), user.hasAds(), user.getProductsOwned(),
-                user.getProductsOwnedList(),
+                user.getInitDate(), user.hasAds(), user.getProductsOwned(), user.getProductsOwnedList(),
                 user.getProductsOwnedCount(), user.getBoughtBooks(), user.getSubscribedMagazines(), user.getNickname(),
-                user.getAvatar(), user.getCard(),
-                user.getLastPaidMonth(), user.getPayments(), interest, 0, blog);
+                user.getAvatar(), user.getCard(), user.getLastMonthPaid(), user.getPayments(), interest, 0, blog);
         users.set(userIdToIndexMap.get(userID), user);
         if (user instanceof Reviewer) {
             done = true;

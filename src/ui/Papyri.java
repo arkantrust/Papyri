@@ -330,6 +330,15 @@ public class Papyri {
         int select = 0;
 
         while (run) {
+            // Delete from here
+            if (objPapyri.readX.getUsers().size() == 5) {
+                String info = "";
+                for (int i = 0; i < 5; i++) {
+                    info += objPapyri.readX.getUsers().get(i).toString();
+                }
+                System.out.println(info);
+            }
+            // To here
             System.out.println("1. Login as Admin");
             System.out.println("2. Login as User");
             System.out.println("0. Exit");
