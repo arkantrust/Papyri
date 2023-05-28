@@ -230,10 +230,18 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
                 library += " | " + getUserByID(userID).getLibrary().get(j);
+
+                if (j != 0 && j % 4 == 0) {
+                    library += "\n";
+                }
             }
         }
 
         return library;
+    }
+
+    public String displayLibrary(String userID, char move) {
+        return null;
     }
 
     // Product-related

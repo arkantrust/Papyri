@@ -285,6 +285,24 @@ public class Papyri {
 
     }
 
+    public void displayLibrary(String userID) {
+        var run = true;
+        while (run) {
+            try {
+                System.out.println(readX.getUserByID(userID).getName() + "'s library");
+                System.out.println(readX.displayLibrary(userID));
+                System.out.println("Next page: D");
+                System.out.println("Previous page: A");
+                System.out.println("Back: 0");
+                System.out.println("> ");
+                var move = Character.toUpperCase(in.nextLine().charAt(0));
+                System.out.println(readX.displayLibrary(userID, move));
+            } catch (Exception e) {
+                run = false;
+            }
+        }
+    }
+
     public void goToStore(String userID) {
         printBold("-----------------------------Store-----------------------------");
         boolean run = true;
@@ -343,9 +361,10 @@ public class Papyri {
             switch (select) {
                 case 0 -> run = false;
                 case 1 -> goToStore(id);
-                case 2 -> generateSurprise(id);
+                case 2 -> displayLibrary(id);
                 case 3 -> cancelMagazineSubscription(id);
-                case 4 -> goToSettings(id);
+                case 4 -> generateSurprise(id);
+                case 5 -> goToSettings(id);
                 // TODO: Settings
             }
         }
