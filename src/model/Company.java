@@ -13,18 +13,11 @@ public class Company implements Randomizable {
     private String address;
 
     /*
-     * When creating a user, it will be set into users ArrayList index
-     * userIndexAssigner
-     * which is the number of registered users but because Arrays start from index
-     * 0,
-     * userIndexAssigner is also the position a user is saved in the users ArrayList
-     * if
-     * it was added in the last position (userIndexAssigner holds the same value as
-     * users.size()).
-     * Then, userIndexAssigner is set into the userIdToIndexMap as value and the ID
-     * of the user as key,
-     * this with the purpose of accessing a user in the users ArrayList using its ID
-     * (e.g. 23695673)
+     * When creating a user, it will be added into users ArrayList last index
+     users.size(), as the first user is the admin.
+     * Then, users.size()-1 is set into the userIdToIndexMap as value and the ID
+     * of the user as key, this with the purpose of accessing a user in the 
+     * users ArrayList using its ID (e.g. 23695673)
      * without the need of using for-loops lowering time complexity, although using
      * more memory.
      */
