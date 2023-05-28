@@ -13,9 +13,11 @@ public class Company implements Randomizable {
     private String address;
 
     /*
-     * When creating a user, it will be set into users ArrayList at index users.size()
+     * When creating a user, it will be set into users ArrayList at index
+     * users.size()
      * as the first user is the admin.
-     * Then, users.size() before adding the user is set into the userIdToIndexMap as value and the ID
+     * Then, users.size() before adding the user is set into the userIdToIndexMap as
+     * value and the ID
      * of the user as key,
      * this with the purpose of accessing a user in the users ArrayList using its ID
      * (e.g. 23695673)
@@ -181,17 +183,17 @@ public class Company implements Randomizable {
     }
 
     public void addUserToList() {
-        userList += users.get(users.size()-1).toString() + '\n';
+        userList += users.get(users.size() - 1).toString() + '\n';
     }
 
     public boolean registerUser(String name, String id, String email, String password) {
         boolean done = false;
         User newUser = new BaseUser(name, email, password, id, Calendar.getInstance(), true,
-                new ArrayList<>(), "", 0, 0, 0);
+                new ArrayList<>(), 0, 0);
         users.add(newUser);
         addUserToList();
         addCredentials(id, password);
-        addIDToMap(id, users.size()-1);
+        addIDToMap(id, users.size() - 1);
         done = true;
         return done;
     }
@@ -204,8 +206,7 @@ public class Company implements Randomizable {
         }
         var user = (BaseUser) getUserByID(userID);
         user = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), user.getID(), user.getInitDate(),
-                false, user.getProductsOwned(), user.getProductsOwnedList(),
-                user.getProductsOwnedCount(), user.getBoughtBooks(), user.getSubscribedMagazines(), nickname, avatar,
+                false, user.getLibrary(), user.getBoughtBooks(), user.getSubscribedMagazines(), nickname, avatar,
                 card,
                 Calendar.getInstance().get(Calendar.MONTH), new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
         users.set(userIdToIndexMap.get(userID), user);
@@ -226,8 +227,7 @@ public class Company implements Randomizable {
         }
         var user = (BaseUser) getUserByID(userID);
         user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
-                user.getInitDate(), false, user.getProductsOwned(), user.getProductsOwnedList(),
-                user.getProductsOwnedCount(), user.getBoughtBooks(), user.getSubscribedMagazines(),
+                user.getInitDate(), false, user.getLibrary(), user.getBoughtBooks(), user.getSubscribedMagazines(),
                 nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH),
                 new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, interest, 0, blog);
         users.set(userIdToIndexMap.get(userID), user);
@@ -248,8 +248,7 @@ public class Company implements Randomizable {
 
         PremiumUser user = (PremiumUser) getUserByID(userID);
         user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
-                user.getInitDate(), user.hasAds(), user.getProductsOwned(), user.getProductsOwnedList(),
-                user.getProductsOwnedCount(), user.getBoughtBooks(), user.getSubscribedMagazines(), user.getNickname(),
+                user.getInitDate(), user.hasAds(), user.getLibrary(), user.getBoughtBooks(), user.getSubscribedMagazines(), user.getNickname(),
                 user.getAvatar(), user.getCard(), user.getLastMonthPaid(), user.getPayments(), interest, 0, blog);
         users.set(userIdToIndexMap.get(userID), user);
         if (user instanceof Reviewer) {
@@ -343,7 +342,7 @@ public class Company implements Randomizable {
         boolean done = false;
         Product product = products.get(productID);
         var user = (BaseUser) getUserByID(userID);
-        user.addProduct(product);
+        user.getLibrary().add(product);
 
         if (user.productsOwned.get(user.getProductsOwnedCount() - 1).equals(product)) {
             done = true;
