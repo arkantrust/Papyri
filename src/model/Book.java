@@ -9,10 +9,10 @@ public class Book extends BibliographicProduct {
     private int readPages;
 
     public Book(String id, String name, Calendar publicationDate, int pages, String coverURL, double price,
-            String review, BookGenre genre, int copiesSold, int readPages) {
+            String review, int genre, int copiesSold, int readPages) {
         super(id, name, publicationDate, pages, coverURL, price);
         this.review = review;
-        this.genre = genre;
+        this.genre = BookGenre.get(genre);
         this.copiesSold = copiesSold;
         this.readPages = readPages;
     }
@@ -58,5 +58,10 @@ public class Book extends BibliographicProduct {
         info += "Copies Sold: " + copiesSold + "\n";
         info += "Read Pages: " + readPages + "\n";
         return info;
+    }
+
+    @Override
+    public void incrementCount() {
+        copiesSold++;
     }
 }

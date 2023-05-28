@@ -8,10 +8,10 @@ public class Magazine extends BibliographicProduct {
     private int subs;
 
     public Magazine(String id, String name, Calendar publicationDate, int pages, String coverURL,
-            double cost, MagazineCategory category, IssuanceFrequency freq, int subs) {
+            double cost, int category, int freq, int subs) {
         super(id, name, publicationDate, pages, coverURL, cost);
-        this.category = category;
-        this.freq = freq;
+        this.category = MagazineCategory.get(category);
+        this.freq = IssuanceFrequency.get(freq);
         this.subs = subs;
     }
 
@@ -47,5 +47,10 @@ public class Magazine extends BibliographicProduct {
         info += "Issuance Frequency: " + freq.getName() + "\n";
         info += "Subscriptions: " + subs + "\n";
         return info;
+    }
+
+    @Override
+    public void incrementCount() {
+        subs++;
     }
 }

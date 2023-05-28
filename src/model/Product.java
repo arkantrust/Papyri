@@ -2,7 +2,7 @@ package model;
 
 import java.util.Calendar;
 
-public abstract class Product {
+public abstract class Product implements DateManipulator {
     protected String id;
     protected String name;
     protected Calendar publicationDate;
@@ -50,10 +50,12 @@ public abstract class Product {
     @Override
     public String toString() {
         String info = "";
-        info += "ID: " + id + "\n";
+        info += ("ID: ") + id + "\n";
         info += "Name: " + name + "\n";
-        info += "Publication date: " + DateProcessing.dateToString(publicationDate) + "\n";
+        info += "Publication date: " + dateToString(publicationDate) + "\n";
         info += "Price: $" + price + "\n";
         return info;
     }
+
+    public abstract void incrementCount();
 }

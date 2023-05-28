@@ -13,7 +13,7 @@ public class BaseUser extends User implements Watchable, Surprisable {
 
     public BaseUser(String name, String email, String password, String id, Calendar initDate,
             boolean ads, ArrayList<String> library, int boughtBooks, int subscribedMagazines) {
-                
+
         super(name, email, password, id, initDate);
         this.ads = ads;
         this.library = library;
@@ -54,6 +54,14 @@ public class BaseUser extends User implements Watchable, Surprisable {
     }
 
     @Override
+    public String toString() {
+        String toString = super.toString();
+        toString += toBold("Books: ") + boughtBooks + "\n";
+        toString += toBold("Magazines: ") + subscribedMagazines + "\n";
+        return toString;
+    }
+
+    @Override
     public void watchAds() {
         // Should show an ad everytime a reading session starts
     }
@@ -67,5 +75,10 @@ public class BaseUser extends User implements Watchable, Surprisable {
             message += "Sorry, you didn't get a surprise.";
         }
         return message;
+    }
+
+    @Override
+    public void addToLibrary(String productID) {
+        library.add(productID);
     }
 }

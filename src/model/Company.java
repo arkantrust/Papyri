@@ -3,57 +3,42 @@ package model;
 import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.ThreadLocalRandom;
 
-public class Company implements Randomizable {
+public class Company implements Randomizable, Emboldenable, DateManipulator {
 
     // attributes
     private String name;
-    private String nit;
-    private String address;
 
-    /*
-     * When creating a user, it will be set into users ArrayList at index
-     * users.size()
-     * as the first user is the admin.
-     * Then, users.size() before adding the user is set into the userIdToIndexMap as
-     * value and the ID
-     * of the user as key,
-     * this with the purpose of accessing a user in the users ArrayList using its ID
-     * (e.g. 23695673)
-     * without the need of using for-loops lowering time complexity, although using
-     * more memory.
-     */
     private ArrayList<User> users;
     private String userList;
 
-    // As this is a single-threaded program, Hashmap (Not syncronized) will perform
-    // faster than HashTable(Syncronized)
     private HashMap<String, String> credentials; // Saves all login information for verification
     private HashMap<String, Integer> userIdToIndexMap; // Relates a user's ID to its position in the ArrayList
     private ArrayList<Receipt> receipts;
 
     // constants
-    public static final double PREMIUM = 5; // premium membership price in USD
+    public static final double MEMBERSHIP = 5; // premium membership price in USD
+    public static final double MAX_BOOKS = 5; // Max books a base user can buy
+    public static final double MAX_MAGAZINES = 2; // Max magazines a base user can be subscribed to
 
     private HashMap<String, Product> products;
     private String productsList;
 
     // constructor
-    public Company(String name, String nit, String address) {
+    public Company(String name) {
         this.name = name;
-        this.nit = nit;
-        this.address = address;
         users = new ArrayList<>();
         userList = "";
         credentials = new HashMap<>();
         credentials = new HashMap<>();
         productsList = "";
         products = new HashMap<>();
+        userIdToIndexMap = new HashMap<>();
+        receipts = new ArrayList<>();
+
         users.add(new Admin("admin", "admin@papyri.com", "devtest",
                 "ADMIN", Calendar.getInstance()));
         credentials.put(users.get(0).getName(), users.get(0).getPassword());
-        receipts = new ArrayList<>();
     }
 
     // getters & setters
@@ -63,22 +48,6 @@ public class Company implements Randomizable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getNit() {
-        return nit;
-    }
-
-    public void setNit(String nit) {
-        this.nit = nit;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public ArrayList<User> getUsers() {
@@ -129,10 +98,6 @@ public class Company implements Randomizable {
         this.userIdToIndexMap = userIdToPositionMap;
     }
 
-    public static double getPremium() {
-        return PREMIUM;
-    }
-
     public ArrayList<Receipt> getReceipts() {
         return receipts;
     }
@@ -158,30 +123,15 @@ public class Company implements Randomizable {
         return confirmation;
     }
 
-    @Override
-    public int randInt(int min, int max) {
-        return ThreadLocalRandom.current().nextInt(min, max);
-    }
-
-    public void addCredentials(String id, String password) {
-        credentials.put(id, password);
-    }
-
-    public void addIDToMap(String id, int position) {
-        userIdToIndexMap.put(id, Integer.valueOf(position));
-    }
-
     public User getUserByID(String id) {
-        int position = userIdToIndexMap.get(id);
-        return users.get(position);
+        return users.get(userIdToIndexMap.get(id));
     }
 
     public boolean login(String id, String password) {
-        boolean login = false;
-        if (credentials.get(id).equals(password)) {
-            login = true;
+        if (credentials.containsKey(id) && credentials.get(id).equals(password)) {
+            return true;
         }
-        return login;
+        return false;
     }
 
     // User-related
@@ -192,20 +142,14 @@ public class Company implements Randomizable {
         return exists;
     }
 
-    public void addUserToList() {
-        userList += users.get(users.size() - 1).toString() + '\n';
-    }
-
     public boolean registerUser(String name, String id, String email, String password) {
-        boolean done = false;
         User newUser = new BaseUser(name, email, password, id, Calendar.getInstance(), true,
                 new ArrayList<>(), 0, 0);
         users.add(newUser);
-        addUserToList();
-        addCredentials(id, password);
-        addIDToMap(id, users.size() - 1);
-        done = true;
-        return done;
+        credentials.put(id, password);
+        userList += users.get(users.size() - 1).toString() + '\n';
+        userIdToIndexMap.put(id, Integer.valueOf(users.size() - 1));
+        return true;
     }
 
     // Base to Premium
@@ -222,7 +166,9 @@ public class Company implements Randomizable {
         users.set(userIdToIndexMap.get(userID), user);
         if (user instanceof PremiumUser) {
             PremiumUser newPremiumUser = (PremiumUser) getUserByID(userID);
-            newPremiumUser.generatePayment(PREMIUM);
+            newPremiumUser.generatePayment(MEMBERSHIP);
+            // Generate receipt
+            receipts.add(new Receipt("Premium Membership", user, Calendar.getInstance(), MEMBERSHIP));
             done = true;
         }
         return done;
@@ -243,7 +189,7 @@ public class Company implements Randomizable {
         users.set(userIdToIndexMap.get(userID), user);
         if (user instanceof Reviewer) {
             Reviewer newReviewer = (Reviewer) getUserByID(userID);
-            newReviewer.generatePayment(PREMIUM);
+            newReviewer.generatePayment(MEMBERSHIP);
             done = true;
         }
         return done;
@@ -258,8 +204,10 @@ public class Company implements Randomizable {
 
         PremiumUser user = (PremiumUser) getUserByID(userID);
         user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
-                user.getInitDate(), user.hasAds(), user.getLibrary(), user.getBoughtBooks(), user.getSubscribedMagazines(), user.getNickname(),
-                user.getAvatar(), user.getCard(), user.getLastMonthPaid(), user.getPayments(), interest, 0, blog);
+                user.getInitDate(), user.hasAds(), user.getLibrary(), user.getBoughtBooks(),
+                user.getSubscribedMagazines(), user.getNickname(),
+                user.getAvatar(), user.getCard(), user.getLastMonthPaid().getValue(), user.getPayments(), interest, 0,
+                blog);
         users.set(userIdToIndexMap.get(userID), user);
         if (user instanceof Reviewer) {
             done = true;
@@ -286,24 +234,16 @@ public class Company implements Randomizable {
     }
 
     public void addProductToList(String id) {
-        productsList += products.get(id).toString() + '\n';
-    }
-
-    private BookGenre getBookGenre(int intGenre) {
-        return switch (intGenre) {
-            case 1 -> BookGenre.SCIENCE_FICTION;
-            case 2 -> BookGenre.FANTASY;
-            case 3 -> BookGenre.HISTORICAL_NOVEL;
-            default -> null;
-        };
+        productsList += "- " + products.get(id).getName() + " | ";
+        productsList += products.get(id).getId() + " | ";
+        productsList += products.get(id).getPrice() + "\n";
     }
 
     public boolean registerBook(String name, Calendar publicationDate, int pages, String cover, double price,
             String review, int genre) {
         boolean done = false;
         String id = generateCode("ABCDEF1234567890");
-        Product newBook = new Book(id, name, publicationDate, pages, cover, price, review, getBookGenre(genre),
-                0, 0);
+        Product newBook = new Book(id, name, publicationDate, pages, cover, price, review, genre, 0, 0);
         products.put(id, newBook);
         if (products.get(id) instanceof Book) {
             done = true;
@@ -312,32 +252,11 @@ public class Company implements Randomizable {
         return done;
     }
 
-    private IssuanceFrequency getIssuanceFrequency(int intFreq) {
-        return switch (intFreq) {
-            case 1 -> IssuanceFrequency.YEARLY;
-            case 2 -> IssuanceFrequency.MONTHLY;
-            case 3 -> IssuanceFrequency.WEEKLY;
-            case 4 -> IssuanceFrequency.DAILY;
-            default -> null;
-        };
-    }
-
-    private MagazineCategory getMagazineCategory(int intCategory) {
-        return switch (intCategory) {
-            case 1 -> MagazineCategory.MISCELLANY;
-            case 2 -> MagazineCategory.DESIGN;
-            case 3 -> MagazineCategory.SCIENTIFIC;
-            default -> null;
-        };
-    }
-
     public boolean registerMagazine(String name, Calendar publicationDate, int pages, String cover, double price,
             int category, int freq) {
         boolean done = false;
         String id = generateCode("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-        Product newMagazine = new Magazine(id, name, publicationDate, pages, cover, price,
-                getMagazineCategory(category),
-                getIssuanceFrequency(freq), 0);
+        Product newMagazine = new Magazine(id, name, publicationDate, pages, cover, price, category, freq, 0);
         products.put(id, newMagazine);
         if (products.get(id) instanceof Magazine) {
             done = true;
@@ -348,17 +267,75 @@ public class Company implements Randomizable {
 
     // Business-related
 
-    public boolean buyProduct(String userID, String productID) {
-        boolean done = false;
-        Product product = products.get(productID);
-        var user = (BaseUser) getUserByID(userID);
-        user.getLibrary().add(product);
+    public void deployTest() {
+        registerUser("Arkantrust", "1", "arkantrust@papyri.com", "test");
+        registerUser("John Doe", "2", "john.doe@papyri.com", "test");
+        registerUser("Jane Doe", "3", "jane.doe@papyri.com", "test");
+        // premium
+        upgradeUser("1", "Arkan", "avatar1", "1234 5678 9101 1121");
+        // reviewer
+        upgradeUser("1", "Doeman", "avatar2", "1234 5678 9876", "Engineering",
+                "https://www.social-engineer.org/blog/");
 
-        if (user.productsOwned.get(user.getProductsOwnedCount() - 1).equals(product)) {
-            done = true;
-        } else {
-            done = false;
+        var bookReview = """
+                Focuses on combining the science of understanding non-verbal communications
+                with the knowledge of how social engineers, scam artists and con men use
+                these skills to build feelings of trust and rapport in their targets.
+                """;
+        registerBook("Unmasking the Social Engineer: The Human Element of Security",
+                stringToDate("17-2-2014"), 256,
+                "https://m.media-amazon.com/images/I/51qbyOU3cEL._SX331_BO1,204,203,200_.jpg", 25.99,
+                bookReview, 4);
+
+        registerMagazine("IEEE Communications Magazine", stringToDate("2014-2-1979"),
+                50, "https://www.ieee.org/ibp/product/images/MEMCOM019_ftrd.gif?ver=1", 0.50, 3, 2);
+    }
+
+    public boolean buyProduct(String userID, String productID) {
+        User user = getUserByID(userID);
+        Product product = products.get(productID);
+
+        // Check if the user and product exist
+        if (user == null || product == null) {
+            throw new IllegalArgumentException("User or product not found.");
         }
-        return done;
+
+        // Check if the user has already bought the maximum number of
+        // books or magazines (if user is a BaseUser)
+        if (user instanceof BaseUser) {
+            BaseUser baseUser = (BaseUser) user;
+            if (product instanceof Book && baseUser.getBoughtBooks() >= MAX_BOOKS) {
+                return false;
+            } else if (product instanceof Magazine && baseUser.getSubscribedMagazines() >= MAX_MAGAZINES) {
+                return false;
+            }
+        }
+
+        // Generate receipt
+        receipts.add(new Receipt(product.getName(), user, Calendar.getInstance(), product.getPrice()));
+
+        user.addToLibrary(productID);
+        product.incrementCount();
+        return true;
+    }
+
+    public String getLastReceipt() {
+        return receipts.get(receipts.size() - 1).toString();
+    }
+
+    public String getSubscribedMagazines(String userID) {
+        String magazine = "";
+        return magazine;
+    }
+
+    public boolean cancelMagazineSubscription(String userID, String productID) {
+        User user = getUserByID(userID);
+        Product product = products.get(productID);
+
+        if (user == null || product == null) {
+            throw new IllegalArgumentException("User or product not found.");
+        }
+
+        return true;
     }
 }

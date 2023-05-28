@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Calendar;
+import java.time.Month;
 import java.util.ArrayList;
 
 public class PremiumUser extends BaseUser implements Payable {
@@ -9,19 +10,19 @@ public class PremiumUser extends BaseUser implements Payable {
     private String nickname;
     private String avatar;
     private String card;
-    private int lastMonthPaid;
+    private Month lastMonthPaid;
     private double[] payments;
 
     // methods
     public PremiumUser(String name, String email, String password, String id, Calendar initDate, boolean ads,
             ArrayList<String> library, int boughtBooks, int subscribedMagazines, String nickname,
-            String avatar, String card, int lastPaidMonth, double[] payments) {
+            String avatar, String card, int lastMonthPaid, double[] payments) {
 
         super(name, email, password, id, initDate, ads, library, boughtBooks, subscribedMagazines);
         this.nickname = nickname;
         this.avatar = avatar;
         this.card = card;
-        this.lastMonthPaid = lastPaidMonth;
+        this.lastMonthPaid = Month.of(lastMonthPaid);
         this.payments = payments; // 12 months in a year
     }
 
@@ -49,12 +50,12 @@ public class PremiumUser extends BaseUser implements Payable {
         this.card = card;
     }
 
-    public int getLastMonthPaid() {
+    public Month getLastMonthPaid() {
         return lastMonthPaid;
     }
 
-    public void setLastMonthPaid(int lastPaidMonth) {
-        this.lastMonthPaid = lastPaidMonth;
+    public void setLastMonthPaid(Month lastMonthPaid) {
+        this.lastMonthPaid = lastMonthPaid;
     }
 
     public double[] getPayments() {
@@ -63,6 +64,15 @@ public class PremiumUser extends BaseUser implements Payable {
 
     public void setPayments(double[] payments) {
         this.payments = payments;
+    }
+
+    @Override
+    public String toString() {
+        String toString = super.toString();
+        toString += "Nickname: " + nickname + "\n";
+        toString += "Avatar: " + avatar + "\n";
+        toString += "Last Payment: " + lastMonthPaid.toString() + "\n";
+        return toString;
     }
 
     @Override
@@ -78,7 +88,7 @@ public class PremiumUser extends BaseUser implements Payable {
         boolean isDefaulter;
         // TODO: replace month by Calendar.getInstance().get(Calendar.MONTH) in the
         // controller class
-        isDefaulter = (lastMonthPaid == month) ? true : false;
+        isDefaulter = (lastMonthPaid.getValue() == month) ? true : false;
         return isDefaulter;
     }
 
@@ -91,5 +101,10 @@ public class PremiumUser extends BaseUser implements Payable {
             message += "Sorry, you didn't get a surprise.";
         }
         return message;
+    }
+
+    @Override
+    public void addToLibrary(String productID) {
+        super.addToLibrary(productID);
     }
 }
