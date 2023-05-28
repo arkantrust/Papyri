@@ -9,12 +9,10 @@ public class Reviewer extends PremiumUser {
     private String blog;
 
     public Reviewer(String name, String email, String password, String id, Calendar initDate, boolean ads,
-            ArrayList<Product> productsOwned, String productsOwnedList, int productsOwnedCount, int boughtBooks,
-            int subscribedMagazines, String nickname, String avatar, String card, int lastPaidMonth,
-            double[] payments, String interest, int reviewCount, String blog) {
-
-        super(name, email, password, id, initDate, ads, productsOwned, productsOwnedList, productsOwnedCount,
-                boughtBooks, subscribedMagazines, nickname, avatar, card, lastPaidMonth, payments);
+            ArrayList<String> library, int boughtBooks, int subscribedMagazines, String nickname, String avatar,
+            String card, int lastPaidMonth, double[] payments, String interest, int reviewCount, String blog) {
+        super(name, email, password, id, initDate, ads, library, boughtBooks, subscribedMagazines, nickname, avatar,
+                card, lastPaidMonth, payments);
         this.interest = interest;
         this.reviewCount = reviewCount;
         this.blog = blog;

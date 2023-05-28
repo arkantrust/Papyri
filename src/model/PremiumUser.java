@@ -14,12 +14,10 @@ public class PremiumUser extends BaseUser implements Payable {
 
     // methods
     public PremiumUser(String name, String email, String password, String id, Calendar initDate, boolean ads,
-            ArrayList<Product> productsOwned, String productsOwnedList, int productsOwnedCount, int boughtBooks,
-            int subscribedMagazines, String nickname, String avatar, String card, int lastPaidMonth,
-            double[] payments) {
+            ArrayList<String> library, int boughtBooks, int subscribedMagazines, String nickname,
+            String avatar, String card, int lastPaidMonth, double[] payments) {
 
-        super(name, email, password, id, initDate, ads, productsOwned, productsOwnedList,
-                productsOwnedCount, boughtBooks, subscribedMagazines);
+        super(name, email, password, id, initDate, ads, library, boughtBooks, subscribedMagazines);
         this.nickname = nickname;
         this.avatar = avatar;
         this.card = card;
