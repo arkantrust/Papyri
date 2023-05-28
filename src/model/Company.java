@@ -13,15 +13,9 @@ public class Company implements Randomizable {
     private String address;
 
     /*
-     * When creating a user, it will be set into users ArrayList index
-     * userIndexAssigner
-     * which is the number of registered users but because Arrays start from index
-     * 0,
-     * userIndexAssigner is also the position a user is saved in the users ArrayList
-     * if
-     * it was added in the last position (userIndexAssigner holds the same value as
-     * users.size()).
-     * Then, userIndexAssigner is set into the userIdToIndexMap as value and the ID
+     * When creating a user, it will be set into users ArrayList at index users.size()
+     * as the first user is the admin.
+     * Then, users.size() before adding the user is set into the userIdToIndexMap as value and the ID
      * of the user as key,
      * this with the purpose of accessing a user in the users ArrayList using its ID
      * (e.g. 23695673)
@@ -29,7 +23,6 @@ public class Company implements Randomizable {
      * more memory.
      */
     private ArrayList<User> users;
-    private int userIndexAssigner; // The position a user will have in the ArrayList
     private String userList;
 
     // As this is a single-threaded program, Hashmap (Not syncronized) will perform
@@ -49,7 +42,6 @@ public class Company implements Randomizable {
         this.nit = nit;
         this.address = address;
         users = new ArrayList<>();
-        userIndexAssigner = 1;
         userList = "";
         credentials = new HashMap<>();
         credentials = new HashMap<>();
@@ -91,14 +83,6 @@ public class Company implements Randomizable {
 
     public void setUsers(ArrayList<User> users) {
         this.users = users;
-    }
-
-    public int getUserIndexAssigner() {
-        return userIndexAssigner;
-    }
-
-    public void setUserIndexAssigner(int userIDs) {
-        this.userIndexAssigner = userIDs;
     }
 
     public String getUserList() {
@@ -191,12 +175,13 @@ public class Company implements Randomizable {
     // User-related
     public boolean userExists(String userID) {
         var index = userIdToIndexMap.get(userID);
-        boolean exists = (index >= userIndexAssigner || index < userIndexAssigner) ? true : false;
+var usersLen = users.size();
+        boolean exists = (index >= usersLen || index < usersLen) ? true : false;
         return exists;
     }
 
     public void addUserToList() {
-        userList += users.get(userIndexAssigner).toString() + '\n';
+        userList += users.get(users.size()-1).toString() + '\n';
     }
 
     public boolean registerUser(String name, String id, String email, String password) {
@@ -206,8 +191,7 @@ public class Company implements Randomizable {
         users.add(newUser);
         addUserToList();
         addCredentials(id, password);
-        addIDToMap(id, userIndexAssigner);
-        userIndexAssigner++;
+        addIDToMap(id, users.size()-1);
         done = true;
         return done;
     }
