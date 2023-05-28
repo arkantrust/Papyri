@@ -84,11 +84,10 @@ public class PremiumUser extends BaseUser implements Payable {
     }
 
     @Override
-    public boolean isDefaulter(int month) {
+    public boolean isDefaulter() {
         boolean isDefaulter;
-        // TODO: replace month by Calendar.getInstance().get(Calendar.MONTH) in the
-        // controller class
-        isDefaulter = (lastMonthPaid.getValue() == month) ? true : false;
+        
+        isDefaulter = (lastMonthPaid.getValue() == Calendar.getInstance().get(Calendar.MONTH)) ? false : true;
         return isDefaulter;
     }
 
