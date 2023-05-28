@@ -224,28 +224,54 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
     }
 
     public String displayLibrary(String userID) {
-        String library = "";
-
-        // Fill the library
+        StringBuilder libraryBuilder = new StringBuilder();
+        var codes = getUserByID(userID).getLibrary();
+    
+        if (codes.size() == 0) {
+            return "Looks quite empty here.\nBuy books or subscribe to magazines in the store";
+        }
+    
+        int index = 0;
+        int maxLength = getMaxCodeLength(codes); // Helper method to calculate maximum code length
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                library += " | " + getUserByID(userID).getLibrary().get(j);
-
-                if (j != 0 && j % 4 == 0) {
-                    library += "\n";
+                if (index < codes.size()) {
+                    String code = codes.get(index);
+                    String paddedCode = padString(code, maxLength);
+                    libraryBuilder.append("| ").append(paddedCode).append(" ");
+                } else {
+                    libraryBuilder.append("| ---- ");
                 }
+                index++;
             }
+            libraryBuilder.append("|\n");
         }
-
-        return library;
+    
+        return libraryBuilder.toString();
     }
-
-    public String displayLibrary(String userID, char move) {
-        return null;
+    
+    private int getMaxCodeLength(ArrayList<String> codes) {
+        int maxLength = 0;
+        for (String code : codes) {
+            maxLength = Math.max(maxLength, code.length());
+        }
+        return maxLength;
+    }
+    
+    private String padString(String str, int length) {
+        int padding = length - str.length();
+        StringBuilder paddedString = new StringBuilder();
+        for (int i = 0; i < padding / 2; i++) {
+            paddedString.append(" ");
+        }
+        paddedString.append(str);
+        for (int i = 0; i < (padding + 1) / 2; i++) {
+            paddedString.append(" ");
+        }
+        return paddedString.toString();
     }
 
     // Product-related
-
     public String generateCode(String symbols) {
         String code = "";
         for (int i = 0; i < 3; i++) {
@@ -280,13 +306,17 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         Product newMagazine = new Magazine(id, name, publicationDate, pages, cover, price, category, freq, 0);
         products.put(id, newMagazine);
         if (products.get(id) instanceof Magazine) {
+            addProductToList(id);
             done = true;
         }
-        addProductToList(id);
         return done;
     }
 
     // Business-related
+
+    public Calendar randDate() {
+        return stringToDate(String.valueOf(randInt(1, 29) + "-" + randInt(1, 12) + "-" + randInt(1950, 2023)));
+    }
 
     public void deployTest() {
         registerUser("Arkantrust", "1", "arkantrust@papyri.com", "test");
@@ -298,18 +328,32 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         upgradeUser("1", "Doeman", "avatar2", "1234 5678 9876", "Engineering",
                 "https://www.social-engineer.org/blog/");
 
-        var bookReview = """
-                Focuses on combining the science of understanding non-verbal communications
-                with the knowledge of how social engineers, scam artists and con men use
-                these skills to build feelings of trust and rapport in their targets.
-                """;
+        String lorem = "Lorem ipsum dolor sit amet.";
         registerBook("Unmasking the Social Engineer: The Human Element of Security",
-                stringToDate("17-2-2014"), 256,
-                "https://m.media-amazon.com/images/I/51qbyOU3cEL._SX331_BO1,204,203,200_.jpg", 25.99,
-                bookReview, 4);
+                stringToDate("17-2-2014"), 256, lorem, 25.99, lorem, 4);
+        registerBook("The great barbarian", randDate(), randInt(1, 1000), lorem, randInt(1, 100), lorem, 2);
+        registerBook("Python: coding vibes", randDate(), randInt(1, 1000), lorem, randInt(1, 100), lorem, 4);
+        registerBook("The Telematic Advantage: Unveiling Elite Programmers", randDate(), randInt(1, 1000), lorem,
+                randInt(1, 100),
+                "The best book you'll find in the market", 4);
+        registerBook("Syntax Wars: Language's Last Stand", randDate(), randInt(1, 1000), lorem, randInt(1, 100), lorem,
+                1);
+        registerBook("Byte-sized Banter: The Compiler Capers", randDate(), randInt(1, 1000), lorem, randInt(1, 100),
+                lorem, 3);
+        registerBook("Binary Bonds: Love Among Microchips", randDate(), randInt(1, 1000), lorem, randInt(1, 100), lorem,
+                2);
+        registerMagazine("Curious Chronicles", randDate(), randInt(1, 50), lorem, randInt(1, 40), 1, 4);
+        registerMagazine("Artistic Visions", randDate(), randInt(1, 50), lorem, randInt(1, 40), 2, 3);
+        registerMagazine("The Science Spectrum", randDate(), randInt(1, 50), lorem, randInt(1, 40), 3, 3);
+        registerMagazine("Urban Chic", randDate(), randInt(1, 50), lorem, randInt(1, 40), 4, 3);
+        registerMagazine("IEEE Communications Magazine", stringToDate("2014-2-1979"), 50, lorem, 38.99, 5, 2);
+        registerMagazine("Profit Pulse", randDate(), randInt(1, 50), lorem, randInt(1, 40), 6, 3);
+    }
 
-        registerMagazine("IEEE Communications Magazine", stringToDate("2014-2-1979"),
-                50, "https://www.ieee.org/ibp/product/images/MEMCOM019_ftrd.gif?ver=1", 0.50, 3, 2);
+    public void buyAllProducts(String userID) {
+        for (String code : products.keySet()) {
+            buyProduct(userID, code);
+        }
     }
 
     public boolean buyProduct(String userID, String productID) {
@@ -319,6 +363,12 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         // Check if the user and product exist
         if (user == null || product == null) {
             throw new IllegalArgumentException("User or product not found.");
+        }
+
+        for (String code : user.getLibrary()) {
+            if (product.getId().equals(code)) {
+                return false;
+            }
         }
 
         // Check if the user has already bought the maximum number of

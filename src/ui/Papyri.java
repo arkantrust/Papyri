@@ -51,7 +51,7 @@ public class Papyri {
         if (readX.registerUser(name, id, email, password)) {
             System.out.println("User registered succesfully!");
         } else {
-            System.out.println("Something went wrong. Try again later.");
+            System.out.println("Something went wrong. Try again.");
         }
         System.out.println();
         System.out.println(readX.getUserByID(id).toString());
@@ -95,7 +95,7 @@ public class Papyri {
             System.out.println(readX.getUserByID(id).getName() + " is now a premium user.");
             System.out.println(readX.getLastReceipt());
         } else {
-            System.out.println("Something went wrong. Try again later.");
+            System.out.println("Something went wrong. Try again.");
         }
     }
 
@@ -121,7 +121,7 @@ public class Papyri {
         if (readX.upgradeUser(id, nickname, avatar, card, interest, blog)) {
             System.out.println(readX.getUserByID(id).getName() + " is now a reviewer.");
         } else {
-            System.out.println("Something went wrong. Try again later.");
+            System.out.println("Something went wrong. Try again.");
         }
     }
 
@@ -141,7 +141,7 @@ public class Papyri {
         if (readX.upgradeUser(id, interest, blog)) {
             System.out.println(readX.getUserByID(id).getName() + " is now a reviewer.");
         } else {
-            System.out.println("Something went wrong. Try again later.");
+            System.out.println("Something went wrong. Try again.");
         }
     }
 
@@ -194,7 +194,7 @@ public class Papyri {
         if (readX.registerBook(name, publicationDate, pages, coverURL, price, review, genre)) {
             System.out.println("Book registered succesfully!");
         } else {
-            System.out.println("Something went wrong. Try again later.");
+            System.out.println("Something went wrong. Try again.");
         }
     }
 
@@ -224,7 +224,7 @@ public class Papyri {
         if (readX.registerMagazine(name, publicationDate, pages, coverURL, price, category, freq)) {
             System.out.println("Magazine registered succesfully!");
         } else {
-            System.out.println("Something went wrong. Try again later.");
+            System.out.println("Something went wrong. Try again.");
         }
     }
 
@@ -289,16 +289,18 @@ public class Papyri {
         var run = true;
         while (run) {
             try {
-                System.out.println(readX.getUserByID(userID).getName() + "'s library");
+                printBold(readX.getUserByID(userID).getName() + "'s library");
                 System.out.println(readX.displayLibrary(userID));
                 System.out.println("Next page: D");
                 System.out.println("Previous page: A");
                 System.out.println("Back: 0");
-                System.out.println("> ");
-                var move = Character.toUpperCase(in.nextLine().charAt(0));
-                System.out.println(readX.displayLibrary(userID, move));
+                System.out.print("> ");
+                var move = in.nextLine();
+                if (Integer.valueOf(move) == 0) {
+                    run = false;
+                }
             } catch (Exception e) {
-                run = false;
+                System.out.println("Something went wrong. Try again.");
             }
         }
     }
@@ -306,31 +308,37 @@ public class Papyri {
     public void goToStore(String userID) {
         printBold("-----------------------------Store-----------------------------");
         boolean run = true;
+        String productID = "";
         while (run) {
-            System.out.println(readX.getProductsList());
+            System.out.print(readX.getProductsList());
+            System.out.println("0. Exit");
             System.out.print("Enter product ID: ");
             try {
-                String productID = in.nextLine();
+                productID = in.nextLine();
 
-                // Confirming purchase
-                System.out.print("Are you sure you want to buy " + readX.getProducts().get(productID).getName()
-                        + " for $" + readX.getProducts().get(productID).getPrice() + "? Y/N ");
-                char confirmation = in.nextLine().charAt(0);
-                if (!readX.confirmOperation(confirmation)) {
-                    System.out.println();
-                    // early return exits (cancels) the method so the user is not upgraded
-                    return;
-                }
-
-                if (readX.buyProduct(userID, productID)) {
-                    System.out.println(
-                            "Congratulations on your purchase! You can view your bought products in your library.");
-                    System.out.println(readX.getLastReceipt());
-                } else {
-                    System.out.println("Something went wrong. Try again later.");
+                if (Integer.valueOf(productID) == 0) {
+                    break;
                 }
             } catch (Exception e) {
-                run = false;
+                System.out.println("Something went wrong. Try again.");
+            }
+
+            // Confirming purchase
+            System.out.print("Are you sure you want to buy " + readX.getProducts().get(productID).getName()
+                    + " for $" + readX.getProducts().get(productID).getPrice() + "? Y/N ");
+            char confirmation = in.nextLine().charAt(0);
+            if (!readX.confirmOperation(confirmation)) {
+                System.out.println();
+                // early return exits (cancels) the method so the user is not upgraded
+                return;
+            }
+
+            if (readX.buyProduct(userID, productID)) {
+                System.out.println(
+                        "Congratulations on your purchase! You can view your bought products in your library.");
+                System.out.println(readX.getLastReceipt());
+            } else {
+                System.out.println("Something went wrong. Try again later.");
             }
         }
     }
@@ -355,6 +363,7 @@ public class Papyri {
             System.out.println("3. Cancel Magazine subscription");
             System.out.println("4. Generate surprise");
             System.out.println("5. Settings");
+            System.out.println("6. Buy All Products");
             System.out.println("0. Log out");
             System.out.print("> ");
             select = Integer.valueOf(in.nextLine());
@@ -365,6 +374,7 @@ public class Papyri {
                 case 3 -> cancelMagazineSubscription(id);
                 case 4 -> generateSurprise(id);
                 case 5 -> goToSettings(id);
+                case 6 -> readX.buyAllProducts(id);
                 // TODO: Settings
             }
         }
