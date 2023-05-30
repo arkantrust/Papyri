@@ -1,6 +1,6 @@
 # Papyri
 
-Debido a su basta experiencia como programador, usted ha sido contratado por ReadX, un conglomerado egipcio, para desarrollar un prototipo de software que les permita gestionar su negocio de publicaciones a nivel mundial. A continuación se presentan las funcionalidades a desarrollar:
+ReadX, un conglomerado egipcio, necesita desarrollar un prototipo de software que les permita gestionar su negocio de publicaciones a nivel mundial. A continuación se presentan las funcionalidades a desarrollar:
 
 ## Product management
 
@@ -37,6 +37,11 @@ La simulación de la sesión de lectura no es más que presentar por consola el 
 Cada página leída en la simulación incrementa el número de páginas leídas del producto bibliográfico correspondiente en la plataforma. Finalmente, se debe tener en cuenta que durante la sesión de lectura, para el caso de los usuarios regulares, se deben presentar anuncios publicitarios en dos momentos: al iniciar la sesión de lectura y luego de cada 20 páginas leídas de un libro o 5 páginas leídas de una revista.
 
 ![Reading Session Example](https://github.com/Arkantrust/Papyri/blob/master/doc/Instructions_Images/Reading_Session_Example.png)
+
+El prototipo debe contener los siguientes anuncios publicitarios, que se presentarán de manera aleatoria:
+    - ¡Suscríbete al Combo Plus y llévate Disney+ y Star+ a un precio increíble!
+    - Ahora tus mascotas tienen una app favorita: Laika. Los mejores productos para tu peludito.
+    - ¡Estamos de aniversario! Visita tu Éxito más cercano y sorpréndete con las mejores ofertas.
 
 ## Generación de reportes
 
@@ -78,3 +83,15 @@ En resumen, el prototipo a desarrollar debe ofrecer las siguientes funcionalidad
     - Informar el Top 5 de libros y el Top 5 de revistas más leídas en la plataforma (nombre del libro o revista, nombre del género o categoría y número de páginas leídas).
     - De cada género, informar el número de libros vendidos y el valor total de ventas ($).
     - De cada categoría, informar el número de suscripciones activas y el valor total pagado por suscripciones ($).
+
+Adicionalmente, se deben implementar los siguientes requerimientos:
+
+Existen unos usuarios premium que se han especializado en las críticas constructivas a los textos leídos, por lo cual se les almacena el área de interés, la cantidad de críticas realizadas y su respectivo blog.
+
+Para incentivar el uso de la aplicación se creará un regalo sorpresa para un mes en particular:
+Para los usuarios regulares, se generará una letra aleatoriamente o se le preguntará al usuario y a partir de ella, si él nombre del usuario inicia con dicha letra entonces se premiará con un día sin anuncios.
+Para los usuarios premium: se generará un número entre 1 y 12; en él cual se verifica si para dicho mes existe pago registrado. En caso que él valor en la posición (mes-1) sea diferente de cero, se premiará con un mes de suscripción en spotify
+Para los usuarios críticos: se ganará un viaje a sanAndres siempre y cuando la cantidad de críticas realizadas sea mayor que él número generado randómica mente.
+
+Calcular la sorpresa para un mes en particular (UTILIZAR POLIMORFISMO)
+Desplegar el nombre del usuario con la mayor cantidad de críticas realizadas (NO UTILIZAR POLIMORFISMO)
