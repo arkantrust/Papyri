@@ -224,51 +224,34 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
     }
 
     public String displayLibrary(String userID) {
-        StringBuilder libraryBuilder = new StringBuilder();
-        var codes = getUserByID(userID).getLibrary();
-    
-        if (codes.size() == 0) {
-            return "Looks quite empty here.\nBuy books or subscribe to magazines in the store";
-        }
-    
+        var userLib = getUserByID(userID).getLibrary();
+
+        String library = "";
+
         int index = 0;
-        int maxLength = getMaxCodeLength(codes); // Helper method to calculate maximum code length
+        int maxLength = userLib.stream() // Lambda to get the length of the largest String in the userLib
+                .mapToInt(String::length)
+                .max()
+                .orElse(0); // If user has no products, then length will be 0
+
+        // Iterate like a 5x5 matrix
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                if (index < codes.size()) {
-                    String code = codes.get(index);
-                    String paddedCode = padString(code, maxLength);
-                    libraryBuilder.append("| ").append(paddedCode).append(" ");
-                } else {
-                    libraryBuilder.append("| ---- ");
+
+                // Only try to add codes to the matrix if there are still codes in the library
+                if (index < userLib.size()) {
+                    String code = userLib.get(index);
+                    String paddedCode = String.format("| %-" + maxLength + "s ", code);
+                    library += paddedCode;
+                } else { // if the library has no more codes, then fill with hyphens
+                    library += "| ---- ";
                 }
                 index++;
             }
-            libraryBuilder.append("|\n");
+            // Append a new line after each row
+            library += "|\n";
         }
-    
-        return libraryBuilder.toString();
-    }
-    
-    private int getMaxCodeLength(ArrayList<String> codes) {
-        int maxLength = 0;
-        for (String code : codes) {
-            maxLength = Math.max(maxLength, code.length());
-        }
-        return maxLength;
-    }
-    
-    private String padString(String str, int length) {
-        int padding = length - str.length();
-        StringBuilder paddedString = new StringBuilder();
-        for (int i = 0; i < padding / 2; i++) {
-            paddedString.append(" ");
-        }
-        paddedString.append(str);
-        for (int i = 0; i < (padding + 1) / 2; i++) {
-            paddedString.append(" ");
-        }
-        return paddedString.toString();
+        return library;
     }
 
     // Product-related
@@ -350,12 +333,6 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         registerMagazine("Profit Pulse", randDate(), randInt(1, 50), lorem, randInt(1, 40), 6, 3);
     }
 
-    public void buyAllProducts(String userID) {
-        for (String code : products.keySet()) {
-            buyProduct(userID, code);
-        }
-    }
-
     public boolean buyProduct(String userID, String productID) {
         User user = getUserByID(userID);
         Product product = products.get(productID);
@@ -390,23 +367,40 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return true;
     }
 
+    public void buyAllProducts(String userID) {
+        for (String code : products.keySet()) {
+            buyProduct(userID, code);
+        }
+    }
+
     public String getLastReceipt() {
         return receipts.get(receipts.size() - 1).toString();
     }
 
     public String getSubscribedMagazines(String userID) {
         String magazine = "";
+
+        for (String productCode : getUserByID(userID).getLibrary()) {
+            if (products.get(productCode) instanceof Magazine) {
+                magazine += products.get(productCode).getName() + "\n";
+            }
+        }
         return magazine;
     }
 
     public boolean cancelMagazineSubscription(String userID, String productID) {
-        User user = getUserByID(userID);
-        Product product = products.get(productID);
+        var user = getUserByID(userID);
+        var product = products.get(productID);
 
         if (user == null || product == null) {
-            throw new IllegalArgumentException("User or product not found.");
+            return false;
         }
 
+        user.getLibrary().remove(productID);
+
+        if (user instanceof BaseUser) {
+            ((BaseUser) user).setSubscribedMagazines(((BaseUser) user).getSubscribedMagazines() - 1);
+        }
         return true;
     }
 }
