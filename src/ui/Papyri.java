@@ -226,10 +226,19 @@ public class Papyri {
     }
 
     public static void showProducts() {
-        System.out.println(readX.getProductsList());
+        System.out.println(readX.showProducts());
     }
 
-    private static void editProduct() {}
+    private static void editProduct() {
+        showProducts();
+        System.out.print("Product ID: ");
+        String code = in.nextLine();
+        if (readX.deleteProduct(code)) {
+            System.out.println("Product deleted succesfully.");
+        } else {
+            System.out.println(error);
+        }
+    }
 
     private static void deleteProduct() {
         showProducts();
@@ -323,7 +332,7 @@ public class Papyri {
         boolean run = true;
         String productID = "";
         while (run) {
-            System.out.print(readX.getProductsList());
+            showProducts();
             System.out.println("0. Exit");
             System.out.print("Enter product ID: ");
             try {

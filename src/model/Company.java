@@ -22,7 +22,6 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
     public static final double MAX_MAGAZINES = 2; // Max magazines a base user can be subscribed to
 
     private HashMap<String, Product> products;
-    private String productsList;
 
     // constructor
     public Company(String name) {
@@ -31,7 +30,6 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         userList = "";
         credentials = new HashMap<>();
         credentials = new HashMap<>();
-        productsList = "";
         products = new HashMap<>();
         userIdToIndexMap = new HashMap<>();
         receipts = new ArrayList<>();
@@ -72,14 +70,6 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
 
     public void setProducts(HashMap<String, Product> products) {
         this.products = products;
-    }
-
-    public String getProductsList() {
-        return productsList;
-    }
-
-    public void setProductsList(String productsList) {
-        this.productsList = productsList;
     }
 
     public HashMap<String, String> getCredentials() {
@@ -263,10 +253,14 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return code;
     }
 
-    public void addProductToList(String id) {
-        productsList += "- " + products.get(id).getName() + " | ";
-        productsList += products.get(id).getId() + " | ";
-        productsList += products.get(id).getPrice() + "\n";
+    public String showProducts() {
+        var productsList = "";
+        
+        for (String code : products.keySet()) {
+            productsList += products.get(code).toString();
+        }
+
+        return productsList;
     }
 
     public boolean registerBook(String name, Calendar publicationDate, int pages, String cover, double price,
@@ -278,7 +272,6 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         if (products.get(id) instanceof Book) {
             done = true;
         }
-        addProductToList(id);
         return done;
     }
 
@@ -289,13 +282,82 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         Product newMagazine = new Magazine(id, name, publicationDate, pages, cover, price, category, freq, 0);
         products.put(id, newMagazine);
         if (products.get(id) instanceof Magazine) {
-            addProductToList(id);
             done = true;
         }
         return done;
     }
 
     // Business-related
+    public boolean buyProduct(String userID, String productID) {
+        User user = getUserByID(userID);
+        Product product = products.get(productID);
+
+        // Check if the user and product exist
+        if (user == null || product == null) {
+            throw new IllegalArgumentException("User or product not found.");
+        }
+
+        for (String code : user.getLibrary()) {
+            if (product.getId().equals(code)) {
+                return false;
+            }
+        }
+
+        // Check if the user has already bought the maximum number of
+        // books or magazines (if user is a BaseUser)
+        if (user instanceof BaseUser) {
+            BaseUser baseUser = (BaseUser) user;
+            if (product instanceof Book && baseUser.getBoughtBooks() >= MAX_BOOKS) {
+                return false;
+            } else if (product instanceof Magazine && baseUser.getSubscribedMagazines() >= MAX_MAGAZINES) {
+                return false;
+            }
+        }
+
+        // Generate receipt
+        receipts.add(new Receipt(product.getName(), user, Calendar.getInstance(), product.getPrice()));
+
+        user.getLibrary().add(productID);
+        product.incrementCount();
+        return true;
+    }
+
+    public String getLastReceipt() {
+        return receipts.get(receipts.size() - 1).toString();
+    }
+
+    public String getSubscribedMagazines(String userID) {
+        String magazine = "";
+
+        for (String productCode : getUserByID(userID).getLibrary()) {
+            if (products.get(productCode) instanceof Magazine) {
+                magazine += products.get(productCode).getName() + "\n";
+            }
+        }
+        return magazine;
+    }
+
+    public boolean cancelMagazineSubscription(String userID, String productID) {
+        var user = getUserByID(userID);
+        var product = products.get(productID);
+
+        if (user == null || product == null) {
+            return false;
+        }
+
+        user.getLibrary().remove(productID);
+
+        if (user instanceof BaseUser) {
+            ((BaseUser) user).setSubscribedMagazines(((BaseUser) user).getSubscribedMagazines() - 1);
+        }
+        return true;
+    }
+
+    public boolean deleteProduct(String code) {
+        return false;
+    }
+
+    // Testing
 
     public Calendar randDate() {
         return stringToDate(String.valueOf(randInt(1, 29) + "-" + randInt(1, 12) + "-" + randInt(1950, 2023)));
@@ -333,74 +395,9 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         registerMagazine("Profit Pulse", randDate(), randInt(1, 50), lorem, randInt(1, 40), 6, 3);
     }
 
-    public boolean buyProduct(String userID, String productID) {
-        User user = getUserByID(userID);
-        Product product = products.get(productID);
-
-        // Check if the user and product exist
-        if (user == null || product == null) {
-            throw new IllegalArgumentException("User or product not found.");
-        }
-
-        for (String code : user.getLibrary()) {
-            if (product.getId().equals(code)) {
-                return false;
-            }
-        }
-
-        // Check if the user has already bought the maximum number of
-        // books or magazines (if user is a BaseUser)
-        if (user instanceof BaseUser) {
-            BaseUser baseUser = (BaseUser) user;
-            if (product instanceof Book && baseUser.getBoughtBooks() >= MAX_BOOKS) {
-                return false;
-            } else if (product instanceof Magazine && baseUser.getSubscribedMagazines() >= MAX_MAGAZINES) {
-                return false;
-            }
-        }
-
-        // Generate receipt
-        receipts.add(new Receipt(product.getName(), user, Calendar.getInstance(), product.getPrice()));
-
-        user.getLibrary().add(productID);
-        product.incrementCount();
-        return true;
-    }
-
     public void buyAllProducts(String userID) {
         for (String code : products.keySet()) {
             buyProduct(userID, code);
         }
-    }
-
-    public String getLastReceipt() {
-        return receipts.get(receipts.size() - 1).toString();
-    }
-
-    public String getSubscribedMagazines(String userID) {
-        String magazine = "";
-
-        for (String productCode : getUserByID(userID).getLibrary()) {
-            if (products.get(productCode) instanceof Magazine) {
-                magazine += products.get(productCode).getName() + "\n";
-            }
-        }
-        return magazine;
-    }
-
-    public boolean cancelMagazineSubscription(String userID, String productID) {
-        var user = getUserByID(userID);
-        var product = products.get(productID);
-
-        if (user == null || product == null) {
-            return false;
-        }
-
-        user.getLibrary().remove(productID);
-
-        if (user instanceof BaseUser) {
-            ((BaseUser) user).setSubscribedMagazines(((BaseUser) user).getSubscribedMagazines() - 1);
-        }
-        return true;
     }
 }
