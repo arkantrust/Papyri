@@ -6,15 +6,10 @@ import java.util.Scanner;
 import model.Company;
 
 public class Papyri {
-    private Scanner in;
-    private Company readX;
+    private static Scanner in = new Scanner(System.in);;
+    private static Company readX = new Company("ReadX");;
 
-    public Papyri() {
-        in = new Scanner(System.in);
-        readX = new Company("ReadX");
-    }
-
-    public Calendar readDate(String requiredDate) {
+    public static Calendar readDate(String requiredDate) {
         boolean run = true;
         Calendar date = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -33,12 +28,12 @@ public class Papyri {
         return date;
     }
 
-    public void printBold(String text) {
+    public static void printBold(String text) {
         System.out.println("\033[1m" + text + "\033[0m");
     }
 
     // ------------------User Management----------------------
-    public void registerUser() {
+    public static void registerUser() {
         System.out.print("Enter full name: ");
         String name = in.nextLine();
         System.out.print("Enter ID: ");
@@ -57,17 +52,17 @@ public class Papyri {
         System.out.println(readX.getUserByID(id).toString());
     }
 
-    public void searchUser() {
+    public static void searchUser() {
         System.out.print("User's ID: ");
         var id = in.nextLine();
         System.out.println(readX.getUserByID(id).toString());
     }
 
-    public void showUsers() {
+    public static void showUsers() {
         System.out.println(readX.getUserList());
     }
 
-    public void upgradeUserToPremium() {
+    public static void upgradeUserToPremium() {
         System.out.print("User's ID: ");
         var id = in.nextLine();
         // Verify if user exists
@@ -85,6 +80,7 @@ public class Papyri {
             // early return exits (cancels) the method so the user is not upgraded
             return;
         }
+
         System.out.print("Nickname: ");
         String nickname = in.nextLine();
         System.out.print("Avatar: ");
@@ -99,7 +95,7 @@ public class Papyri {
         }
     }
 
-    public void upgradeUserToReviewer() {
+    public static void upgradeUserToReviewer() {
         System.out.print("User's ID: ");
         var id = in.nextLine();
         // Verify if user exists
@@ -125,7 +121,7 @@ public class Papyri {
         }
     }
 
-    public void upgradePremiumUserToReviewer() {
+    public static void upgradePremiumUserToReviewer() {
         System.out.print("User's ID: ");
         var id = in.nextLine();
         // Verify if user exists
@@ -145,7 +141,7 @@ public class Papyri {
         }
     }
 
-    public void openUserManagement() {
+    public static void openUserManagement() {
         printBold("-----------------------User Management--------------------");
         boolean run = true;
         while (run) {
@@ -172,7 +168,7 @@ public class Papyri {
 
     // ----------------------Product Management-------------------------
 
-    public void registerBook() {
+    public static void registerBook() {
         System.out.print("Enter name: ");
         String name = in.nextLine();
         Calendar publicationDate = readDate("publication date");
@@ -198,7 +194,7 @@ public class Papyri {
         }
     }
 
-    public void registerMagazine() {
+    public static void registerMagazine() {
         System.out.print("Enter name: ");
         String name = in.nextLine();
         Calendar publicationDate = readDate("publication date");
@@ -228,11 +224,11 @@ public class Papyri {
         }
     }
 
-    public void showProducts() {
+    public static void showProducts() {
         System.out.println(readX.getProductsList());
     }
 
-    public void openProductManagement() {
+    public static void openProductManagement() {
         printBold("-----------------------------Product Management-----------------------------");
         boolean run = true;
         while (run) {
@@ -255,7 +251,7 @@ public class Papyri {
 
     // Business-related
 
-    public void loginAsAdmin() {
+    public static void loginAsAdmin() {
         System.out.print("Password: ");
         String password = in.nextLine(); // TODO: validatePassword()
         System.out.println("Welcome, Beloved Admin!\n");
@@ -277,15 +273,15 @@ public class Papyri {
         }
     }
 
-    public void generateSurprise(String id) {
+    public static void generateSurprise(String id) {
         System.out.println(readX.generateSurprise(id));
     }
 
-    public void goToSettings(String userID) {
+    public static void goToSettings(String userID) {
 
     }
 
-    public void displayLibrary(String userID) {
+    public static void displayLibrary(String userID) {
         var run = true;
         while (run) {
             try {
@@ -305,7 +301,7 @@ public class Papyri {
         }
     }
 
-    public void goToStore(String userID) {
+    public static void goToStore(String userID) {
         printBold("-----------------------------Store-----------------------------");
         boolean run = true;
         String productID = "";
@@ -343,11 +339,11 @@ public class Papyri {
         }
     }
 
-    public void cancelMagazineSubscription(String userID) {
+    public static void cancelMagazineSubscription(String userID) {
         System.out.println();
     }
 
-    public void loginAsUser() {
+    public static void loginAsUser() {
         System.out.print("Enter ID: ");
         var id = in.nextLine();
         System.out.print("Password: ");
@@ -381,32 +377,22 @@ public class Papyri {
     }
 
     public static void main(String[] args) {
-        Papyri objPapyri = new Papyri();
-        objPapyri.printBold("-------------------------Papyri----------------------------");
-        objPapyri.readX.deployTest();
+        printBold("-------------------------Papyri----------------------------");
+        readX.deployTest();
         boolean run = true;
         int select = 0;
 
         while (run) {
-            // Delete from here
-            if (objPapyri.readX.getUsers().size() == 5) {
-                String info = "";
-                for (int i = 0; i < 5; i++) {
-                    info += objPapyri.readX.getUsers().get(i).toString();
-                }
-                System.out.println(info);
-            }
-            // To here
             System.out.println("1. Login as Admin");
             System.out.println("2. Login as User");
             System.out.println("0. Exit");
             System.out.print("> ");
             // try {
-            select = Integer.valueOf(objPapyri.in.nextLine());
+            select = Integer.valueOf(in.nextLine());
             switch (select) {
                 case 0 -> run = false;
-                case 1 -> objPapyri.loginAsAdmin();
-                case 2 -> objPapyri.loginAsUser();
+                case 1 -> loginAsAdmin();
+                case 2 -> loginAsUser();
             }
             // } catch (Exception e) {
             // System.out.println("Invalid input.");
