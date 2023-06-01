@@ -33,7 +33,6 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         products = new HashMap<>();
         userIdToIndexMap = new HashMap<>();
         receipts = new ArrayList<>();
-
         users.add(new Admin("admin", "admin@papyri.com", "devtest",
                 "ADMIN", Calendar.getInstance()));
         credentials.put(users.get(0).getName(), users.get(0).getPassword());
@@ -353,8 +352,30 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return true;
     }
 
+    public String editProduct(String code, int selection, String change) {
+        if (products.get(code) == null) {
+            return "There is not a product with this code";
+        }
+
+        var product = products.get(code);
+
+        switch(selection) {
+            case 1 -> product.setName(change);
+            case 2 -> product.setPublicationDate(stringToDate(change));
+            case 3 -> product.setPrice(Double.valueOf(change));
+            case 4 -> ((BibliographicProduct) product).setPages(Integer.valueOf(change));
+        }
+
+        return product.toString();
+    }
+
     public boolean deleteProduct(String code) {
-        return false;
+        boolean check = products.get(code) != null;
+        if (check) {
+            products.remove(code);
+            return check;
+        }
+        return check;
     }
 
     // Testing

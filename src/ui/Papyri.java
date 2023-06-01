@@ -233,11 +233,18 @@ public class Papyri {
         showProducts();
         System.out.print("Product ID: ");
         String code = in.nextLine();
-        if (readX.deleteProduct(code)) {
-            System.out.println("Product deleted succesfully.");
-        } else {
-            System.out.println(error);
-        }
+
+        System.out.println("What do you want to change?");
+        System.out.println("1. Name");
+        System.out.println("2. Publication date");
+        System.out.println("3. price");
+        System.out.println("4. pages");
+        System.out.print("> ");
+        int selection = Integer.valueOf(in.nextLine());
+        System.out.print("Change: ");
+        String change = in.nextLine();
+        
+        System.out.println(readX.editProduct(code, selection, change));
     }
 
     private static void deleteProduct() {

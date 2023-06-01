@@ -50,8 +50,8 @@ public abstract class Product implements DateManipulator, Emboldenable {
     @Override
     public String toString() {
         String info = "";
-        info += toBold("ID: ") + id + "\n";
         info += toBold("Name: ") + name + "\n";
+        info += toBold("ID: ") + id + "\n";
         info += toBold("Publication date: ") + dateToString(publicationDate) + "\n";
         info += toBold("Price: ") + "$" + price + "\n";
         return info;
