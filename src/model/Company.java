@@ -31,10 +31,10 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         users = new ArrayList<>();
         userList = "";
         ads = new String[] {
-                "¡Suscríbete al Combo Plus y llévate Disney+ y Star+ a un precio increíble!", 
+                "¡Suscríbete al Combo Plus y llévate Disney+ y Star+ a un precio increíble!",
                 "Ahora tus mascotas tienen una app favorita: Laika. Los mejores productos para tu peludito.",
                 "¡Estamos de aniversario! Visita tu Éxito más cercano y sorpréndete con las mejores ofertas."
-            };
+        };
         credentials = new HashMap<>();
         credentials = new HashMap<>();
         products = new HashMap<>();
@@ -112,6 +112,18 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
 
     // methods
 
+    /**
+     * This function takes a character response and returns a boolean value based on
+     * whether the
+     * response is 'Y' or 'N'.
+     * 
+     * @param response a character input representing the user's response to a
+     *                 confirmation prompt
+     *                 (either 'Y' for yes or 'N' for no).
+     * @return A boolean value representing the confirmation of an operation, based
+     *         on the user's
+     *         response.
+     */
     public boolean confirmOperation(char response) {
         boolean confirmation = false;
         try {
@@ -127,10 +139,41 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return confirmation;
     }
 
+    /**
+     * This Java function returns a User object based on the ID provided, using a
+     * HashMap to map the ID
+     * to an index in a list of users.
+     * 
+     * @param id The parameter "id" is a String representing the unique identifier
+     *           of a user. The
+     *           method "getUserByID" takes this identifier as input and returns the
+     *           corresponding User object
+     *           from a collection of users.
+     * @return The method `getUserByID` returns a `User` object. The specific `User`
+     *         object that is
+     *         returned is determined by the `id` parameter passed to the method.
+     *         The method uses a `Map`
+     *         called `userIdToIndexMap` to look up the index of the `User` object
+     *         in the `List` called
+     *         `users`, and then returns that `User` object.
+     */
     public User getUserByID(String id) {
         return users.get(userIdToIndexMap.get(id));
     }
 
+    /**
+     * The function checks if the given ID and password match the stored credentials
+     * and returns true
+     * if they do.
+     * 
+     * @param id       The user ID or username of the person trying to log in.
+     * @param password The password parameter is a String that represents the
+     *                 password entered by the
+     *                 user during the login process.
+     * @return The method is returning a boolean value. It returns true if the
+     *         provided id and password
+     *         match the values stored in the credentials map, and false otherwise.
+     */
     public boolean login(String id, String password) {
         if (credentials.containsKey(id) && credentials.get(id).equals(password)) {
             return true;
@@ -139,6 +182,15 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
     }
 
     // User-related
+    /**
+     * The function checks if a user with a given userID exists in a list of users.
+     * 
+     * @param userID The userID parameter is a String representing the unique
+     *               identifier of a user.
+     * @return The method is returning a boolean value indicating whether a user
+     *         with the given userID
+     *         exists in the system or not.
+     */
     public boolean userExists(String userID) {
         var index = userIdToIndexMap.get(userID);
         var usersLen = users.size();
@@ -146,6 +198,25 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return exists;
     }
 
+    /**
+     * This function registers a new user by creating a new BaseUser object with the
+     * given parameters,
+     * adding it to a list of users, and updating various data structures.
+     * 
+     * @param name     The name of the user being registered.
+     * @param id       The id parameter is a unique identifier for the user being
+     *                 registered. It could be a
+     *                 username, a student ID, or any other identifier that can be
+     *                 used to distinguish one user from
+     *                 another.
+     * @param email    The email parameter is a String that represents the email
+     *                 address of the user being
+     *                 registered.
+     * @param password The password parameter is a String that represents the
+     *                 password chosen by the
+     *                 user during registration.
+     * @return A boolean value of true is being returned.
+     */
     public boolean registerUser(String name, String id, String email, String password) {
         User newUser = new BaseUser(name, email, password, id, Calendar.getInstance(), true,
                 new ArrayList<>(), 0, 0);
@@ -156,8 +227,26 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return true;
     }
 
-    // Base to Premium
+    /**
+     * The function upgrades a user from a base user to a premium user and generates
+     * a payment and
+     * receipt.
+     * 
+     * @param userID   The unique identifier of the user to be upgraded.
+     * @param nickname The new nickname for the user after the upgrade.
+     * @param avatar   The avatar parameter is a string that represents the image or
+     *                 icon that will be
+     *                 used to represent the user's profile picture or icon.
+     * @param card     The card parameter is a String that represents the credit
+     *                 card information of the
+     *                 user, which is used for payment purposes when upgrading to a
+     *                 premium membership.
+     * @return The method returns a boolean value indicating whether the user
+     *         upgrade was successful or
+     *         not.
+     */
     public boolean upgradeUser(String userID, String nickname, String avatar, String card) {
+        // Base to Premium
         var done = false;
         if (!userExists(userID)) {
             return done;
@@ -178,9 +267,36 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return done;
     }
 
-    // Base to Reviewer
+    /**
+     * This function upgrades a user's account from Base to Reviewer and generates a
+     * payment for the
+     * new membership.
+     * 
+     * @param userID   The unique identifier of the user being upgraded.
+     * @param nickname The new nickname for the user being upgraded.
+     * @param avatar   The avatar parameter is a string that represents the image or
+     *                 icon that will be
+     *                 used to represent the user's profile picture.
+     * @param card     The "card" parameter likely refers to the payment card
+     *                 information of the user, such
+     *                 as the card number, expiration date, and security code.
+     *                 However, without more context or
+     *                 information about the system this code is a part of, it's
+     *                 difficult to say for certain.
+     * @param interest The parameter "interest" is a String that represents the
+     *                 interests of the user.
+     *                 It could be a list of topics or activities that the user is
+     *                 interested in, such as sports,
+     *                 music, cooking, etc.
+     * @param blog     A string representing the URL of the reviewer's personal
+     *                 blog.
+     * @return The method returns a boolean value indicating whether the user
+     *         upgrade was successful or
+     *         not.
+     */
     public boolean upgradeUser(String userID, String nickname, String avatar, String card, String interest,
             String blog) {
+        // Base to Reviewer
         var done = false;
         if (!userExists(userID)) {
             return done;
@@ -199,8 +315,23 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return done;
     }
 
-    // Premium to Reviewer
+    /**
+     * This function upgrades a PremiumUser to a Reviewer by creating a new Reviewer
+     * object with the
+     * same attributes as the original user and updating the user list.
+     * 
+     * @param userID   The ID of the user that needs to be upgraded.
+     * @param interest The interest parameter is a String that represents the new
+     *                 interest of the user
+     *                 being upgraded.
+     * @param blog     A string representing the blog URL of the user being
+     *                 upgraded.
+     * @return The method returns a boolean value indicating whether the user
+     *         upgrade was successful or
+     *         not.
+     */
     public boolean upgradeUser(String userID, String interest, String blog) {
+        // Premium to Reviewer
         var done = false;
         if (!userExists(userID)) {
             return done;
@@ -219,6 +350,24 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return done;
     }
 
+    /**
+     * This Java function generates a surprise for a user based on a random month
+     * and letter, using the
+     * user's ID to retrieve their information.
+     * 
+     * @param userID The userID parameter is a String that represents the unique
+     *               identifier of a user.
+     *               It is used to retrieve the user object from the system and
+     *               generate a surprise for that user.
+     * @return The method is returning a surprise generated for a user identified by
+     *         their userID. The
+     *         surprise is generated by selecting a random month and a random letter
+     *         from the alphabet, and
+     *         then calling the surprise method of the BaseUser class with these
+     *         parameters. The surprise
+     *         message returned by the user's surprise method is then returned by
+     *         the generateSurprise method.
+     */
     public String generateSurprise(String userID) {
         int randMonth = randInt(1, 13);
         String symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -227,6 +376,23 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return user.surprise(randMonth, randLetter);
     }
 
+    /**
+     * This Java function displays a user's library of codes in a 5x5 matrix format
+     * with padded
+     * strings.
+     * 
+     * @param userID The userID is a String parameter that represents the unique
+     *               identifier of a user
+     *               in the system. It is used to retrieve the user's library, which
+     *               is a list of codes that the user
+     *               has access to.
+     * @return The method is returning a formatted string that displays the user's
+     *         library in a 5x5
+     *         matrix format, with each code padded to the length of the longest
+     *         code in the library. If the
+     *         library has less than 25 codes, the remaining cells in the matrix
+     *         will be filled with hyphens.
+     */
     public String displayLibrary(String userID) {
         var userLib = getUserByID(userID).getLibrary();
 
@@ -259,14 +425,35 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
     }
 
     // Product-related
+    /**
+     * This function generates a random 3-character code using a given set of
+     * symbols.
+     * 
+     * @param symbols The "symbols" parameter is a String that contains the
+     *                characters that can be used
+     *                to generate the code.
+     * @return The method is returning a String that consists of three randomly
+     *         selected characters
+     *         from the input String "symbols".
+     */
     public String generateCode(String symbols) {
         String code = "";
         for (int i = 0; i < 3; i++) {
-            code += symbols.charAt(randInt(0, symbols.length()-1));
+            code += symbols.charAt(randInt(0, symbols.length() - 1));
         }
         return code;
     }
 
+    /**
+     * This Java function returns a string containing the details of all products in
+     * a given map.
+     * 
+     * @return The method `showProducts` is returning a string that contains the
+     *         details of all the
+     *         products in the `products` map. The details are obtained by calling
+     *         the `toString` method on
+     *         each product object and concatenating them together.
+     */
     public String showProducts() {
         var productsList = "";
 
@@ -277,6 +464,32 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return productsList;
     }
 
+    /**
+     * This function registers a new book product with a generated code and adds it
+     * to a map of
+     * products.
+     * 
+     * @param name            The name of the book being registered.
+     * @param publicationDate A Calendar object representing the date of publication
+     *                        of the book.
+     * @param pages           The number of pages in the book.
+     * @param cover           The parameter "cover" is a String that represents the
+     *                        type of cover of the book,
+     *                        such as hardcover or paperback.
+     * @param price           The price of the book.
+     * @param review          The parameter "review" is a String that represents the
+     *                        review or description of
+     *                        the book.
+     * @param genre           The genre parameter is an integer that represents the
+     *                        category or type of the book
+     *                        being registered. The specific values for each genre
+     *                        may vary depending on the implementation,
+     *                        but typically they are assigned numerical codes or IDs
+     *                        that correspond to a specific genre such
+     *                        as romance, mystery, science fiction, etc.
+     * @return A boolean value indicating whether the book registration was
+     *         successful or not.
+     */
     public boolean registerBook(String name, Calendar publicationDate, int pages, String cover, double price,
             String review, int genre) {
         boolean done = false;
@@ -289,6 +502,35 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return done;
     }
 
+    /**
+     * This function registers a new magazine product with a unique ID, given its
+     * name, publication
+     * date, number of pages, cover type, price, category, and frequency.
+     * 
+     * @param name            The name of the magazine being registered.
+     * @param publicationDate A Calendar object representing the date of publication
+     *                        of the magazine.
+     * @param pages           The number of pages in the magazine.
+     * @param cover           The parameter "cover" is a String that represents the
+     *                        type of cover of the
+     *                        magazine, such as "hardcover" or "paperback".
+     * @param price           The price of the magazine.
+     * @param category        The category parameter is an integer that represents
+     *                        the category of the
+     *                        magazine. The specific categories and their
+     *                        corresponding integer values would depend on the
+     *                        implementation of the system.
+     * @param freq            The "freq" parameter in the "registerMagazine" method
+     *                        is an integer that represents
+     *                        the frequency of the magazine's publication. It
+     *                        indicates how often the magazine is published,
+     *                        such as weekly, monthly, or quarterly.
+     * @return The method is returning a boolean value indicating whether the
+     *         registration of a new
+     *         magazine was successful or not. If the registration was successful,
+     *         the method returns true,
+     *         otherwise it returns false.
+     */
     public boolean registerMagazine(String name, Calendar publicationDate, int pages, String cover, double price,
             int category, int freq) {
         boolean done = false;
@@ -302,6 +544,16 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
     }
 
     // Business-related
+    /**
+     * The function checks if a user can buy a product and generates a receipt if
+     * the purchase is
+     * successful.
+     * 
+     * @param userID    A string representing the ID of the user who wants to buy a
+     *                  product.
+     * @param productID The ID of the product being bought.
+     * @return A boolean value is being returned.
+     */
     public boolean buyProduct(String userID, String productID) {
         User user = getUserByID(userID);
         Product product = products.get(productID);
@@ -336,10 +588,29 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return true;
     }
 
+    /**
+     * The function returns the string representation of the last element in a list
+     * of receipts.
+     * 
+     * @return The method `getLastReceipt()` is returning a string representation of
+     *         the last receipt
+     *         in the `receipts` list.
+     */
     public String getLastReceipt() {
         return receipts.get(receipts.size() - 1).toString();
     }
 
+    /**
+     * The function returns a string of magazine names that a user with a given ID
+     * is subscribed to.
+     * 
+     * @param userID The userID parameter is a String representing the unique
+     *               identifier of a user in
+     *               the system.
+     * @return The method `getSubscribedMagazines` returns a string containing the
+     *         names of all the
+     *         magazines that the user with the given `userID` is subscribed to.
+     */
     public String getSubscribedMagazines(String userID) {
         String magazine = "";
 
@@ -351,6 +622,18 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return magazine;
     }
 
+    /**
+     * The function cancels a magazine subscription for a user and updates their
+     * subscription count if
+     * they are a base user.
+     * 
+     * @param userID    A String representing the ID of the user whose magazine
+     *                  subscription is being
+     *                  cancelled.
+     * @param productID The ID of the magazine subscription that the user wants to
+     *                  cancel.
+     * @return A boolean value is being returned.
+     */
     public boolean cancelMagazineSubscription(String userID, String productID) {
         var user = getUserByID(userID);
         var product = products.get(productID);
@@ -367,6 +650,24 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return true;
     }
 
+    /**
+     * This Java function edits a product's name, publication date, price, or number
+     * of pages based on
+     * user input.
+     * 
+     * @param code      A String representing the code of the product to be edited.
+     * @param selection An integer representing the attribute of the product that
+     *                  needs to be edited.
+     *                  The possible values are:
+     * @param change    The new value that will replace the existing value of the
+     *                  selected attribute of
+     *                  the product.
+     * @return The method is returning a String. If the product with the given code
+     *         does not exist, it
+     *         returns a message saying so. Otherwise, it updates the selected
+     *         attribute of the product with
+     *         the given change and returns the updated product as a String.
+     */
     public String editProduct(String code, int selection, String change) {
         if (products.get(code) == null) {
             return "There is not a product with this code";
@@ -384,6 +685,21 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return product.toString();
     }
 
+    /**
+     * This function deletes a product from a map of products based on its code and
+     * returns a boolean
+     * indicating whether the deletion was successful.
+     * 
+     * @param code a String representing the code of the product that needs to be
+     *             deleted from a
+     *             collection of products.
+     * @return The method is returning a boolean value indicating whether or not the
+     *         product with the
+     *         given code was successfully deleted from the products map. If the
+     *         product was found and deleted,
+     *         the method returns true. If the product was not found, the method
+     *         returns false.
+     */
     public boolean deleteProduct(String code) {
         boolean check = products.get(code) != null;
         if (check) {
@@ -393,6 +709,20 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return check;
     }
 
+    /**
+     * The function returns the number of pages in a product if it exists, otherwise
+     * it returns an
+     * empty string.
+     * 
+     * @param userID    A string representing the user ID of the person starting the
+     *                  reading session.
+     * @param productID The unique identifier for the product being read.
+     * @return The method `startReadingSession` returns a `String` value which
+     *         represents the total
+     *         number of pages in the product with the given `productID`. If the
+     *         product is not found, an empty
+     *         string is returned.
+     */
     public String startReadingSession(String userID, String productID) {
         if (products.get(productID) == null) {
             return "";
@@ -438,6 +768,11 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return stringToDate(String.valueOf(randInt(1, 30) + "-" + randInt(1, 12) + "-" + randInt(1950, 2023)));
     }
 
+    /**
+     * The function deploys a test scenario by registering users, upgrading their
+     * accounts, and
+     * registering books and magazines.
+     */
     public void deployTest() {
         registerUser("David", "1", "david.dulce@papyri.com", "test");
         registerUser("Liliana", "2", "liliana.franco@papyri.com", "test");
@@ -470,6 +805,13 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         registerMagazine("Profit Pulse", randDate(), randInt(1, 50), lorem, randInt(1, 40), 6, 3);
     }
 
+    /**
+     * The function buys all products for a given user ID.
+     * 
+     * @param userID The userID parameter is a String that represents the unique
+     *               identifier of the user
+     *               who is buying all the products.
+     */
     public void buyAllProducts(String userID) {
         for (String code : products.keySet()) {
             buyProduct(userID, code);

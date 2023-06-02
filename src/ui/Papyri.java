@@ -14,6 +14,16 @@ public class Papyri {
     private static Company readX = new Company("ReadX");;
     private static String error = "Something went wrong. Try again.";
 
+    /**
+     * This function reads a date in the format of "dd-mm-yyyy" from user input and
+     * returns it as a
+     * Calendar object.
+     * 
+     * @param requiredDate a string that specifies what date is being requested
+     *                     (e.g. "start date",
+     *                     "end date", etc.).
+     * @return A Calendar object is being returned.
+     */
     public static Calendar readDate(String requiredDate) {
         boolean run = true;
         Calendar date = Calendar.getInstance();
@@ -33,11 +43,22 @@ public class Papyri {
         return date;
     }
 
+    /**
+     * The function prints the given text in bold format in the console using escape
+     * sequences.
+     * 
+     * @param text The text that will be printed in bold format.
+     */
     public static void printBold(String text) {
         System.out.println("\033[1m" + text + "\033[0m");
     }
 
     // ------------------User Management----------------------
+    /**
+     * This function registers a user by taking their name, ID, email, and password
+     * as input and then
+     * checks if the registration was successful or not.
+     */
     public static void registerUser() {
         System.out.print("Enter full name: ");
         String name = in.nextLine();
@@ -57,16 +78,29 @@ public class Papyri {
         System.out.println(readX.getUserByID(id).toString());
     }
 
+    /**
+     * This Java function prompts the user for an ID, retrieves the corresponding
+     * user object using a
+     * readX method, and prints out the user's information.
+     */
     public static void searchUser() {
         System.out.print("User's ID: ");
         var id = in.nextLine();
         System.out.println(readX.getUserByID(id).toString());
     }
 
+    /**
+     * The function prints out the list of users obtained from the readX object.
+     */
     public static void showUsers() {
         System.out.println(readX.getUserList());
     }
 
+    /**
+     * The function upgrades a user to premium by prompting for their information
+     * and confirming the
+     * upgrade.
+     */
     public static void upgradeUserToPremium() {
         System.out.print("User's ID: ");
         var id = in.nextLine();
@@ -100,6 +134,11 @@ public class Papyri {
         }
     }
 
+    /**
+     * The function upgrades a user to a reviewer by taking input for their
+     * nickname, avatar,
+     * credit/debit card number, interest, and blog.
+     */
     public static void upgradeUserToReviewer() {
         System.out.print("User's ID: ");
         var id = in.nextLine();
@@ -126,6 +165,11 @@ public class Papyri {
         }
     }
 
+    /**
+     * This function upgrades a premium user to a reviewer by taking their ID,
+     * interest, and blog as
+     * input and verifying their existence before upgrading.
+     */
     public static void upgradePremiumUserToReviewer() {
         System.out.print("User's ID: ");
         var id = in.nextLine();
@@ -146,6 +190,11 @@ public class Papyri {
         }
     }
 
+    /**
+     * The function opens a user management menu with options to register, search,
+     * show, and upgrade
+     * users.
+     */
     public static void openUserManagement() {
         printBold("-----------------------User Management--------------------");
         boolean run = true;
@@ -173,6 +222,11 @@ public class Papyri {
 
     // ----------------------Product Management-------------------------
 
+    /**
+     * This function registers a book by taking input from the user for various book
+     * details and then
+     * calls a method to register the book.
+     */
     public static void registerBook() {
         System.out.print("Enter name: ");
         String name = in.nextLine();
@@ -199,6 +253,12 @@ public class Papyri {
         }
     }
 
+    /**
+     * This function registers a magazine by taking input from the user for various
+     * attributes such as
+     * name, publication date, number of pages, cover URL, price, category, and
+     * issuance frequency.
+     */
     public static void registerMagazine() {
         System.out.print("Enter name: ");
         String name = in.nextLine();
@@ -229,10 +289,18 @@ public class Papyri {
         }
     }
 
+    /**
+     * This function prints out the products using the readX object.
+     */
     public static void showProducts() {
         System.out.println(readX.showProducts());
     }
 
+    /**
+     * This function allows the user to edit a product's name, publication date,
+     * price, or pages by
+     * selecting the corresponding option and entering the new value.
+     */
     private static void editProduct() {
         showProducts();
         System.out.print("Product ID: ");
@@ -251,6 +319,11 @@ public class Papyri {
         System.out.println(readX.editProduct(code, selection, change));
     }
 
+    /**
+     * This function deletes a product by prompting the user for the product ID and
+     * calling the
+     * deleteProduct method, and outputs a success message or an error message.
+     */
     private static void deleteProduct() {
         showProducts();
         System.out.print("Product ID: ");
@@ -262,6 +335,11 @@ public class Papyri {
         }
     }
 
+    /**
+     * The function opens a product management menu with options to register, show,
+     * edit, and delete
+     * products.
+     */
     public static void openProductManagement() {
         printBold("-----------------------------Product Management-----------------------------");
         boolean run = true;
@@ -287,12 +365,19 @@ public class Papyri {
 
     // ----------------------Reports-------------------------
 
+    /**
+     * This Java function prints the total number of read pages.
+     */
     public static void showTotalReadPages() {
         System.out.println("Read pages:\n" + readX.showTotalReadPages());
     }
 
     // Business-related
 
+    /**
+     * The function allows an admin to manage users, products, and view read pages
+     * while logged in.
+     */
     public static void loginAsAdmin() {
         System.out.println("Welcome, Beloved Admin!\n");
         boolean run = true;
@@ -315,14 +400,42 @@ public class Papyri {
         }
     }
 
+    /**
+     * This Java function generates a surprise based on an input ID using a method
+     * called
+     * "readX.generateSurprise".
+     * 
+     * @param id The parameter "id" is a String variable that represents the
+     *           identifier of a surprise
+     *           that needs to be generated.
+     */
     public static void generateSurprise(String id) {
         System.out.println(readX.generateSurprise(id));
     }
 
+    /**
+     * The function "goToSettings" takes a userID parameter and does not return
+     * anything.
+     * 
+     * @param userID The userID parameter is a string that represents the unique
+     *               identifier of a user.
+     *               It is used as input to the goToSettings method, which
+     *               presumably navigates the user to their
+     *               settings page or allows them to modify their account settings
+     *               in some way.
+     */
     public static void goToSettings(String userID) {
-
     }
 
+    /**
+     * The function displays a user's library and allows them to start reading a
+     * book by selecting its
+     * code or go back to the library.
+     * 
+     * @param userID The userID parameter is a String that represents the ID of the
+     *               user whose library
+     *               is being displayed.
+     */
     public static void displayLibrary(String userID) {
         var run = true;
         while (run) {
@@ -350,7 +463,8 @@ public class Papyri {
                     System.out.println("Now reading: " + readX.getProducts().get(productCode).getName());
 
                     System.out.println(
-                            "Reading page " + currentPage + " of " + readX.getProducts().get(productCode).getPages() + "\n");
+                            "Reading page " + currentPage + " of " + readX.getProducts().get(productCode).getPages()
+                                    + "\n");
                     System.out.println("Type A to go to the previous page");
                     System.out.println("Type S to go to the next page");
                     System.out.println("Type B to go back to the library");
@@ -378,6 +492,12 @@ public class Papyri {
         }
     }
 
+    /**
+     * This function allows a user to buy products from a store and adds them to
+     * their library.
+     * 
+     * @param userID The ID of the user who is going to the store to buy products.
+     */
     public static void goToStore(String userID) {
         printBold("-----------------------------Store-----------------------------");
         boolean run = true;
@@ -416,6 +536,13 @@ public class Papyri {
         }
     }
 
+    /**
+     * This function cancels a magazine subscription for a given user ID and product
+     * ID.
+     * 
+     * @param userID The ID of the user whose magazine subscription is being
+     *               canceled.
+     */
     public static void cancelMagazineSubscription(String userID) {
         showProducts();
 
@@ -429,6 +556,12 @@ public class Papyri {
         }
     }
 
+    /**
+     * This function allows a user to log in and select various options such as
+     * accessing a store or
+     * library, cancelling a magazine subscription, generating a surprise, and
+     * logging out.
+     */
     public static void loginAsUser() {
         System.out.print("Enter ID: ");
         var id = in.nextLine();

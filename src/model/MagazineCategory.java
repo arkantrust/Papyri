@@ -12,6 +12,7 @@ public enum MagazineCategory {
 
     /**
      * Declares the syntaxis on creating a {@code MagazineCategory} enum
+     * 
      * @param name
      */
     private MagazineCategory(String name) {
@@ -29,6 +30,7 @@ public enum MagazineCategory {
 
     /**
      * Uses {@code switch} to get an enum value and return it
+     * 
      * @param intCategory The value of the enum
      * @return the enum
      */
