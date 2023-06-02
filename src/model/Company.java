@@ -12,6 +12,8 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
     private ArrayList<User> users;
     private String userList;
 
+    private String[] ads;
+
     private HashMap<String, String> credentials; // Saves all login information for verification
     private HashMap<String, Integer> userIdToIndexMap; // Relates a user's ID to its position in the ArrayList
     private ArrayList<Receipt> receipts;
@@ -28,6 +30,11 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         this.name = name;
         users = new ArrayList<>();
         userList = "";
+        ads = new String[] {
+                "¡Suscríbete al Combo Plus y llévate Disney+ y Star+ a un precio increíble!", 
+                "Ahora tus mascotas tienen una app favorita: Laika. Los mejores productos para tu peludito.",
+                "¡Estamos de aniversario! Visita tu Éxito más cercano y sorpréndete con las mejores ofertas."
+            };
         credentials = new HashMap<>();
         credentials = new HashMap<>();
         products = new HashMap<>();
@@ -93,6 +100,14 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
 
     public void setReceipts(ArrayList<Receipt> receipts) {
         this.receipts = receipts;
+    }
+
+    public String[] getAds() {
+        return ads;
+    }
+
+    public void setAds(String[] ads) {
+        this.ads = ads;
     }
 
     // methods
@@ -247,14 +262,14 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
     public String generateCode(String symbols) {
         String code = "";
         for (int i = 0; i < 3; i++) {
-            code += symbols.charAt(randInt(0, symbols.length()));
+            code += symbols.charAt(randInt(0, symbols.length()-1));
         }
         return code;
     }
 
     public String showProducts() {
         var productsList = "";
-        
+
         for (String code : products.keySet()) {
             productsList += products.get(code).toString();
         }
@@ -359,11 +374,11 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
 
         var product = products.get(code);
 
-        switch(selection) {
+        switch (selection) {
             case 1 -> product.setName(change);
             case 2 -> product.setPublicationDate(stringToDate(change));
             case 3 -> product.setPrice(Double.valueOf(change));
-            case 4 -> ((BibliographicProduct) product).setPages(Integer.valueOf(change));
+            case 4 -> product.setPages(Integer.valueOf(change));
         }
 
         return product.toString();
@@ -378,15 +393,54 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return check;
     }
 
+    public String startReadingSession(String userID, String productID) {
+        if (products.get(productID) == null) {
+            return "";
+        }
+        String page = String.valueOf((products.get(productID)).getPages());
+        return page;
+    }
+
+    /**
+     * The function returns a randomly selected ad from an array of ads.
+     * 
+     * @return A randomly selected ad from the array `ads`.
+     */
+    public String showAd() {
+        return ads[randInt(0, 2)];
+    }
+
+    // Reports
+
+    public String showTotalReadPages() {
+
+        String message = "";
+
+        // magazines
+        int magCount = 0;
+        int bookCount = 0;
+        for (String productCode : products.keySet()) {
+            if (products.get(productCode) instanceof Magazine) {
+                magCount += products.get(productCode).getReadPages();
+            } else if (products.get(productCode) instanceof Book) {
+                bookCount += products.get(productCode).getReadPages();
+            }
+        }
+        message += "Magazines: " + magCount + "\n";
+        message += "Books: " + bookCount + "\n";
+        message += "Total: " + (magCount + bookCount) + "\n";
+        return message;
+    }
+
     // Testing
 
     public Calendar randDate() {
-        return stringToDate(String.valueOf(randInt(1, 29) + "-" + randInt(1, 12) + "-" + randInt(1950, 2023)));
+        return stringToDate(String.valueOf(randInt(1, 30) + "-" + randInt(1, 12) + "-" + randInt(1950, 2023)));
     }
 
     public void deployTest() {
-        registerUser("Arkantrust", "1", "arkantrust@papyri.com", "test");
-        registerUser("John Doe", "2", "john.doe@papyri.com", "test");
+        registerUser("David", "1", "david.dulce@papyri.com", "test");
+        registerUser("Liliana", "2", "liliana.franco@papyri.com", "test");
         registerUser("Jane Doe", "3", "jane.doe@papyri.com", "test");
         // premium
         upgradeUser("1", "Arkan", "avatar1", "1234 5678 9101 1121");

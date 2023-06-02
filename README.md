@@ -39,8 +39,11 @@ Cada página leída en la simulación incrementa el número de páginas leídas 
 ![Reading Session Example](https://github.com/Arkantrust/Papyri/blob/master/doc/Instructions_Images/Reading_Session_Example.png)
 
 El prototipo debe contener los siguientes anuncios publicitarios, que se presentarán de manera aleatoria:
+
     - ¡Suscríbete al Combo Plus y llévate Disney+ y Star+ a un precio increíble!
+
     - Ahora tus mascotas tienen una app favorita: Laika. Los mejores productos para tu peludito.
+
     - ¡Estamos de aniversario! Visita tu Éxito más cercano y sorpréndete con las mejores ofertas.
 
 ## Generación de reportes
@@ -64,6 +67,7 @@ Con el fin de facilitar al usuario final la realización de pruebas, el prototip
 En resumen, el prototipo a desarrollar debe ofrecer las siguientes funcionalidades:
 
 1. Registrar usuarios, regulares y premium.
+
 2. Gestionar productos bibliográficos: registrar, modificar y borrar libros y revistas.
 
 3. Generar automáticamente objetos en el sistema para cada tipo de usuario y producto bibliográfico.

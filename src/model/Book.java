@@ -2,11 +2,10 @@ package model;
 
 import java.util.Calendar;
 
-public class Book extends BibliographicProduct {
+public class Book extends Product {
     private String review;
     private BookGenre genre;
     private int copiesSold;
-    private int readPages;
 
     public Book(String id, String name, Calendar publicationDate, int pages, String coverURL, double price,
             String review, int genre, int copiesSold, int readPages) {
@@ -39,14 +38,6 @@ public class Book extends BibliographicProduct {
 
     public void setCopiesSold(int copiesSold) {
         this.copiesSold = copiesSold;
-    }
-
-    public int getReadPages() {
-        return readPages;
-    }
-
-    public void setReadPages(int readPages) {
-        this.readPages = readPages;
     }
 
     @Override

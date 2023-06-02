@@ -7,12 +7,18 @@ public abstract class Product implements DateManipulator, Emboldenable {
     protected String name;
     protected Calendar publicationDate;
     protected double price;
+    protected int pages;
+    protected String coverURL;
+    protected int readPages;
 
-    public Product(String id, String name, Calendar publicationDate, double cost) {
+    public Product(String id, String name, Calendar publicationDate, int pages, String coverURL,
+            double price) {
         this.id = id;
         this.name = name;
         this.publicationDate = publicationDate;
-        this.price = cost;
+        this.price = price;
+        this.pages = pages;
+        this.coverURL = coverURL;
     }
 
     public String getId() {
@@ -47,6 +53,30 @@ public abstract class Product implements DateManipulator, Emboldenable {
         this.price = cost;
     }
 
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    public String getCoverURL() {
+        return coverURL;
+    }
+
+    public void setCoverURL(String coverURL) {
+        this.coverURL = coverURL;
+    }
+
+    public int getReadPages() {
+        return readPages;
+    }
+
+    public void setReadPages(int readPages) {
+        this.readPages = readPages;
+    }
+
     @Override
     public String toString() {
         String info = "";
@@ -54,7 +84,13 @@ public abstract class Product implements DateManipulator, Emboldenable {
         info += toBold("ID: ") + id + "\n";
         info += toBold("Publication date: ") + dateToString(publicationDate) + "\n";
         info += toBold("Price: ") + "$" + price + "\n";
+        info += toBold("Pages: ") + pages + "\n";
+        info += toBold("Cover: ") + coverURL + "\n";
         return info;
+    }
+
+    public void incrementReadPages() {
+        readPages++;
     }
 
     public abstract void incrementCount();

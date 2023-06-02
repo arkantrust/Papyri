@@ -2,7 +2,7 @@ package model;
 
 import java.util.Calendar;
 
-public class Magazine extends BibliographicProduct {
+public class Magazine extends Product {
     private MagazineCategory category;
     private IssuanceFrequency freq;
     private int subs;

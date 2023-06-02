@@ -1,3 +1,7 @@
+/**
+ * The Papyri class is a user interface for managing users, products, and generating reports in the
+ * ReadX company's digital library system.
+ */
 package ui;
 
 import java.text.SimpleDateFormat;
@@ -243,7 +247,7 @@ public class Papyri {
         int selection = Integer.valueOf(in.nextLine());
         System.out.print("Change: ");
         String change = in.nextLine();
-        
+
         System.out.println(readX.editProduct(code, selection, change));
     }
 
@@ -257,7 +261,6 @@ public class Papyri {
             System.out.println(error);
         }
     }
-
 
     public static void openProductManagement() {
         printBold("-----------------------------Product Management-----------------------------");
@@ -282,11 +285,15 @@ public class Papyri {
         }
     }
 
+    // ----------------------Reports-------------------------
+
+    public static void showTotalReadPages() {
+        System.out.println("Read pages:\n" + readX.showTotalReadPages());
+    }
+
     // Business-related
 
     public static void loginAsAdmin() {
-        System.out.print("Password: ");
-        String password = in.nextLine(); // TODO: validatePassword()
         System.out.println("Welcome, Beloved Admin!\n");
         boolean run = true;
         int select = 0;
@@ -295,6 +302,7 @@ public class Papyri {
             printBold("------------------------------Admin------------------------------");
             System.out.println("1. Manage users");
             System.out.println("2. Manage Products");
+            System.out.println("3. Show read pages");
             System.out.println("0. Log out");
             System.out.print("> ");
             select = Integer.valueOf(in.nextLine());
@@ -302,6 +310,7 @@ public class Papyri {
                 case 0 -> run = false;
                 case 1 -> openUserManagement();
                 case 2 -> openProductManagement();
+                case 3 -> showTotalReadPages();
             }
         }
     }
@@ -317,19 +326,54 @@ public class Papyri {
     public static void displayLibrary(String userID) {
         var run = true;
         while (run) {
+            printBold(readX.getUserByID(userID).getName() + "'s library");
+            System.out.println(readX.displayLibrary(userID));
+            System.out.print("Type a code to start reading or 0 to go back: ");
+            var selection = in.nextLine();
+
             try {
-                printBold(readX.getUserByID(userID).getName() + "'s library");
-                System.out.println(readX.displayLibrary(userID));
-                System.out.println("Next page: D");
-                System.out.println("Previous page: A");
-                System.out.println("Back: 0");
-                System.out.print("> ");
-                var move = in.nextLine();
-                if (Integer.valueOf(move) == 0) {
+                if (Integer.valueOf(selection) == 0) {
                     run = false;
                 }
             } catch (Exception e) {
-                System.out.println(error);
+                String productCode = selection;
+                int currentPage = 0;
+                boolean reading = true;
+                while (reading) {
+                    printBold("\nReading Session\n");
+
+                    // Show ad
+                    if (currentPage > 0 && currentPage % 5 == 0) {
+                        System.out.println(readX.showAd());
+                    }
+
+                    System.out.println("Now reading: " + readX.getProducts().get(productCode).getName());
+
+                    System.out.println(
+                            "Reading page " + currentPage + " of " + readX.getProducts().get(productCode).getPages() + "\n");
+                    System.out.println("Type A to go to the previous page");
+                    System.out.println("Type S to go to the next page");
+                    System.out.println("Type B to go back to the library");
+                    System.out.print("> ");
+                    var select = in.nextLine().charAt(0);
+
+                    switch (Character.toUpperCase(select)) {
+                        case 'A': {
+                            if (currentPage > 0) {
+                                currentPage--;
+                            }
+                            break;
+                        }
+                        case 'S': {
+                            currentPage++;
+                            readX.getProducts().get(productCode).incrementReadPages();
+                            break;
+                        }
+                        case 'B':
+                            reading = false;
+                            break;
+                    }
+                }
             }
         }
     }
@@ -373,14 +417,21 @@ public class Papyri {
     }
 
     public static void cancelMagazineSubscription(String userID) {
-        System.out.println();
+        showProducts();
+
+        System.out.print("product ID: ");
+        var productID = in.nextLine();
+
+        if (readX.cancelMagazineSubscription(userID, productID)) {
+            System.out.println("Subscription canceled. :(");
+        } else {
+            System.out.println(error);
+        }
     }
 
     public static void loginAsUser() {
         System.out.print("Enter ID: ");
         var id = in.nextLine();
-        System.out.print("Password: ");
-        String password = in.nextLine(); // TODO: validatePassword()
         boolean run = true;
         int select = 0;
         System.out.println("Welcome, " + readX.getUserByID(id).getName() + "!\n");
@@ -391,8 +442,7 @@ public class Papyri {
             System.out.println("2. Library");
             System.out.println("3. Cancel Magazine subscription");
             System.out.println("4. Generate surprise");
-            System.out.println("5. Settings");
-            System.out.println("6. Buy All Products");
+            System.out.println("6. Buy All Products - FOR TESTING ONLY");
             System.out.println("0. Log out");
             System.out.print("> ");
             select = Integer.valueOf(in.nextLine());
@@ -404,7 +454,6 @@ public class Papyri {
                 case 4 -> generateSurprise(id);
                 case 5 -> goToSettings(id);
                 case 6 -> readX.buyAllProducts(id);
-                // TODO: Settings
             }
         }
     }
