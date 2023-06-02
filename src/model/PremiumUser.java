@@ -86,7 +86,7 @@ public class PremiumUser extends BaseUser implements Payable {
     @Override
     public boolean isDefaulter() {
         boolean isDefaulter;
-        
+
         isDefaulter = (lastMonthPaid.getValue() == Calendar.getInstance().get(Calendar.MONTH)) ? false : true;
         return isDefaulter;
     }
