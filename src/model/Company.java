@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Company implements Randomizable, Emboldenable, DateManipulator {
+public class Company implements Randomizable, Emboldenable, DateManipulator, Advertising {
 
     // attributes
     private String name;
@@ -735,12 +735,30 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
     }
 
     /**
-     * The function returns a randomly selected ad from an array of ads.
+     * The function shows an advertisement based on the user ID, product ID, and
+     * count, with different conditions for magazines and books.
      * 
-     * @return A randomly selected ad from the array `ads`.
+     * @param userID    A String representing the ID of the user for whom the ad is
+     *                  being shown.
+     * @param productID The product ID is a unique identifier for a specific product
+     *                  in the system. It is used to retrieve information about the
+     *                  product, such as its type (book, magazine, etc.), price, and
+     *                  availability.
+     * @param count     The "count" parameter represents the number of times the
+     *                  user has interacted with the product identified by
+     *                  "productID".
+     * @return The method is returning a String variable named "ad".
      */
-    public String showAd() {
-        return ads[randInt(0, 2)];
+    @Override
+    public String showAd(String userID, String productID, int count) {
+        String ad = "";
+        if (getUserByID(userID) instanceof BaseUser) {
+            if (products.get(productID) instanceof Magazine && count % 5 == 0)
+                ad = Advertising.ads[randInt(0, 2)];
+            if (products.get(productID) instanceof Book && count % 10 == 0)
+                ad = Advertising.ads[randInt(0, 2)];
+        }
+        return ad;
     }
 
     // Reports

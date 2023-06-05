@@ -456,9 +456,8 @@ public class Papyri {
                     printBold("\nReading Session\n");
 
                     // Show ad
-                    if (currentPage > 0 && currentPage % 5 == 0) {
-                        System.out.println(readX.showAd());
-                    }
+                    System.out.println(readX.showAd(userID, productCode, currentPage));
+                    
 
                     System.out.println("Now reading: " + readX.getProducts().get(productCode).getName());
 
