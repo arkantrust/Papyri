@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public abstract class User implements DateManipulator, Emboldenable {
+public abstract class User implements DateManipulator, Emboldenable, Surprisable {
 
     protected String name;
     protected String email;
@@ -78,4 +78,15 @@ public abstract class User implements DateManipulator, Emboldenable {
         info += toBold("Registered: ") + dateToString(initDate) + "\n";
         return info;
     }
+
+    @Override
+    public String surprise(char randChar) {
+        return "";
+    }
+
+    @Override
+    public String surprise(int randInt) {
+        return "";
+    }
+
 }

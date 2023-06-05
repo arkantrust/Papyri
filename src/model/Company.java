@@ -228,34 +228,36 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
     }
 
     /**
-     * The function upgrades a user from a base user to a premium user and generates
-     * a payment and
-     * receipt.
+     * This function upgrades a user to a premium membership and generates a payment
+     * and receipt.
      * 
-     * @param userID   The unique identifier of the user to be upgraded.
-     * @param nickname The new nickname for the user after the upgrade.
+     * @param userID   The unique identifier of the user being upgraded.
+     * @param nickname The new nickname for the user being upgraded.
      * @param avatar   The avatar parameter is a string that represents the image or
-     *                 icon that will be
-     *                 used to represent the user's profile picture or icon.
-     * @param card     The card parameter is a String that represents the credit
-     *                 card information of the
-     *                 user, which is used for payment purposes when upgrading to a
-     *                 premium membership.
+     *                 icon that will be used to represent the user.
+     * 
+     * @param card     The card parameter is a String that represents the payment
+     *                 method or credit card
+     *                 information of the user who is upgrading their account.
      * @return The method returns a boolean value indicating whether the user
-     *         upgrade was successful or
-     *         not.
+     *         upgrade was successful or not.
      */
     public boolean upgradeUser(String userID, String nickname, String avatar, String card) {
         // Base to Premium
         var done = false;
-        if (!userExists(userID)) {
+
+        if (!userExists(userID))
             return done;
-        }
-        var user = (BaseUser) getUserByID(userID);
-        user = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), user.getID(), user.getInitDate(),
-                false, user.getLibrary(), user.getBoughtBooks(), user.getSubscribedMagazines(), nickname, avatar,
-                card,
-                Calendar.getInstance().get(Calendar.MONTH), new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+        else if (!(getUserByID(userID) instanceof BaseUser))
+            return done;
+
+        var user = getUserByID(userID);
+
+        var monthPaid = Calendar.getInstance().get(Calendar.MONTH);
+        var payments = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+        user = new PremiumUser(user.getName(), user.getEmail(), user.getPassword(), userID, user.getInitDate(),
+                user.getLibrary(), nickname, avatar, card, monthPaid, payments);
         users.set(userIdToIndexMap.get(userID), user);
         if (user instanceof PremiumUser) {
             PremiumUser newPremiumUser = (PremiumUser) getUserByID(userID);
@@ -268,68 +270,55 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
     }
 
     /**
-     * This function upgrades a user's account from Base to Reviewer and generates a
-     * payment for the
-     * new membership.
+     * This function upgrades a user from a base user to a reviewer, generates a
+     * payment for the new membership, and adds a receipt to the receipts list.
      * 
      * @param userID   The unique identifier of the user being upgraded.
      * @param nickname The new nickname for the user being upgraded.
      * @param avatar   The avatar parameter is a string that represents the image or
-     *                 icon that will be
-     *                 used to represent the user's profile picture.
-     * @param card     The "card" parameter likely refers to the payment card
-     *                 information of the user, such
-     *                 as the card number, expiration date, and security code.
-     *                 However, without more context or
-     *                 information about the system this code is a part of, it's
-     *                 difficult to say for certain.
-     * @param interest The parameter "interest" is a String that represents the
-     *                 interests of the user.
-     *                 It could be a list of topics or activities that the user is
-     *                 interested in, such as sports,
-     *                 music, cooking, etc.
-     * @param blog     A string representing the URL of the reviewer's personal
-     *                 blog.
-     * @return The method returns a boolean value indicating whether the user
-     *         upgrade was successful or
-     *         not.
+     *                 icon that a user chooses to represent themselves on their
+     *                 profile.
+     * @param card     The parameter "card" likely refers to the credit card
+     *                 information of the user, which
+     *                 may be used for payment or verification purposes.
+     * @param interest The "interest" parameter in the "upgradeUser" method is a
+     *                 String that represents
+     *                 the interests of the user. It could be any topic or activity
+     *                 that the user is interested in, such as sports, music,
+     *                 cooking, etc.
+     * @param blog     A string representing the blog URL of the user being
+     *                 upgraded.
+     * @return The method returns a boolean value indicating whether the user was
+     *         successfully upgraded
+     *         or not.
      */
     public boolean upgradeUser(String userID, String nickname, String avatar, String card, String interest,
             String blog) {
         // Base to Reviewer
         var done = false;
-        if (!userExists(userID)) {
+
+        if (!userExists(userID))
             return done;
-        }
-        var user = (BaseUser) getUserByID(userID);
-        user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
-                user.getInitDate(), false, user.getLibrary(), user.getBoughtBooks(), user.getSubscribedMagazines(),
-                nickname, avatar, card, Calendar.getInstance().get(Calendar.MONTH),
-                new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, interest, 0, blog);
+        else if (!(getUserByID(userID) instanceof BaseUser))
+            return done;
+
+        var user = getUserByID(userID);
+
+        var monthPaid = Calendar.getInstance().get(Calendar.MONTH);
+        var payments = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+        user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), userID, user.getInitDate(),
+                user.getLibrary(), nickname, avatar, card, monthPaid, payments, interest, 0, blog);
         users.set(userIdToIndexMap.get(userID), user);
         if (user instanceof Reviewer) {
             Reviewer newReviewer = (Reviewer) getUserByID(userID);
             newReviewer.generatePayment(MEMBERSHIP);
+            receipts.add(new Receipt("Premium Membership", user, Calendar.getInstance(), MEMBERSHIP));
             done = true;
         }
         return done;
     }
 
-    /**
-     * This function upgrades a PremiumUser to a Reviewer by creating a new Reviewer
-     * object with the
-     * same attributes as the original user and updating the user list.
-     * 
-     * @param userID   The ID of the user that needs to be upgraded.
-     * @param interest The interest parameter is a String that represents the new
-     *                 interest of the user
-     *                 being upgraded.
-     * @param blog     A string representing the blog URL of the user being
-     *                 upgraded.
-     * @return The method returns a boolean value indicating whether the user
-     *         upgrade was successful or
-     *         not.
-     */
     public boolean upgradeUser(String userID, String interest, String blog) {
         // Premium to Reviewer
         var done = false;
@@ -339,8 +328,7 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
 
         PremiumUser user = (PremiumUser) getUserByID(userID);
         user = new Reviewer(user.getName(), user.getEmail(), user.getPassword(), user.getID(),
-                user.getInitDate(), user.hasAds(), user.getLibrary(), user.getBoughtBooks(),
-                user.getSubscribedMagazines(), user.getNickname(),
+                user.getInitDate(), user.getLibrary(), user.getNickname(),
                 user.getAvatar(), user.getCard(), user.getLastMonthPaid().getValue(), user.getPayments(), interest, 0,
                 blog);
         users.set(userIdToIndexMap.get(userID), user);
@@ -351,29 +339,30 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
     }
 
     /**
-     * This Java function generates a surprise for a user based on a random month
-     * and letter, using the
-     * user's ID to retrieve their information.
+     * The function generates a surprise for a user based on their ID, using a
+     * random letter or month depending on the type of user.
      * 
-     * @param userID The userID parameter is a String that represents the unique
-     *               identifier of a user.
-     *               It is used to retrieve the user object from the system and
-     *               generate a surprise for that user.
-     * @return The method is returning a surprise generated for a user identified by
-     *         their userID. The
-     *         surprise is generated by selecting a random month and a random letter
-     *         from the alphabet, and
-     *         then calling the surprise method of the BaseUser class with these
-     *         parameters. The surprise
-     *         message returned by the user's surprise method is then returned by
-     *         the generateSurprise method.
+     * @param userID The ID of the user for whom the surprise is being generated.
+     * @return The method is returning a String, which is the surprise generated for
+     *         the user with the given userID.
      */
     public String generateSurprise(String userID) {
-        int randMonth = randInt(1, 13);
-        String symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        char randLetter = symbols.charAt(randInt(0, symbols.length()));
-        var user = (BaseUser) getUserByID(userID);
-        return user.surprise(randMonth, randLetter);
+        String surprise = "";
+
+        if (getUserByID(userID) instanceof BaseUser) {
+            BaseUser user = (BaseUser) getUserByID(userID);
+            String symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            char randLetter = symbols.charAt(randInt(0, symbols.length()));
+            surprise = user.surprise(randLetter);
+        }
+
+        else {
+            var user = getUserByID(userID);
+            int randMonth = randInt(1, 13);
+            surprise = user.surprise(randMonth);
+        }
+
+        return surprise;
     }
 
     /**

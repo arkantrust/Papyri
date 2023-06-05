@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.time.Month;
 import java.util.ArrayList;
 
-public class PremiumUser extends BaseUser implements Payable {
+public class PremiumUser extends User implements Payable {
 
     // attributes
     private String nickname;
@@ -14,11 +14,11 @@ public class PremiumUser extends BaseUser implements Payable {
     private double[] payments;
 
     // methods
-    public PremiumUser(String name, String email, String password, String id, Calendar initDate, boolean ads,
-            ArrayList<String> library, int boughtBooks, int subscribedMagazines, String nickname,
-            String avatar, String card, int lastMonthPaid, double[] payments) {
+    public PremiumUser(String name, String email, String password, String id, Calendar initDate,
+            ArrayList<String> library, String nickname, String avatar, String card, int lastMonthPaid,
+            double[] payments) {
 
-        super(name, email, password, id, initDate, ads, library, boughtBooks, subscribedMagazines);
+        super(name, email, password, id, initDate, library);
         this.nickname = nickname;
         this.avatar = avatar;
         this.card = card;
@@ -75,14 +75,25 @@ public class PremiumUser extends BaseUser implements Payable {
         return toString;
     }
 
+    /**
+     * This Java function generates a payment for the current month and stores it in
+     * an array.
+     * 
+     * @param value The value parameter is a double type variable that represents
+     *              the payment amount to be generated.
+     */
     @Override
-    public String generatePayment(double value) {
-        var info = "A receipt by $" + value + " will be sent to your email";
+    public void generatePayment(double value) {
         int month = Calendar.getInstance().get(Calendar.MONTH);
         payments[month] = value;
-        return info;
     }
 
+    /**
+     * This Java function checks if a payment was made in the last month and returns
+     * a boolean value indicating if the payment is considered late.
+     * 
+     * @return A boolean value indicating whether the person is a defaulter or not.
+     */
     @Override
     public boolean isDefaulter() {
         boolean isDefaulter;
@@ -91,10 +102,21 @@ public class PremiumUser extends BaseUser implements Payable {
         return isDefaulter;
     }
 
+    /**
+     * The function returns a message indicating whether the user has won a Spotify
+     * coupon for a month of premium membership based on the input month.
+     * 
+     * @param randMonth an integer representing the month for which the surprise is
+     *                  being checked. It is used to access the corresponding
+     *                  element in the payments array.
+     * @return The method is returning a message string that either informs the user
+     *         that they have won a Spotify coupon for 1 month of premium membership
+     *         or apologizes for not receiving a surprise.
+     */
     @Override
-    public String surprise(int month, char randLetter) {
+    public String surprise(int randMonth) {
         var message = "";
-        if (payments[month - 1] != 0) {
+        if (payments[randMonth - 1] != 0) {
             message += "You have won a spotify coupon for 1 month of premium membership. Chcek your email!";
         } else {
             message += "Sorry, you didn't get a surprise.";

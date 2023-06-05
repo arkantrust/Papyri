@@ -3,24 +3,21 @@ package model;
 public abstract interface Payable {
 
     /**
-     * The function generates a payment string for a given value.
+     * This Java function generates a payment with a specified value.
      * 
-     * @param value The "value" parameter in the method signature represents the
-     *              amount of money for
-     *              which the payment needs to be generated. It is of type double,
-     *              which means it can hold decimal
-     *              values.
-     * @return A String value is being returned.
+     * @param value The value parameter is a double data type that represents the
+     *              amount of payment to be generated.
+     *              It could be a monetary value or any other numerical value that
+     *              needs to be processed by the method.
      */
-    public String generatePayment(double value);
+    public void generatePayment(double value);
 
     /**
      * The function checks if a certain condition is met and returns a boolean
      * value.
      * 
      * @return A boolean value is being returned, which indicates whether the object
-     *         being referred to
-     *         is a defaulter or not.
+     *         being referred to is a defaulter or not.
      */
     public boolean isDefaulter();
 }

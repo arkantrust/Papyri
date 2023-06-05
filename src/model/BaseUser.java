@@ -3,7 +3,7 @@ package model;
 import java.util.Calendar;
 import java.util.ArrayList;
 
-public class BaseUser extends User implements Watchable, Surprisable {
+public class BaseUser extends User {
 
     // attributes
     protected boolean ads; // Should the user watch ads?
@@ -51,16 +51,23 @@ public class BaseUser extends User implements Watchable, Surprisable {
         return toString;
     }
 
+    /**
+     * The function checks if the first letter of a given name matches a randomly
+     * generated letter and
+     * returns a message accordingly.
+     * 
+     * @param randLetter a randomly generated letter that is passed as a parameter
+     *                   to the method.
+     * @return The method is returning a message string that either congratulates
+     *         the user for matching the first letter of their name with a randomly
+     *         generated letter and promises them no ads for 24 hours, or apologizes
+     *         for not having a surprise for them.
+     */
     @Override
-    public void watchAds() {
-        // Should show an ad everytime a reading session starts
-    }
-
-    @Override
-    public String surprise(int month, char randLetter) {
+    public String surprise(char randLetter) {
         var message = "";
         if (String.valueOf(name.charAt(0)).equalsIgnoreCase(String.valueOf(randLetter))) {
-            message += "COngratulations! You will see 0 ads for 24 hours!\n";
+            message += "Congratulations! You will see 0 ads for 24 hours!\n";
         } else {
             message += "Sorry, you didn't get a surprise.";
         }

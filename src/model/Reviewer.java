@@ -8,11 +8,10 @@ public class Reviewer extends PremiumUser {
     private int reviewCount;
     private String blog;
 
-    public Reviewer(String name, String email, String password, String id, Calendar initDate, boolean ads,
-            ArrayList<String> library, int boughtBooks, int subscribedMagazines, String nickname, String avatar,
+    public Reviewer(String name, String email, String password, String id, Calendar initDate, ArrayList<String> library,
+            String nickname, String avatar,
             String card, int lastPaidMonth, double[] payments, String interest, int reviewCount, String blog) {
-        super(name, email, password, id, initDate, ads, library, boughtBooks, subscribedMagazines, nickname, avatar,
-                card, lastPaidMonth, payments);
+        super(name, email, password, id, initDate, library, nickname, avatar, card, lastPaidMonth, payments);
         this.interest = interest;
         this.reviewCount = reviewCount;
         this.blog = blog;
@@ -52,8 +51,21 @@ public class Reviewer extends PremiumUser {
         return info;
     }
 
+    /**
+     * The function returns a message congratulating the user on winning a trip to
+     * San Andres if their random integer is less than the review count,
+     * otherwise it returns a message saying they didn't get a surprise.
+     * 
+     * @param randInt an integer value that is used to determine if the user will
+     *                receive a surprise or not.
+     * @return The method is returning a message as a String. The message will
+     *         either congratulate the user for winning a trip to San Andres
+     *         if the random integer is less than the review count, or apologize for
+     *         not getting a surprise if the random integer is greater than or equal
+     *         to the review count.
+     */
     @Override
-    public String surprise(int randInt, char s) {
+    public String surprise(int randInt) {
         var message = "";
         if (randInt < reviewCount) {
             message += "Congratulations! You won a trip to San Andres!";
