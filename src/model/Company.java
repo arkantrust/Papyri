@@ -319,6 +319,23 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
         return done;
     }
 
+    /**
+     * This function upgrades a PremiumUser to a Reviewer by creating a new Reviewer
+     * object with the same attributes as the original user and updating the users
+     * list.
+     * 
+     * @param userID   The ID of the user that needs to be upgraded from Premium to
+     *                 Reviewer.
+     * @param interest The interest parameter is a String that represents the new
+     *                 interest of the user being upgraded.
+     * @param blog     The blog parameter is a String that represents the URL or
+     *                 name of the blog that the user wants to associate with
+     *                 their account after upgrading to a Reviewer.
+     * @return The method returns a boolean value indicating whether the user
+     *         upgrade was successful or not. If the user does not exist,
+     *         it returns false. If the user is successfully upgraded to a Reviewer,
+     *         it returns true.
+     */
     public boolean upgradeUser(String userID, String interest, String blog) {
         // Premium to Reviewer
         var done = false;
@@ -419,11 +436,9 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
      * symbols.
      * 
      * @param symbols The "symbols" parameter is a String that contains the
-     *                characters that can be used
-     *                to generate the code.
+     *                characters that can be used to generate the code.
      * @return The method is returning a String that consists of three randomly
-     *         selected characters
-     *         from the input String "symbols".
+     *         selected characters from the input String "symbols".
      */
     public String generateCode(String symbols) {
         String code = "";
@@ -438,9 +453,8 @@ public class Company implements Randomizable, Emboldenable, DateManipulator {
      * a given map.
      * 
      * @return The method `showProducts` is returning a string that contains the
-     *         details of all the
-     *         products in the `products` map. The details are obtained by calling
-     *         the `toString` method on
+     *         details of all the products in the `products` map.
+     *         The details are obtained by calling the `toString` method on
      *         each product object and concatenating them together.
      */
     public String showProducts() {
